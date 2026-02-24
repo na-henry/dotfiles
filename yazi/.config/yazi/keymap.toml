@@ -1,0 +1,5 @@
+[mgr]
+append_keymap = [
+    { on = ["g", "l"], run = 'plugin lazygit', desc = 'Lazygit'},
+    { on = ["g", "w"], run = 'cd ~/Documents/vertuoza', desc = 'Vertuoza'},
+]
