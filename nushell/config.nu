@@ -45,7 +45,7 @@ def --env y [...args] {
 alias lg = lazygit
 alias ld = lazydocker
 alias t = tmux
-alias z = zed
+alias z = zellij
 alias n = nvim
 
 # Env File
