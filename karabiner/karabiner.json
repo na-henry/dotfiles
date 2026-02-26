@@ -672,7 +672,7 @@
                                         "value": 1
                                     }
                                 ],
-                                "from": { "key_code": "spacebar" },
+                                "from": { "key_code": "n" },
                                 "to": [{ "key_code": "keypad_0" }],
                                 "type": "basic"
                             },
