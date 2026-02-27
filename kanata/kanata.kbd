@@ -12,6 +12,11 @@
   process-unmapped-keys yes
 )
 
+(defvar
+  tap-timeout  120
+  hold-timeout 150
+)
+
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
   caps a    s    d    f    g    h    j    k    l    scln '    ret
@@ -24,26 +29,25 @@
   ;; tap-hold-release: hold triggers only if this key is released AFTER another
   ;; key is pressed and released. Safer for fast typists — rolling across home
   ;; row keys won't accidentally fire modifiers.
-  ;; Tune tap-timeout / hold-timeout (ms) to taste.
 
   ;; Left hand  — a=Ctrl  s=Option  d=Command  f=Shift
-  hrm-a   (tap-hold-release 200 150 a    lctl)
-  hrm-s   (tap-hold-release 200 150 s    lalt)
-  hrm-d   (tap-hold-release 200 150 d    lmet)
-  hrm-f   (tap-hold-release 200 150 f    lsft)
+  hrm-a   (tap-hold-release $tap-timeout $hold-timeout a    lctl)
+  hrm-s   (tap-hold-release $tap-timeout $hold-timeout s    lalt)
+  hrm-d   (tap-hold-release $tap-timeout $hold-timeout d    lmet)
+  hrm-f   (tap-hold-release $tap-timeout $hold-timeout f    lsft)
 
   ;; Right hand  — j=Shift  k=Command  l=Option  ;=Ctrl
-  hrm-j   (tap-hold-release 200 150 j    rsft)
-  hrm-k   (tap-hold-release 200 150 k    rmet)
-  hrm-l   (tap-hold-release 200 150 l    ralt)
-  hrm-sem (tap-hold-release 200 150 scln rctl)
+  hrm-j   (tap-hold-release $tap-timeout $hold-timeout j    rsft)
+  hrm-k   (tap-hold-release $tap-timeout $hold-timeout k    rmet)
+  hrm-l   (tap-hold-release $tap-timeout $hold-timeout l    ralt)
+  hrm-sem (tap-hold-release $tap-timeout $hold-timeout scln rctl)
 
   ;; ── Layer activators ─────────────────────────────────────────────────────────
   ;; Caps Lock : tap = Escape   hold = Hyper layer
-  cap     (tap-hold 200 150 esc (layer-while-held hyper))
+  cap     (tap-hold $tap-timeout $hold-timeout esc (layer-while-held hyper))
 
   ;; Space     : tap = Space    hold = Hyper layer
-  spc     (tap-hold 200 150 spc (layer-while-held hyper))
+  spc     (tap-hold $tap-timeout $hold-timeout spc (layer-while-held hyper))
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
