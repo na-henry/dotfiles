@@ -67,7 +67,7 @@
 ;; _ = transparent (falls through to base layer).
 ;; Add your bindings here.
 (deflayer hyper
-  _   _  _  _  _  _  _  _  _  _  _      _  _
+  _   _  _  _  _  _  left  down  up  right  _      _  _
   _   _  _  _  _  _  @num-on  _  _  _  _  _
       _  _  _     _     _  _  _
 )
