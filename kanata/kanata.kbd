@@ -56,6 +56,7 @@
   num-off (layer-switch base)  ;; exit  num mode via Caps in num layer
 
   ;; ── French layer ─────────────────────────────────────────────────────────────
+
   fr-on   (layer-switch fr)    ;; enter French mode via Hyper + o
   fr-off  (layer-switch base)  ;; exit  French mode via Caps in French layer
 
@@ -75,8 +76,8 @@
 ;; Activated by holding Space or Caps Lock.
 ;; _ = transparent (falls through to base layer).
 (deflayer hyper
-  _    _    _    _    _    _    _    _    @fr-on  _
-  _    lctl lalt lmet lsft _    left down up     right _  _  _
+  _    _    mltp     _  _    _    _    _    @fr-on  bspc
+  _    esc  lalt lmet lsft _    left down up     right ret  _  _
   _    _    _    _    _    _    @num-on  _  _  _  _  _
        _    _    _         _         _    _    _
 )
