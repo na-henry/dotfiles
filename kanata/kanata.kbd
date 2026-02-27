@@ -13,7 +13,7 @@
 )
 
 (defvar
-  tap-timeout  120
+  tap-timeout  200  ;; tap-repress window: double-tap-hold within this ms = key repeat
   hold-timeout 150
 )
 
