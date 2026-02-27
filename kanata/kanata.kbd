@@ -19,6 +19,7 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
+  q    w    e    r    t    y    u    i    o    p
   caps a    s    d    f    g    h    j    k    l    scln '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt lmet      spc       rmet ralt rctl
@@ -53,10 +54,18 @@
   ;; layer-switch permanently swaps the base layer, persisting after hyper is released
   num-on  (layer-switch num)   ;; enter num mode via Hyper + n
   num-off (layer-switch base)  ;; exit  num mode via Caps in num layer
+
+  ;; ── French layer ─────────────────────────────────────────────────────────────
+  fr-on   (layer-switch fr)    ;; enter French mode via Hyper + o
+  fr-off  (layer-switch base)  ;; exit  French mode via Caps in French layer
+
+  ;; Space in French layer: tap = space + return to base  hold = hyper
+  spc-fr  (tap-hold $tap-timeout $hold-timeout (layer-switch base) (layer-while-held hyper))
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
+  q    w    e    r    t    y    u    i    o    p
   @cap   @hrm-a @hrm-s @hrm-d @hrm-f g h @hrm-j @hrm-k @hrm-l @hrm-sem ' ret
   lsft   z      x      c      v      b n m      ,      .      /        rsft
          lctl   lalt   lmet          @spc          rmet   ralt   rctl
@@ -65,18 +74,34 @@
 ;; ── Hyper layer ──────────────────────────────────────────────────────────────
 ;; Activated by holding Space or Caps Lock.
 ;; _ = transparent (falls through to base layer).
-;; Add your bindings here.
 (deflayer hyper
-  _   lctl  lalt  lmet  lsft  _  left  down  up  right  _  _  _
-  _   _  _  _  _  _  @num-on  _  _  _  _  _
-      _  _  _     _     _  _  _
+  _    _    _    _    _    _    _    _    @fr-on  _
+  _    lctl lalt lmet lsft _    left down up     right _  _  _
+  _    _    _    _    _    _    @num-on  _  _  _  _  _
+       _    _    _         _         _    _    _
 )
 
 ;; ── Num layer ────────────────────────────────────────────────────────────────
 ;; Enter : Hyper + n       (layer-switch — persists after releasing Space)
 ;; Exit  : Caps            (switches back to base)
 (deflayer num
+  _    _    _    _    _    _    _    _    _    _
   @num-off  1  2  3  4  5  6  7  8  9  0  -  =
   _         _  _  _  _  _  _  +  S-8  .  /  _
             _  _  _     @spc     _  _  _
+)
+
+;; ── French layer ─────────────────────────────────────────────────────────────
+;; Enter : Hyper + o       (layer-switch — persists after releasing Space)
+;; Exit  : Caps            (switches back to base)
+;;
+;; Layout:
+;;   w=â  e=é  r=è  t=ê        y=û  u=ù  i=î  o=ô  p=œ
+;;   a=à                                  j=ï
+;;        c=ç
+(deflayer fr
+  _    (unicode â) (unicode é) (unicode è) (unicode ê) (unicode û) (unicode ù) (unicode î) (unicode ô) (unicode œ)
+  @fr-off (unicode à) _  _  _  _  _  (unicode ï) _  _  _  _  _
+  _       _  _  (unicode ç)  _  _  _  _  _  _  _  _
+          _  _  _     @spc-fr  _  _  _
 )
