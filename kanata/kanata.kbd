@@ -48,6 +48,11 @@
 
   ;; Space     : tap = Space    hold = Hyper layer
   spc     (tap-hold $tap-timeout $hold-timeout spc (layer-while-held hyper))
+
+  ;; ── Num layer ────────────────────────────────────────────────────────────────
+  ;; layer-switch permanently swaps the base layer, persisting after hyper is released
+  num-on  (layer-switch num)   ;; enter num mode via Hyper + n
+  num-off (layer-switch base)  ;; exit  num mode via Caps in num layer
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
@@ -62,7 +67,16 @@
 ;; _ = transparent (falls through to base layer).
 ;; Add your bindings here.
 (deflayer hyper
-  _   _  _  _  _  _  _  _  _  _  _  _  _
-  _   _  _  _  _  _  _  _  _  _  _  _
+  _   _  _  _  _  _  _  _  _  _  _      _  _
+  _   _  _  _  _  _  @num-on  _  _  _  _  _
       _  _  _     _     _  _  _
+)
+
+;; ── Num layer ────────────────────────────────────────────────────────────────
+;; Enter : Hyper + n       (layer-switch — persists after releasing Space)
+;; Exit  : Caps            (switches back to base)
+(deflayer num
+  @num-off  1  2  3  4  5  6  7  8  9  0  -  =
+  _         _  _  _  _  _  _  +  S-8  .  /  _
+            _  _  _     @spc     _  _  _
 )
