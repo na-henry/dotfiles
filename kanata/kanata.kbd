@@ -1,0 +1,64 @@
+;; Kanata configuration
+;; Homerow mods on ASDF / JKL; + Hyper layer on Space (and Caps Lock)
+;;
+;; macOS key names:
+;;   lmet / rmet  = Command  (⌘)
+;;   lalt / ralt  = Option   (⌥)
+;;   lctl / rctl  = Control  (⌃)
+;;   lsft / rsft  = Shift    (⇧)
+;;   scln         = semicolon (;)
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+;; Keys being remapped — everything else passes through untouched.
+(defsrc
+  caps a    s    d    f    g    h    j    k    l    scln '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lctl lalt lmet      spc       rmet ralt rctl
+)
+
+(defalias
+  ;; ── Home Row Mods ────────────────────────────────────────────────────────────
+  ;; tap-hold-release: hold triggers only if this key is released AFTER another
+  ;; key is pressed and released. Safer for fast typists — rolling across home
+  ;; row keys won't accidentally fire modifiers.
+  ;; Tune tap-timeout / hold-timeout (ms) to taste.
+
+  ;; Left hand  — a=Ctrl  s=Option  d=Command  f=Shift
+  hrm-a   (tap-hold-release 200 150 a    lctl)
+  hrm-s   (tap-hold-release 200 150 s    lalt)
+  hrm-d   (tap-hold-release 200 150 d    lmet)
+  hrm-f   (tap-hold-release 200 150 f    lsft)
+
+  ;; Right hand  — j=Shift  k=Command  l=Option  ;=Ctrl
+  hrm-j   (tap-hold-release 200 150 j    rsft)
+  hrm-k   (tap-hold-release 200 150 k    rmet)
+  hrm-l   (tap-hold-release 200 150 l    ralt)
+  hrm-sem (tap-hold-release 200 150 scln rctl)
+
+  ;; ── Layer activators ─────────────────────────────────────────────────────────
+  ;; Caps Lock : tap = Escape   hold = Hyper layer
+  cap     (tap-hold 200 150 esc (layer-while-held hyper))
+
+  ;; Space     : tap = Space    hold = Hyper layer
+  spc     (tap-hold 200 150 spc (layer-while-held hyper))
+)
+
+;; ── Base layer ───────────────────────────────────────────────────────────────
+(deflayer base
+  @cap   @hrm-a @hrm-s @hrm-d @hrm-f g h @hrm-j @hrm-k @hrm-l @hrm-sem ' ret
+  lsft   z      x      c      v      b n m      ,      .      /        rsft
+         lctl   lalt   lmet          @spc          rmet   ralt   rctl
+)
+
+;; ── Hyper layer ──────────────────────────────────────────────────────────────
+;; Activated by holding Space or Caps Lock.
+;; _ = transparent (falls through to base layer).
+;; Add your bindings here.
+(deflayer hyper
+  _   _  _  _  _  _  _  _  _  _  _  _  _
+  _   _  _  _  _  _  _  _  _  _  _  _
+      _  _  _     _     _  _  _
+)
