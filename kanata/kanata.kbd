@@ -48,13 +48,13 @@
   cap     (tap-hold $tap-timeout $hold-timeout esc (layer-while-held fr))
 
   ;; Space     : tap = Space    hold = Hyper layer
-  spc     (tap-hold $tap-timeout $hold-timeout spc (layer-while-held hyper))
+  spc     (tap-hold-release $tap-timeout 200 spc (layer-while-held hyper))
 
   ;; Left Cmd : hold = Vim arrow layer
   lm      (layer-while-held vim)
 
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
-  spc-vm  (tap-hold $tap-timeout $hold-timeout spc (layer-while-held vim-num))
+  spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
 
 )
 
