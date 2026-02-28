@@ -60,6 +60,11 @@
   fr-on   (layer-switch fr)    ;; enter French mode via Hyper + o
   fr-off  (layer-switch base)  ;; exit  French mode via Caps in French layer
 
+  ;; ── Game layer ───────────────────────────────────────────────────────────────
+
+  game-on  (layer-switch game) ;; enter Game mode via Hyper + g
+  game-off (layer-switch base) ;; exit  Game mode via Caps in game layer
+
   ;; Space in French layer: tap = space + return to base  hold = hyper
   spc-fr  (tap-hold $tap-timeout $hold-timeout (layer-switch base) (layer-while-held hyper))
 )
@@ -77,7 +82,7 @@
 ;; _ = transparent (falls through to base layer).
 (deflayer hyper
   _    _    mltp     _  _    _    _    _    @fr-on  bspc
-  _    esc  lalt lmet lsft _    left down up     right ret  _  _
+  _    esc  lalt lmet lsft @game-on left down up   right ret  _  _
   _    _    _    _    _    _    @num-on  _  _  _  _  _
        _    _    _         _         _    _    _
 )
@@ -105,4 +110,15 @@
   @fr-off (unicode à) _  _  _  _  _  (unicode ï) _  _  _  _  _
   _       _  _  (unicode ç)  _  _  _  _  _  _  _  _
           _  _  _     @spc-fr  _  _  _
+)
+
+;; ── Game layer ───────────────────────────────────────────────────────────────
+;; Enter : Hyper + g       (layer-switch — persists after releasing Space)
+;; Exit  : Caps            (switches back to base)
+;; Plain QWERTY — no home-row mods, no hyper layer on Space.
+(deflayer game
+  q    w    e    r    t    y    u    i    o    p
+  @game-off  a    s    d    f    g    h    j    k    l    scln '    ret
+  lsft       z    x    c    v    b    n    m    ,    .    /    rsft
+             lctl lalt lmet          spc       rmet ralt rctl
 )
