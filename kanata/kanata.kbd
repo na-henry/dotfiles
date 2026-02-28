@@ -104,8 +104,9 @@
 ;; Activated by holding Left Cmd.
 ;; Left home row : tap = letter, hold = modifier (Ctrl / Opt / Cmd / Sft)
 ;; Right home row: h=← j=↓ k=↑ l=→
+;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
-  _      _        _        _        _        _     _     _     _     _     _
+  _      _        _        _        _        _     home  pgdn  pgup  end   _
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  _  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
          _        _        _                 @spc-vm     _     _     _
@@ -126,10 +127,11 @@
 
 ;; ── System layer ─────────────────────────────────────────────────────────────
 ;; Activated by holding Tab.
+;; e=left-click  r=right-click
 ;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
-;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→   e=left-click
+;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→
 (deflayer sys
-  _    _     _     mltp  _     _     prev   voldwn  volu  pp    next
+  _    _     _     mltp  mrtp  _     prev   voldwn  volu  pp    next
   _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
   _    _     _     _     _     _     _     _     _     _     _     _
        _     _     _           _           _     _     _
