@@ -1,5 +1,5 @@
 ;; Kanata configuration
-;; Plain base layer. Hyper layer (Space/CapsLock): home-row mods on ASDF / JKL;.
+;; Plain base layer. Hyper (Space/CapsLock): home-row mods. Left Cmd: vim arrows.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -60,6 +60,9 @@
   fr-on   (layer-switch fr)    ;; enter French mode via Hyper + o
   fr-off  (layer-switch base)  ;; exit  French mode via Caps in French layer
 
+  ;; Left Cmd : hold = Vim arrow layer
+  lm      (layer-while-held vim)
+
   ;; Space in French layer: tap = space + return to base  hold = hyper
   spc-fr  (tap-hold $tap-timeout $hold-timeout (layer-switch base) (layer-while-held hyper))
 )
@@ -69,7 +72,7 @@
   q    w    e    r    t    y    u    i    o    p
   @cap a    s    d    f    g    h    j    k    l    scln '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt lmet          @spc          rmet ralt rctl
+       lctl lalt @lm           @spc          rmet ralt rctl
 )
 
 ;; ── Hyper layer ──────────────────────────────────────────────────────────────
@@ -108,3 +111,13 @@
           _  _  _     @spc-fr  _  _  _
 )
 
+;; ── Vim layer ────────────────────────────────────────────────────────────────
+;; Activated by holding Left Cmd.
+;; Left home row : tap = letter, hold = modifier (Ctrl / Opt / Cmd / Sft)
+;; Right home row: h=← j=↓ k=↑ l=→
+(deflayer vim
+  _      _        _        _        _        _     _     _     _     _
+  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  _  _  _
+  _      _        _        _        _        _     _     _     _     _      _  _
+         _        _        _                 _           _     _     _
+)
