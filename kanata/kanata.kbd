@@ -19,7 +19,7 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  q    w    e    r    t    y    u    i    o    p
+  tab  q    w    e    r    t    y    u    i    o    p
   caps a    s    d    f    g    h    j    k    l    scln '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt lmet      spc       rmet ralt rctl
@@ -50,17 +50,26 @@
   ;; Space     : tap = Space    hold = Hyper layer
   spc     (tap-hold-release $tap-timeout 200 spc (layer-while-held hyper))
 
+  ;; Tab      : tap = Tab      hold = System layer
+  sys     (tap-hold $tap-timeout $hold-timeout tab (layer-while-held sys))
+
   ;; Left Cmd : hold = Vim arrow layer
   lm      (layer-while-held vim)
 
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
   spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
 
+  ;; Mouse in Sys layer : 
+  ma↑ (movemouse-accel-up 1 1000 1 5)
+  ma← (movemouse-accel-left 1 1000 1 5)
+  ma↓ (movemouse-accel-down 1 1000 1 5)
+  ma→ (movemouse-accel-right 1 1000 1 5)
+
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
-  q    w    e    r    t    y    u    i    o    p
+  @sys q    w    e    r    t    y    u    i    o    p
   @cap a    s    d    f    g    h    j    k    l    scln '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt @lm           @spc          rmet ralt rctl
@@ -71,7 +80,7 @@
 ;; Home row: tap = letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
 ;; Everything else transparent.
 (deflayer hyper
-  _      _        _        _        _        _         _  _        _        _
+  _      _        _        _        _        _         _  _        _        _        _
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _         _  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  _  _
   _      _        _        _        _        _         _  _        _        _        _  _
          _        _        _                 _             _        _        _
@@ -85,7 +94,7 @@
 ;;   a=à  s=â  d=è                        k=ï
 ;;        c=ç
 (deflayer fr
-  _   _           (unicode é) (unicode ê) _  (unicode û) (unicode ù) (unicode î) (unicode ô) (unicode œ)
+  _   _   _           (unicode é) (unicode ê) _  (unicode û) (unicode ù) (unicode î) (unicode ô) (unicode œ)
   _   (unicode à) (unicode â) (unicode è) _  _  _  _  (unicode ï) _  _  _  _
   _   _  _  (unicode ç)  _  _  _  _  _  _  _  _
       _  _  _     _  _  _  _
@@ -96,7 +105,7 @@
 ;; Left home row : tap = letter, hold = modifier (Ctrl / Opt / Cmd / Sft)
 ;; Right home row: h=← j=↓ k=↑ l=→
 (deflayer vim
-  _      _        _        _        _        _     _     _     _     _
+  _      _        _        _        _        _     _     _     _     _     _
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  _  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
          _        _        _                 @spc-vm     _     _     _
@@ -109,8 +118,19 @@
 ;; Home row: 1 2 3 4 5 6 7 8 9 0
 ;; Bot row : + - / = ` [ ] { }
 (deflayer vim-num
-  S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0
+  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0
   _    1    2    3    4    5    6    7    8    9    0    _  _
   _    +    -    /    =    grv  _    _    _  _  _   _
        _    _    _         _         _    _    _
+)
+
+;; ── System layer ─────────────────────────────────────────────────────────────
+;; Activated by holding Tab.
+;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
+;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→   e=left-click
+(deflayer sys
+  _    _     _     mltp  _     _     prev   voldwn  volu  pp    next
+  _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
+  _    _     _     _     _     _     _     _     _     _     _     _
+       _     _     _           _           _     _     _
 )
