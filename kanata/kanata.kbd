@@ -1,5 +1,5 @@
 ;; Kanata configuration
-;; Homerow mods on ASDF / JKL; + Hyper layer on Space (and Caps Lock)
+;; Plain base layer. Hyper layer (Space/CapsLock): home-row mods on ASDF / JKL;.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -60,11 +60,6 @@
   fr-on   (layer-switch fr)    ;; enter French mode via Hyper + o
   fr-off  (layer-switch base)  ;; exit  French mode via Caps in French layer
 
-  ;; ── Game layer ───────────────────────────────────────────────────────────────
-
-  game-on  (layer-switch game) ;; enter Game mode via Hyper + g
-  game-off (layer-switch base) ;; exit  Game mode via Caps in game layer
-
   ;; Space in French layer: tap = space + return to base  hold = hyper
   spc-fr  (tap-hold $tap-timeout $hold-timeout (layer-switch base) (layer-while-held hyper))
 )
@@ -72,19 +67,20 @@
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
   q    w    e    r    t    y    u    i    o    p
-  @cap   @hrm-a @hrm-s @hrm-d @hrm-f g h @hrm-j @hrm-k @hrm-l @hrm-sem ' ret
-  lsft   z      x      c      v      b n m      ,      .      /        rsft
-         lctl   lalt   lmet          @spc          rmet   ralt   rctl
+  @cap a    s    d    f    g    h    j    k    l    scln '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lctl lalt lmet          @spc          rmet ralt rctl
 )
 
 ;; ── Hyper layer ──────────────────────────────────────────────────────────────
 ;; Activated by holding Space or Caps Lock.
-;; _ = transparent (falls through to base layer).
+;; Home row: tap = letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
+;; Everything else transparent.
 (deflayer hyper
-  _    _    mltp     _  _    _    _    _    @fr-on  bspc
-  _    esc  lalt lmet lsft @game-on left down up   right ret  _  _
-  _    _    _    _    _    _    @num-on  _  _  _  _  _
-       _    _    _         _         _    _    _
+  _      _        _        _        _        _         _  _        _        _
+  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _         _  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  _  _
+  _      _        _        _        _        _         _  _        _        _        _  _
+         _        _        _                 _             _        _        _
 )
 
 ;; ── Num layer ────────────────────────────────────────────────────────────────
@@ -112,13 +108,3 @@
           _  _  _     @spc-fr  _  _  _
 )
 
-;; ── Game layer ───────────────────────────────────────────────────────────────
-;; Enter : Hyper + g       (layer-switch — persists after releasing Space)
-;; Exit  : Caps            (switches back to base)
-;; Plain QWERTY — no home-row mods, no hyper layer on Space.
-(deflayer game
-  q    w    e    r    t    y    u    i    o    p
-  @game-off  a    s    d    f    g    h    j    k    l    scln '    ret
-  lsft       z    x    c    v    b    n    m    ,    .    /    rsft
-             lctl lalt lmet          spc       rmet ralt rctl
-)
