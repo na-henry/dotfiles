@@ -106,8 +106,8 @@
 ;; Right home row: h=← j=↓ k=↑ l=→
 ;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
-  _      _        _        _        _        _     home  pgdn  pgup  end   _
-  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  _  _  _
+  _      _        _        _        _        _     home  pgdn  pgup  end   bspc
+  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
          _        _        _                 @spc-vm     _     _     _
 )
