@@ -59,7 +59,7 @@
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
   spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
 
-  ;; Mouse in Sys layer : 
+  ;; Mouse in Sys layer :
   ma↑ (movemouse-accel-up 1 1000 1 5)
   ma← (movemouse-accel-left 1 1000 1 5)
   ma↓ (movemouse-accel-down 1 1000 1 5)
@@ -67,10 +67,29 @@
 
 )
 
+;; ── Home-row chords ──────────────────────────────────────────────────────────
+;; All home-row chords share one group (a key can only belong to one group).
+;;   a+s     → French layer
+;;   l+;     → French layer
+;;   d+f     → Vim layer
+;;   s+d     → Numpad layer
+(defchords home-chords 50
+  (a)    a
+  (s)    s
+  (d)    d
+  (f)    f
+  (l)    l
+  (scln) scln
+  (a s)    (layer-while-held fr)
+  (l scln) (layer-while-held fr)
+  (d f)    (layer-while-held vim)
+  (s d)    (layer-while-held numpad)
+)
+
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
   @sys q    w    e    r    t    y    u    i    o    p
-  @cap a    s    d    f    g    h    j    k    l    scln '    ret
+  @cap (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt @lm           @spc          rmet ralt rctl
 )
@@ -90,24 +109,23 @@
 ;; Activated by holding Caps Lock. Releases automatically on key-up.
 ;;
 ;; Layout:
-;;        e=é  r=ê             y=û  u=ù  i=î  o=ô  p=œ
+;;        e=é  r=ê             j=û  u=ù  i=î  o=ô  p=œ
 ;;   a=à  s=â  d=è                        k=ï
 ;;        c=ç
 (deflayer fr
-  _   _   _           (unicode é) (unicode ê) _  (unicode û) (unicode ù) (unicode î) (unicode ô) (unicode œ)
-  _   (unicode à) (unicode â) (unicode è) _  _  _  _  (unicode ï) _  _  _  _
+  _   _   _           (unicode é) (unicode ê) _  _ (unicode ù) (unicode î) (unicode ô) (unicode œ)
+  _   (unicode à) (unicode â) (unicode è) _  _  _  (unicode û)  (unicode ï) _  _  _  _
   _   _  _  (unicode ç)  _  _  _  _  _  _  _  _
       _  _  _     _  _  _  _
 )
 
 ;; ── Vim layer ────────────────────────────────────────────────────────────────
 ;; Activated by holding Left Cmd.
-;; Left home row : tap = letter, hold = modifier (Ctrl / Opt / Cmd / Sft)
 ;; Right home row: h=← j=↓ k=↑ l=→
 ;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
-  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
+  _      _        _        _        _        _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
          _        _        _                 @spc-vm     _     _     _
 )
@@ -135,4 +153,17 @@
   _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
   _    _     _     _     _     _     _     _     _     _     _     _
        _     _     _           _           _     _     _
+)
+
+;; ── Numpad layer ─────────────────────────────────────────────────────────────
+;; Activated by holding s+d simultaneously.
+;;   y=*  u=7  i=8  o=9
+;;   h=-  j=4  k=5  l=6  ;=.
+;;   n=+  m=1  ,=2  .=3   /=/ (transparent)
+;;             spc=0
+(deflayer numpad
+  _  _  _  _  _  _  S-8  7  8  9  _
+  _  _  _  _  _  _  -    4  5  6  .  _  _
+  _  _  _  _  _  _  S-=  1  2  3  _  _
+     _  _  _        0        _  _  _
 )
