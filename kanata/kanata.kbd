@@ -1,5 +1,5 @@
 ;; Kanata configuration
-;; Plain base layer. Hyper (Space): home-row mods. CapsLock: French. Chords: vim/fr/numpad.
+;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: vim/fr/numpad/sys.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -47,9 +47,6 @@
   ;; Space     : tap = Space    hold = Hyper layer
   spc     (tap-hold-release $tap-timeout 200 spc (layer-while-held hyper))
 
-  ;; Tab      : tap = Tab      hold = System layer
-  sys     (tap-hold $tap-timeout $hold-timeout tab (layer-while-held sys))
-
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
   spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
 
@@ -67,6 +64,7 @@
 ;;   l+;     → French layer
 ;;   d+f     → Vim layer
 ;;   s+d     → Numpad layer
+;;   a+f     → System layer
 (defchords home-chords 50
   (a)    a
   (s)    s
@@ -78,11 +76,12 @@
   (l scln) (layer-while-held fr)
   (d f)    (layer-while-held vim)
   (s d)    (layer-while-held numpad)
+  (a f)    (layer-while-held sys)
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
-  @sys q    w    e    r    t    y    u    i    o    p
+  tab  q    w    e    r    t    y    u    i    o    p
   esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt lmet          @spc          rmet ralt rctl
@@ -138,7 +137,7 @@
 )
 
 ;; ── System layer ─────────────────────────────────────────────────────────────
-;; Activated by holding Tab.
+;; Activated by holding a+f simultaneously.
 ;; e=left-click  r=right-click
 ;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
 ;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→
