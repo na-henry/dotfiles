@@ -19,6 +19,8 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
+  esc                                                         ;; fn row
+  ;;   [number row not mapped]
   tab  q    w    e    r    t    y    u    i    o    p
   caps a    s    d    f    g    h    j    k    l    scln '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -49,6 +51,10 @@
 
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
   spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
+
+  ;; ── Gaming layer toggle ──────────────────────────────────────────────────────
+  game-on  (layer-switch game)
+  game-off (layer-switch base)
 
   ;; Mouse in Sys layer :
   ma↑ (movemouse-accel-up 1 1000 1 5)
@@ -81,6 +87,7 @@
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 (deflayer base
+  @game-on
   tab  q    w    e    r    t    y    u    i    o    p
   esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -92,6 +99,7 @@
 ;; Home row: tap = letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
 ;; Everything else transparent.
 (deflayer hyper
+  esc
   _      _        _        _        _        _         _  _        _        _        _
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _         _  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  _  _
   _      _        _        _        _        _         _  _        _        _        _  _
@@ -106,6 +114,7 @@
 ;;   a=à  s=â  d=è                        k=ï
 ;;        c=ç
 (deflayer fr
+  esc
   _   _   _           (unicode é) (unicode ê) _  _ (unicode ù) (unicode î) (unicode ô) (unicode œ)
   _   (unicode à) (unicode â) (unicode è) _  _  _  (unicode û)  (unicode ï) _  _  _  _
   _   _  _  (unicode ç)  _  _  _  _  _  _  _  _
@@ -117,6 +126,7 @@
 ;; Right home row: h=← j=↓ k=↑ l=→   a=esc
 ;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
+  esc
   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
   _      esc      _        _        _        _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
@@ -130,6 +140,7 @@
 ;; Home row: 1 2 3 4 5 6 7 8 9 0
 ;; Bot row : + - / = ` [ ] { }
 (deflayer vim-num
+  esc
   _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0
   _    1    2    3    4    5    6    7    8    9    0    _  _
   _    +    -    /    =    grv  _    _    _  _  _   _
@@ -142,6 +153,7 @@
 ;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
 ;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→
 (deflayer sys
+  esc
   _    _     _     mltp  mrtp  _     prev   voldwn  volu  pp    next
   _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
   _    _     _     _     _     _     _     _     _     _     _     _
@@ -155,8 +167,21 @@
 ;;   n=+  m=1  ,=2  .=3   /=/ (transparent)
 ;;             spc=0
 (deflayer numpad
+  esc
   _  _  _  _  _  _  S-8  7  8  9  _
   _  _  _  _  _  _  -    4  5  6  .  _  _
   _  _  _  _  _  _  S-=  1  2  3  _  _
      _  _  _        0        _  _  _
+)
+
+;; ── Gaming layer ─────────────────────────────────────────────────────────────
+;; Toggled on/off with physical Escape.
+;; Same as base but without home-row chords — a/s/d/f/l/; are plain keys.
+;; Space still activates the Hyper layer (home-row mods) on hold.
+(deflayer game
+  @game-off
+  tab  q    w    e    r    t    y    u    i    o    p
+  esc  a    s    d    f    g    h    j    k    l    scln  '  ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lctl lalt lmet          @spc          rmet ralt rctl
 )
