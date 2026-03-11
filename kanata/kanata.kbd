@@ -1,5 +1,5 @@
 ;; Kanata configuration
-;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: vim/fr/numpad/sys.
+;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: fr/numpad/sys. Vim: left cmd.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -52,6 +52,9 @@
   ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
   spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
 
+  ;; Left Command : tap = Command   hold = Vim layer
+  lmet-vm (tap-hold-release $tap-timeout $hold-timeout lmet (layer-while-held vim))
+
   ;; ── Gaming layer toggle ──────────────────────────────────────────────────────
   game-on  (layer-switch game)
   game-off (layer-switch base)
@@ -68,7 +71,6 @@
 ;; All home-row chords share one group (a key can only belong to one group).
 ;;   a+s     → French layer
 ;;   l+;     → French layer
-;;   d+f     → Vim layer
 ;;   s+d     → Numpad layer
 ;;   a+f     → System layer
 (defchords home-chords 50
@@ -80,7 +82,6 @@
   (scln) scln
   (a s)    (layer-while-held fr)
   (l scln) (layer-while-held fr)
-  (d f)    (layer-while-held vim)
   (s d)    (layer-while-held numpad)
   (a f)    (layer-while-held sys)
 )
@@ -91,7 +92,7 @@
   tab  q    w    e    r    t    y    u    i    o    p
   esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt lmet          @spc          rmet ralt rctl
+       lctl lalt @lmet-vm      @spc          rmet ralt rctl
 )
 
 ;; ── Hyper layer ──────────────────────────────────────────────────────────────
@@ -123,12 +124,13 @@
 
 ;; ── Vim layer ────────────────────────────────────────────────────────────────
 ;; Activated by holding Left Cmd.
-;; Right home row: h=← j=↓ k=↑ l=→   a=esc
+;; Left home row: a=Ctrl  s=Option  d=Cmd  f=Shift (tap: letter, hold: modifier)
+;; Right home row: h=← j=↓ k=↑ l=→
 ;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
   esc
   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
-  _      esc      _        _        _        _     left  down  up    right  ret  _  _
+  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
          _        _        _                 @spc-vm     _     _     _
 )
