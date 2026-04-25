@@ -20,7 +20,7 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  esc                                                         ;; fn row
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   ;;   [number row not mapped]
   tab  q    w    e    r    t    y    u    i    o    p
   caps a    s    d    f    g    h    j    k    l    scln '    ret
@@ -65,6 +65,9 @@
   ;; q in HRM-Vim layer : hold = Numpad layer
   q-hrm-numpad (tap-hold-release $tap-timeout $hold-timeout q (layer-while-held numpad))
 
+  ;; Left Command in HRM layer : tap = Command   hold = French layer
+  lmet-hrm-fr (tap-hold-release $tap-timeout $hold-timeout lmet (layer-while-held fr))
+
   ;; ── Layer toggles ────────────────────────────────────────────────────────────
   game-on      (layer-switch game)
   game-off     (layer-switch base)
@@ -101,7 +104,7 @@
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; Esc cycles: Base → HRM → Game → Base
 (deflayer base
-  @hrm-on
+  @hrm-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
   tab  q    w    e    r    t    y    u    i    o    p
   esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -113,7 +116,7 @@
 ;; Home row: tap = letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
 ;; Everything else transparent.
 (deflayer hyper
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _      _        _        _        _        _         _  _        _        _        _
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _         _  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  _  _
   _      _        _        _        _        _         _  _        _        _        _  _
@@ -128,7 +131,7 @@
 ;;   a=à  s=â  d=è                        k=ï
 ;;        c=ç
 (deflayer fr
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _   _   _           (unicode é) (unicode ê) _  _ (unicode ù) (unicode î) (unicode ô) (unicode œ)
   _   (unicode à) (unicode â) (unicode è) _  _  _  (unicode û)  (unicode ï) _  _  _  _
   _   _  _  (unicode ç)  _  _  _  _  _  _  _  _
@@ -141,7 +144,7 @@
 ;; Right home row: h=← j=↓ k=↑ l=→
 ;; Right top row : y=home u=pgdn i=pgup o=end
 (deflayer vim
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
   _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
@@ -155,7 +158,7 @@
 ;; Home row: 1 2 3 4 5 6 7 8 9 0
 ;; Bot row : + - / = ` [ ] { }
 (deflayer vim-num
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0
   _    1    2    3    4    5    6    7    8    9    0    _  _
   _    +    -    /    =    grv  _    _    _  _  _   _
@@ -168,7 +171,7 @@
 ;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
 ;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→
 (deflayer sys
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _    _     _     mltp  mrtp  _     prev   voldwn  volu  pp    next
   _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
   _    _     _     _     _     _     _     _     _     _     _     _
@@ -182,7 +185,7 @@
 ;;   n=+  m=1  ,=2  .=3   /=/ (transparent)
 ;;             spc=0
 (deflayer numpad
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _  _  _  _  _  _  S-8  7  8  9  _
   _  _  _  _  _  _  -    4  5  6  .  _  _
   _  _  _  _  _  _  S-=  1  2  3  _  _
@@ -195,12 +198,13 @@
 ;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift
 ;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl
 ;; Space: tap = Space   hold = HRM-Vim layer
+;; lmet: tap = Command   hold = French layer
 (deflayer hrm
-  @game-on
+  @game-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
   tab  q        w        e        r        t         y  u        i        o        p
   esc  @hrm-a   @hrm-s   @hrm-d   @hrm-f   g         h  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  '  ret
   lsft z        x        c        v        b         n  m        ,        .        /  rsft
-       lctl     lalt     lmet              @spc-hrm      rmet     ralt     rctl
+       lctl     lalt     @lmet-hrm-fr      @spc-hrm      rmet     ralt     rctl
 )
 
 ;; ── HRM-Vim layer ────────────────────────────────────────────────────────────
@@ -211,7 +215,7 @@
 ;; Space: tap = Space   hold = Vim-num sublayer
 ;; q: tap = q   hold = Numpad layer
 (deflayer hrm-vim
-  esc
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
   _      @q-hrm-numpad  _        _        _        _     home  pgdn  pgup  end   bspc
   _      @hrm-a         @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
   _      _        _        _        _        _     _     _     _     _      _  _
@@ -223,7 +227,7 @@
 ;; Same as base but without home-row chords — a/s/d/f/l/; are plain keys.
 ;; Space still activates the Hyper layer (home-row mods) on hold.
 (deflayer game
-  @game-off
+  @game-off  _    _    _    _    _    _    prev pp   next mute voldwn volu
   tab  q    w    e    r    t    y    u    i    o    p
   esc  a    s    d    f    g    h    j    k    l    scln  '  ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
