@@ -1,5 +1,6 @@
 ;; Kanata configuration
 ;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: fr/numpad/sys. Vim: left cmd.
+;; HRM layer: home-row mods always active (no Space hold needed). Esc cycles: Base → HRM → Game → Base.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -28,7 +29,7 @@
 )
 
 (defalias
-  ;; ── Home Row Mods ────────────────────────────────────────────────────────────
+  ;; ── Home Row Mods (QWERTY base) ──────────────────────────────────────────────
   ;; tap-hold-release: hold triggers only if this key is released AFTER another
   ;; key is pressed and released. Safer for fast typists — rolling across home
   ;; row keys won't accidentally fire modifiers.
@@ -55,9 +56,20 @@
   ;; Left Command : tap = Command   hold = Vim layer
   lmet-vm (tap-hold-release $tap-timeout $hold-timeout lmet (layer-while-held vim))
 
-  ;; ── Gaming layer toggle ──────────────────────────────────────────────────────
-  game-on  (layer-switch game)
-  game-off (layer-switch base)
+  ;; Space in HRM layer : tap = Space   hold = HRM-Vim layer
+  spc-hrm  (tap-hold-release $tap-timeout 200 spc (layer-while-held hrm-vim))
+
+  ;; Space in HRM-Vim layer : tap = Space   hold = Vim-num sublayer
+  spc-hrm-vm (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
+
+  ;; q in HRM-Vim layer : hold = Numpad layer
+  q-hrm-numpad (tap-hold-release $tap-timeout $hold-timeout q (layer-while-held numpad))
+
+  ;; ── Layer toggles ────────────────────────────────────────────────────────────
+  game-on      (layer-switch game)
+  game-off     (layer-switch base)
+  hrm-on       (layer-switch hrm)
+  hrm-off      (layer-switch base)
 
   ;; Mouse in Sys layer :
   ma↑ (movemouse-accel-up 1 1000 1 5)
@@ -67,7 +79,7 @@
 
 )
 
-;; ── Home-row chords ──────────────────────────────────────────────────────────
+;; ── Home-row chords (QWERTY base) ───────────────────────────────────────────
 ;; All home-row chords share one group (a key can only belong to one group).
 ;;   a+s     → French layer
 ;;   l+;     → French layer
@@ -87,8 +99,9 @@
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
+;; Esc cycles: Base → HRM → Game → Base
 (deflayer base
-  @game-on
+  @hrm-on
   tab  q    w    e    r    t    y    u    i    o    p
   esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -136,7 +149,7 @@
 )
 
 ;; ── Vim-num sublayer ─────────────────────────────────────────────────────────
-;; Activated by holding Space while in the Vim layer (Left Cmd held).
+;; Activated by holding Space in vim/hrm-vim layer, or holding rmet in hrm-vim.
 ;;
 ;; Top row : ! @ # $ % ^ & * ( )   ← shifted number symbols
 ;; Home row: 1 2 3 4 5 6 7 8 9 0
@@ -176,8 +189,37 @@
      _  _  _        0        _  _  _
 )
 
+;; ── HRM layer ────────────────────────────────────────────────────────────────
+;; Esc cycles: Base → HRM → Game → Base
+;; Home-row mods always active — no Space hold needed.
+;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift
+;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl
+;; Space: tap = Space   hold = HRM-Vim layer
+(deflayer hrm
+  @game-on
+  tab  q        w        e        r        t         y  u        i        o        p
+  esc  @hrm-a   @hrm-s   @hrm-d   @hrm-f   g         h  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  '  ret
+  lsft z        x        c        v        b         n  m        ,        .        /  rsft
+       lctl     lalt     lmet              @spc-hrm      rmet     ralt     rctl
+)
+
+;; ── HRM-Vim layer ────────────────────────────────────────────────────────────
+;; Activated by holding Space in HRM mode.
+;; Left home row: a=Ctrl  s=Option  d=Cmd  f=Shift (always-on mods, same as HRM)
+;; Right home row: h=← j=↓ k=↑ l=→
+;; Right top row : y=home u=pgdn i=pgup o=end
+;; Space: tap = Space   hold = Vim-num sublayer
+;; q: tap = q   hold = Numpad layer
+(deflayer hrm-vim
+  esc
+  _      @q-hrm-numpad  _        _        _        _     home  pgdn  pgup  end   bspc
+  _      @hrm-a         @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
+  _      _        _        _        _        _     _     _     _     _      _  _
+         _        _        _                 @spc-hrm-vm  _    _     _
+)
+
 ;; ── Gaming layer ─────────────────────────────────────────────────────────────
-;; Toggled on/off with physical Escape.
+;; Esc cycles: Base → HRM → Game → Base
 ;; Same as base but without home-row chords — a/s/d/f/l/; are plain keys.
 ;; Space still activates the Hyper layer (home-row mods) on hold.
 (deflayer game
@@ -187,3 +229,45 @@
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
        lctl lalt lmet          @spc          rmet ralt rctl
 )
+
+;; ── Colemak layer ─────────────────────────────────────────────────────────────
+;; Esc cycles: Base → HRM → Game → Base (colemak disabled)
+;; Key mapping (physical QWERTY → Colemak output):
+;;   top:  e→f  r→p  t→g  y→j  u→l  i→u  o→y  p→;
+;;   home: s→r  d→s  f→t  g→d  j→n  k→e  l→i  ;→o
+;;   (all others unchanged)
+;; Home-row mods: a=Ctrl  r=Option  s=Command  t=Shift / n=Shift  e=Command  i=Option  o=Ctrl
+;;
+;; (deflayer colemak
+;;   @game-on
+;;   tab  q    w    f    p    g    j    l    u    y    scln
+;;   esc  (chord colemak-chords a) (chord colemak-chords s) (chord colemak-chords d) (chord colemak-chords f) d h n e (chord colemak-chords l) (chord colemak-chords scln) ' ret
+;;   lsft z    x    c    v    b    k    m    ,    .    /    rsft
+;;        lctl lalt @cm-lmet-vm   @cm-spc       rmet ralt rctl
+;; )
+
+;; ── Colemak-Hyper layer ───────────────────────────────────────────────────────
+;; Activated by holding Space in Colemak mode.
+;; Home row: tap = Colemak letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
+;;
+;; (deflayer colemak-hyper
+;;   esc
+;;   _      _        _        _        _        _         _  _        _        _        _
+;;   _      @cm-a    @cm-r    @cm-s    @cm-t    _         _  @cm-n    @cm-e    @cm-i    @cm-o     _  _
+;;   _      _        _        _        _        _         _  _        _        _        _  _
+;;          _        _        _                 _             _        _        _
+;; )
+
+;; ── Colemak-Vim layer ─────────────────────────────────────────────────────────
+;; Activated by holding Left Cmd in Colemak mode.
+;; Left home row: a=Ctrl  r=Option  s=Cmd  t=Shift (tap: letter, hold: modifier)
+;; Right home row: h=← n=↓ e=↑ i=→  (physical h/j/k/l, same as QWERTY Vim)
+;; Right top row : y=home u=pgdn i=pgup o=end  (physical y/u/i/o)
+;;
+;; (deflayer colemak-vim
+;;   esc
+;;   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
+;;   _      @cm-a    @cm-r    @cm-s    @cm-t    _     left  down  up    right  ret  _  _
+;;   _      _        _        _        _        _     _     _     _     _      _  _
+;;          _        _        _                 @cm-spc-vm  _     _     _
+;; )
