@@ -31,7 +31,7 @@ $env.config.keybindings ++= [{
 }]
 
 # Yazi
-def --env y [...args] {
+def --env c [...args] {
 	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
 	^yazi ...$args --cwd-file $tmp
 	let cwd = (open $tmp)
@@ -42,7 +42,7 @@ def --env y [...args] {
 }
 
 # Aliases
-alias lg = lazygit
+alias lg = lazygit -ucd ~/.config/lazygit
 alias ld = lazydocker
 alias t = tmux
 alias z = zellij
