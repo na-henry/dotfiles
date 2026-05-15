@@ -33,7 +33,7 @@ $env.config.keybindings ++= [{
 # Yazi
 def --env c [...args] {
 	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
-	^yazi ...$args --cwd-file $tmp
+	with-env { TERM_PROGRAM: "ghostty" } { ^yazi ...$args --cwd-file $tmp }
 	let cwd = (open $tmp)
 	if $cwd != $env.PWD and ($cwd | path exists) {
 		cd $cwd
@@ -47,6 +47,7 @@ alias ld = lazydocker
 alias t = tmux
 alias z = zellij
 alias n = nvim
+alias q = pi --print
 
 # Env File
 source ~/.config/nushell/env.nu
