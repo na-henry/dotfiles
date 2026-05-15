@@ -20,6 +20,7 @@ This repository contains configurations for a modern, keyboard-driven developmen
 
 ### File Management
 - **[Yazi](https://yazi-rs.github.io/)** (`yazi/`) - Terminal file manager with lazygit integration
+- **[Lazygit](https://github.com/jesseduffield/lazygit)** (`lazygit/`) - Terminal UI for git, themed to match LazyVim (Tokyo Night)
 
 ### macOS System Tools
 - **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** (`aerospace/`) - Tiling window manager for macOS
@@ -56,6 +57,12 @@ ln -sf ~/dotfiles/zellij ~/.config/zellij
 ln -sf ~/dotfiles/aerospace ~/.config/aerospace
 ln -sf ~/dotfiles/karabiner ~/.config/karabiner
 ln -sf ~/dotfiles/starship.toml ~/.config/starship.toml
+
+# Lazygit reads from ~/Library/Application Support/lazygit on macOS by default.
+# Symlink both locations so it works whether or not XDG_CONFIG_HOME is set.
+mkdir -p ~/.config/lazygit "$HOME/Library/Application Support/lazygit"
+ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml
+ln -sf ~/dotfiles/lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
 ```
 
 ### Prerequisites

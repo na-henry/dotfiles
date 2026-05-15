@@ -1,0 +1,42 @@
+git:
+  # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
+  pagers:
+    - colorArg: always
+      pager: ""
+
+    - pager: delta --dark --paging=never
+
+# Tokyo Night (Moon) — matches the LazyVim default colorscheme
+gui:
+  nerdFontsVersion: "3"
+  border: rounded
+  theme:
+    activeBorderColor:
+      - "#82aaff"  # blue
+      - bold
+    inactiveBorderColor:
+      - "#636da6"  # comment / muted
+    searchingActiveBorderColor:
+      - "#86e1fc"  # cyan
+      - bold
+    optionsTextColor:
+      - "#82aaff"  # blue
+    selectedLineBgColor:
+      - "#2f334d"  # bg_highlight
+    inactiveViewSelectedLineBgColor:
+      - "#2f334d"
+      - bold
+    cherryPickedCommitFgColor:
+      - "#c099ff"  # magenta
+    cherryPickedCommitBgColor:
+      - "#2f334d"
+    markedBaseCommitFgColor:
+      - "#ffc777"  # yellow
+    markedBaseCommitBgColor:
+      - "#2f334d"
+    unstagedChangesColor:
+      - "#ff757f"  # red
+    defaultFgColor:
+      - "#c8d3f5"  # fg
+  authorColors:
+    "*": "#82aaff"
