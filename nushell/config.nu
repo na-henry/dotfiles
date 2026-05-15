@@ -48,6 +48,7 @@ alias t = tmux
 alias z = zellij
 alias n = nvim
 alias q = pi --print
+alias pir = pi --resume
 
 # Env File
 source ~/.config/nushell/env.nu
