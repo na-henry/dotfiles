@@ -22,6 +22,9 @@ This repository contains configurations for a modern, keyboard-driven developmen
 - **[Yazi](https://yazi-rs.github.io/)** (`yazi/`) - Terminal file manager with lazygit integration
 - **[Lazygit](https://github.com/jesseduffield/lazygit)** (`lazygit/`) - Terminal UI for git, themed to match LazyVim (Tokyo Night)
 
+### AI / Coding Agents
+- **[pi](https://github.com/earendil-works/pi-mono)** (`pi/`) - Terminal coding agent. Tracks `settings.json` and custom `themes/` (Catppuccin Mocha, Lazygit). `auth.json` and `sessions/` are intentionally excluded.
+
 ### macOS System Tools
 - **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** (`aerospace/`) - Tiling window manager for macOS
 - **[Karabiner-Elements](https://karabiner-elements.pqrs.org/)** (`karabiner/`) - Keyboard customization with hyper key layers
@@ -57,6 +60,11 @@ ln -sf ~/dotfiles/zellij ~/.config/zellij
 ln -sf ~/dotfiles/aerospace ~/.config/aerospace
 ln -sf ~/dotfiles/karabiner ~/.config/karabiner
 ln -sf ~/dotfiles/starship.toml ~/.config/starship.toml
+
+# pi coding agent (settings + custom themes)
+mkdir -p ~/.pi/agent
+ln -sf ~/dotfiles/pi/settings.json ~/.pi/agent/settings.json
+ln -sf ~/dotfiles/pi/themes ~/.pi/agent/themes
 
 # Lazygit reads from ~/Library/Application Support/lazygit on macOS by default.
 # Symlink both locations so it works whether or not XDG_CONFIG_HOME is set.

@@ -1,0 +1,11 @@
+{
+  "lastChangelogVersion": "0.74.0",
+  "theme": "lazygit",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-4-7",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:@haispeed/pi-obsidian",
+    "npm:pi-mcp-adapter@2.6.1"
+  ]
+}
