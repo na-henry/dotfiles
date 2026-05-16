@@ -27,7 +27,7 @@ aliases['c'] = _yazi_cd
 aliases['y'] = 'yazi'
 aliases['lg'] = 'lazygit -ucd ~/.config/lazygit'
 aliases['ld'] = 'lazydocker'
-aliases['ls'] = 'eza -f --icons'
+aliases['ls'] = 'eza -l --icons=auto'
 aliases['gd'] = 'gh dash'
 aliases['t'] = 'tmux'
 aliases['z'] = 'zellij'
