@@ -1,5 +1,6 @@
 # xontribs
 xontrib load fzf-widgets
+$fzf_history_binding = "c-r"  # Ctrl+R → fzf history search
 
 # Starship prompt
 execx($(starship init xonsh))
