@@ -1,3 +1,6 @@
+# xontribs
+xontrib load fzf-widgets
+
 # Starship prompt
 execx($(starship init xonsh))
 $TITLE = '{cwd}'
