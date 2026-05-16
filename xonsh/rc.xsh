@@ -33,6 +33,20 @@ def _fzf_history_themed(event):
         event.current_buffer.cursor_position = len(choice)
 _fzf.fzf_insert_history = _fzf_history_themed
 
+# Carapace completions
+execx($(carapace _carapace xonsh))
+
+# Gruvbox gold completion menu theme
+$XONSH_STYLE_OVERRIDES = {
+    'completion-menu':                                        '#ebdbb2',
+    'completion-menu.completion':                             '#ebdbb2',
+    'completion-menu.completion.current':                     '#fabd2f bold',
+    'completion-menu.meta.completion':                        '#928374',
+    'completion-menu.meta.completion.current':                '#fabd2f',
+    'completion-menu.completion fuzzymatch.inside':           'bold #fb4934',
+    'completion-menu.completion.current fuzzymatch.inside':   'bold #fb4934',
+}
+
 # Starship prompt
 execx($(starship init xonsh))
 $TITLE = '{cwd}'
