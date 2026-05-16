@@ -2,10 +2,11 @@
   "lastChangelogVersion": "0.74.0",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-opus-4-7",
+  "defaultModel": "claude-sonnet-4-6",
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:@haispeed/pi-obsidian",
-    "npm:pi-mcp-adapter@2.6.1"
+    "npm:pi-mcp-adapter@2.6.1",
+    "npm:@plannotator/pi-extension"
   ]
 }
