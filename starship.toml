@@ -18,8 +18,8 @@ style = "yellow bold"
 format = "⏱ [$duration]($style)"
 
 [git_branch]
-format = "on [$symbol$branch]($style) "
-symbol = "  "
+format = "[$symbol$branch]($style) "
+symbol = " "
 style = "bold purple"
 disabled = false
 

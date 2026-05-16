@@ -44,6 +44,7 @@ def --env c [...args] {
 # Aliases
 alias lg = lazygit -ucd ~/.config/lazygit
 alias ld = lazydocker
+alias gd = gh dash
 alias t = tmux
 alias z = zellij
 alias n = nvim
