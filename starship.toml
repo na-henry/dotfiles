@@ -48,9 +48,6 @@ symbol = "🧙 "
 style = "blue"
 disabled = false
 
-[title]
-disabled = true
-
 [golang]
 format = "\\[[$symbol($version)]($style)\\] "
 symbol = "🐹 "

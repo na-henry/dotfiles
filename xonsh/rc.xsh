@@ -1,5 +1,6 @@
 # Starship prompt
 execx($(starship init xonsh))
+$TITLE = '{cwd}'
 
 $XONSH_COLOR_STYLE = 'nord-darker'
 
