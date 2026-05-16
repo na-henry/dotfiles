@@ -1,4 +1,5 @@
 {
+  "shellPath": "/opt/homebrew/bin/xonsh",
   "lastChangelogVersion": "0.74.0",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
