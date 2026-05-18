@@ -12,12 +12,12 @@ gui:
   border: rounded
   theme:
     activeBorderColor:
-      - "#82aaff"  # blue
+      - "#ffc777"  # golden yellow
       - bold
     inactiveBorderColor:
       - "#636da6"  # comment / muted
     searchingActiveBorderColor:
-      - "#86e1fc"  # cyan
+      - "#ffd580"  # bright gold
       - bold
     optionsTextColor:
       - "#82aaff"  # blue
