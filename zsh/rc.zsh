@@ -4,7 +4,6 @@ autoload -Uz compinit
 compinit
 
 # PATH
-path+=("/Users/nathan/.cargo/bin/")
 path+=("/opt/homebrew/bin")
 path+=("$HOME/.local/bin")
 export PATH
