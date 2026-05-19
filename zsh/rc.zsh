@@ -1,5 +1,4 @@
 # Autocompletions
-fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 autoload -Uz compinit
 compinit
 
@@ -7,6 +6,14 @@ compinit
 path+=("/opt/homebrew/bin")
 path+=("$HOME/.local/bin")
 export PATH
+
+# fzf-tab — replace completion menu with fzf grid
+source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
+zstyle ':fzf-tab:*' fzf-flags \
+  --color=bg+:-1,bg:-1,spinner:#fabd2f,hl:#fabd2f \
+  --color=fg:#ebdbb2,header:#fabd2f,info:#fabd2f,pointer:#fabd2f \
+  --color=marker:#fabd2f,fg+:#ebdbb2,prompt:#fabd2f,hl+:#fb4934 \
+  --bind=ctrl-r:toggle-sort
 
 # Carapace completions
 source <(carapace _carapace zsh)
