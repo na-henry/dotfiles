@@ -1,3 +1,11 @@
+# Ensure Homebrew and user paths are available
+import os as _os
+$PATH = [
+    '/opt/homebrew/bin',
+    '/opt/homebrew/sbin',
+    _os.path.expanduser('~/.local/bin'),
+] + $PATH
+
 # xontribs
 xontrib load fzf-widgets
 $fzf_history_binding = "c-r"  # Ctrl+R → fzf history search

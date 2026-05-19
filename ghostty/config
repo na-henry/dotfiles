@@ -1,5 +1,5 @@
 theme = Catppuccin Mocha
-command = /opt/homebrew/bin/nu --config ~/.config/nushell/config.nu
+command = /bin/zsh
 clipboard-read = allow
 clipboard-write = allow
 

@@ -1,6 +1,6 @@
 {
   "shellPath": "/opt/homebrew/bin/xonsh",
-  "lastChangelogVersion": "0.74.0",
+  "lastChangelogVersion": "0.75.3",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
   "defaultModel": "claude-sonnet-4-6",
