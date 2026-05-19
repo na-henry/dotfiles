@@ -65,6 +65,18 @@ function c() {
   rm -f -- "$tmp"
 }
 
+# Zellij shell integration — set pane title to cwd (mirrors xonsh $TITLE='{cwd}')
+if [[ -n "$ZELLIJ" ]]; then
+  autoload -Uz add-zsh-hook
+  function _zellij_set_title() {
+    # OSC 0: set terminal/pane title to cwd
+    printf '\e]0;%s\e\\' "${PWD/#$HOME/~}"
+    # OSC 7: report cwd for tracking
+    printf '\e]7;file://%s%s\e\\' "$HOST" "$PWD"
+  }
+  add-zsh-hook precmd _zellij_set_title
+fi
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
