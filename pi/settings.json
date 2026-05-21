@@ -1,6 +1,6 @@
 {
   "shellPath": "/bin/zsh",
-  "lastChangelogVersion": "0.75.3",
+  "lastChangelogVersion": "0.75.4",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
   "defaultModel": "claude-sonnet-4-6",
