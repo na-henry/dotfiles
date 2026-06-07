@@ -1,6 +1,6 @@
 ;; Kanata configuration
 ;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: fr/numpad/sys. Vim: left cmd.
-;; HRM layer: home-row mods always active (no Space hold needed). Esc cycles: Base → HRM → Game → Base.
+;; HRM layer: home-row mods always active (no Space hold needed). Esc cycles: HRM → Game → HRM. Base Esc enters HRM.
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
@@ -102,7 +102,7 @@
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
-;; Esc cycles: Base → HRM → Game → Base
+;; Esc (on base) → switches to HRM
 (deflayer base
   @hrm-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
   tab  q    w    e    r    t    y    u    i    o    p
@@ -193,7 +193,7 @@
 )
 
 ;; ── HRM layer ────────────────────────────────────────────────────────────────
-;; Esc cycles: Base → HRM → Game → Base
+;; Esc cycles: HRM → Game → HRM
 ;; Home-row mods always active — no Space hold needed.
 ;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift
 ;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl
@@ -223,15 +223,15 @@
 )
 
 ;; ── Gaming layer ─────────────────────────────────────────────────────────────
-;; Esc cycles: Base → HRM → Game → Base
+;; Esc cycles: HRM → Game → HRM
 ;; Same as base but without home-row chords — a/s/d/f/l/; are plain keys.
 ;; Space still activates the Hyper layer (home-row mods) on hold.
 (deflayer game
-  @game-off  _    _    _    _    _    _    prev pp   next mute voldwn volu
+  @hrm-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
   tab  q    w    e    r    t    y    u    i    o    p
   esc  a    s    d    f    g    h    j    k    l    scln  '  ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt lmet          @spc          rmet ralt rctl
+       lctl lalt lmet          spc           rmet ralt rctl
 )
 
 ;; ── Colemak layer ─────────────────────────────────────────────────────────────
