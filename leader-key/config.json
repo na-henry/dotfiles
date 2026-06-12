@@ -1,0 +1,344 @@
+{
+  "actions" : [
+    {
+      "actions" : [
+        {
+          "actions" : [
+            {
+              "actions" : [
+                {
+                  "key" : "e",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace E"
+                },
+                {
+                  "key" : "a",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace A"
+                },
+                {
+                  "key" : "s",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace S"
+                },
+                {
+                  "key" : "d",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace D"
+                },
+                {
+                  "key" : "r",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace R"
+                },
+                {
+                  "key" : "q",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace Q"
+                },
+                {
+                  "key" : "w",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace W"
+                },
+                {
+                  "key" : "z",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace Z"
+                },
+                {
+                  "key" : "t",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace T"
+                },
+                {
+                  "key" : "y",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace Y"
+                },
+                {
+                  "key" : "u",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace U"
+                },
+                {
+                  "key" : "i",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace I"
+                },
+                {
+                  "key" : "o",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace O"
+                },
+                {
+                  "key" : "p",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace P"
+                },
+                {
+                  "key" : "f",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace F"
+                },
+                {
+                  "key" : "g",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace G"
+                },
+                {
+                  "key" : "h",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace H"
+                },
+                {
+                  "key" : "k",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace K"
+                },
+                {
+                  "key" : "l",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace L"
+                },
+                {
+                  "key" : "x",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace X"
+                },
+                {
+                  "key" : "c",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace C"
+                },
+                {
+                  "key" : "v",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace V"
+                },
+                {
+                  "key" : "b",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace B"
+                },
+                {
+                  "key" : "n",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace N"
+                },
+                {
+                  "key" : "m",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace workspace M"
+                }
+              ],
+              "key" : "f",
+              "label" : "Focus",
+              "type" : "group"
+            },
+            {
+              "actions" : [
+                {
+                  "key" : "e",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace E"
+                },
+                {
+                  "key" : "a",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace A"
+                },
+                {
+                  "key" : "s",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace S"
+                },
+                {
+                  "key" : "d",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace D"
+                },
+                {
+                  "key" : "r",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace R"
+                },
+                {
+                  "key" : "q",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace Q"
+                },
+                {
+                  "key" : "w",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace W"
+                },
+                {
+                  "key" : "z",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace Z"
+                },
+                {
+                  "key" : "t",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace T"
+                },
+                {
+                  "key" : "y",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace Y"
+                },
+                {
+                  "key" : "u",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace U"
+                },
+                {
+                  "key" : "i",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace I"
+                },
+                {
+                  "key" : "o",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace O"
+                },
+                {
+                  "key" : "p",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace P"
+                },
+                {
+                  "key" : "f",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace F"
+                },
+                {
+                  "key" : "g",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace G"
+                },
+                {
+                  "key" : "h",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace H"
+                },
+                {
+                  "key" : "k",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace K"
+                },
+                {
+                  "key" : "l",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace L"
+                },
+                {
+                  "key" : "x",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace X"
+                },
+                {
+                  "key" : "c",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace C"
+                },
+                {
+                  "key" : "v",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace V"
+                },
+                {
+                  "key" : "b",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace B"
+                },
+                {
+                  "key" : "n",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace N"
+                },
+                {
+                  "key" : "m",
+                  "type" : "command",
+                  "value" : "/opt/homebrew/bin/aerospace summon-workspace M"
+                }
+              ],
+              "key" : "s",
+              "label" : "Summon",
+              "type" : "group"
+            },
+            {
+              "key" : "tab",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-workspace-to-monitor next"
+            }
+          ],
+          "key" : "w",
+          "label" : "Workspaces",
+          "type" : "group"
+        }
+      ],
+      "key" : "a",
+      "label" : "Open",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "e",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+        },
+        {
+          "key" : "p",
+          "type" : "url",
+          "value" : "raycast://confetti"
+        },
+        {
+          "key" : "c",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/system/open-camera"
+        }
+      ],
+      "key" : "r",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "f",
+          "type" : "url",
+          "value" : "shortcuts://run-shortcut?name=Fill"
+        },
+        {
+          "key" : "c",
+          "type" : "url",
+          "value" : "shortcuts://run-shortcut?name=Center"
+        }
+      ],
+      "key" : "w",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "l",
+          "label" : "Leader Key",
+          "type" : "url",
+          "value" : "leaderkey://settings"
+        },
+        {
+          "key" : "r",
+          "label" : "Reload Config",
+          "type" : "url",
+          "value" : "leaderkey://config-reload"
+        }
+      ],
+      "key" : "s",
+      "label" : "Settings",
+      "type" : "group"
+    }
+  ],
+  "type" : "group"
+}
