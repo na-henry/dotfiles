@@ -307,6 +307,22 @@ run = "move-node-to-workspace A"
 if.app-id = 'com.mitchellh.ghostty'
 run = "move-node-to-workspace E"
 
+[[on-window-detected]]
+if.app-id = 'com.tinyapp.TablePlus'
+run = "move-node-to-workspace V"
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = "move-node-to-workspace Q"
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = "move-node-to-workspace X"
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = "move-node-to-workspace M"
+
 [workspace-to-monitor-force-assignment]
 # 'E' = ["LU28R55"]
 # 'Q' = ["LS27A800U"]
