@@ -297,6 +297,12 @@
           "value" : "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
         },
         {
+          "key" : "h",
+          "label" : "Clipboard History",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/clipboard-history/clipboard-history"
+        },
+        {
           "key" : "p",
           "type" : "url",
           "value" : "raycast://confetti"
