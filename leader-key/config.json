@@ -277,6 +277,12 @@
           "key" : "w",
           "label" : "Workspaces",
           "type" : "group"
+        },
+        {
+          "key" : "r",
+          "label" : "Reload Config",
+          "type" : "command",
+          "value" : "/opt/homebrew/bin/aerospace reload-config"
         }
       ],
       "key" : "a",
