@@ -271,7 +271,7 @@
             {
               "key" : "tab",
               "type" : "command",
-              "value" : "/opt/homebrew/bin/aerospace move-workspace-to-monitor next"
+              "value" : "/opt/homebrew/bin/aerospace move-workspace-to-monitor --wrap-around next"
             }
           ],
           "key" : "w",
