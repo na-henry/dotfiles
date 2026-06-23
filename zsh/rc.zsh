@@ -51,16 +51,6 @@ alias q="pi --print"
 alias pir="pi --resume"
 alias reload="source ~/.zshrc"
 
-# yazi — cd to last directory on quit (y)
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    builtin cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
-
 # yazi — cd to last directory on quit (c)
 function c() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
