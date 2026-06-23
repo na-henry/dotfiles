@@ -93,6 +93,11 @@ ln -sf ~/dotfiles/aerospace ~/.config/aerospace
 ln -sf ~/dotfiles/karabiner ~/.config/karabiner
 ln -sf ~/dotfiles/kanata ~/.config/kanata
 ln -sf ~/dotfiles/carapace ~/.config/carapace
+mkdir -p "$HOME/Library/Application Support/carapace/specs"
+for spec in ~/dotfiles/carapace/specs/*.yaml; do
+  ln -sf "$spec" \
+    "$HOME/Library/Application Support/carapace/specs/$(basename $spec)"
+done
 ln -sf ~/dotfiles/zsh/rc.zsh ~/.config/zsh/rc.zsh
 ln -sf ~/dotfiles/xonsh/rc.xsh ~/.config/xonsh/rc.xsh
 ln -sf ~/dotfiles/starship.toml ~/.config/starship.toml

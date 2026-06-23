@@ -1,0 +1,594 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: container
+description: A container platform for macOS
+persistentflags:
+  --debug: Enable debug output
+
+commands:
+  - name: run
+    description: Run a container
+    flags:
+      --env=: Set environment variables (key=value)
+      --env-file=: Read environment variables from a file
+      --gid=: Set the group ID for the process
+      --interactive: Keep stdin open even if not attached
+      --tty: Open a TTY with the process
+      --user=: Set the user for the process
+      --uid=: Set the user ID for the process
+      --workdir=: Set the working directory inside the container
+      --cwd=: Set the working directory inside the container
+      --ulimit=: Set resource limits
+      --cpus=: Number of CPUs to allocate
+      --memory=: Amount of memory (e.g. 512M, 2G)
+      --arch=: Set architecture
+      --cap-add=: Add a Linux capability
+      --cap-drop=: Drop a Linux capability
+      --cidfile=: Write the container ID to a file
+      --detach: Run the container and detach from the process
+      --dns=: DNS nameserver IP address
+      --dns-domain=: Default DNS domain
+      --dns-option=: DNS options
+      --dns-search=: DNS search domains
+      --entrypoint=: Override the entrypoint of the image
+      --init: Run an init process inside the container
+      --init-image=: Use a custom init image
+      --kernel=: Set a custom kernel path
+      --label=: Add a key=value label to the container
+      --mount=: Add a mount (type=<>,source=<>,target=<>,readonly)
+      --name=: Name for the container
+      --network=: Attach to a network
+      --no-dns: Do not configure DNS in the container
+      --os=: Set OS
+      --publish=: Publish a port ([host-ip:]host-port:container-port[/protocol])
+      --platform=: Platform for the image (os/arch[/variant])
+      --publish-socket=: Publish a socket (host_path:container_path)
+      --read-only: Mount the root filesystem as read-only
+      --remove: Remove the container after it stops
+      --rosetta: Enable Rosetta in the container
+      --runtime=: Set the runtime handler
+      --ssh: Forward SSH agent socket to container
+      --shm-size=: Size of /dev/shm (e.g. 64M, 1G)
+      --tmpfs=: Add a tmpfs mount at the given path
+      --virtualization: Expose virtualization capabilities
+      --volume=: Bind mount a volume into the container
+      --scheme=: Registry scheme
+      --progress=: Progress type
+      --max-concurrent-downloads=: Maximum number of concurrent downloads
+    completion:
+      flag:
+        scheme: ["http", "https", "auto"]
+        progress: ["auto", "none", "ansi", "plain", "color"]
+        arch: ["arm64", "amd64"]
+        os: ["linux"]
+
+  - name: create
+    description: Create a new container
+    flags:
+      --env=: Set environment variables (key=value)
+      --env-file=: Read environment variables from a file
+      --gid=: Set the group ID for the process
+      --interactive: Keep stdin open even if not attached
+      --tty: Open a TTY with the process
+      --user=: Set the user for the process
+      --uid=: Set the user ID for the process
+      --workdir=: Set the working directory inside the container
+      --cwd=: Set the working directory inside the container
+      --ulimit=: Set resource limits
+      --cpus=: Number of CPUs to allocate
+      --memory=: Amount of memory (e.g. 512M, 2G)
+      --arch=: Set architecture
+      --cap-add=: Add a Linux capability
+      --cap-drop=: Drop a Linux capability
+      --cidfile=: Write the container ID to a file
+      --detach: Run the container and detach from the process
+      --dns=: DNS nameserver IP address
+      --dns-domain=: Default DNS domain
+      --dns-option=: DNS options
+      --dns-search=: DNS search domains
+      --entrypoint=: Override the entrypoint of the image
+      --init: Run an init process inside the container
+      --init-image=: Use a custom init image
+      --kernel=: Set a custom kernel path
+      --label=: Add a key=value label to the container
+      --mount=: Add a mount (type=<>,source=<>,target=<>,readonly)
+      --name=: Name for the container
+      --network=: Attach to a network
+      --no-dns: Do not configure DNS in the container
+      --os=: Set OS
+      --publish=: Publish a port ([host-ip:]host-port:container-port[/protocol])
+      --platform=: Platform for the image (os/arch[/variant])
+      --publish-socket=: Publish a socket (host_path:container_path)
+      --read-only: Mount the root filesystem as read-only
+      --remove: Remove the container after it stops
+      --rosetta: Enable Rosetta in the container
+      --runtime=: Set the runtime handler
+      --ssh: Forward SSH agent socket to container
+      --shm-size=: Size of /dev/shm (e.g. 64M, 1G)
+      --tmpfs=: Add a tmpfs mount at the given path
+      --virtualization: Expose virtualization capabilities
+      --volume=: Bind mount a volume into the container
+      --scheme=: Registry scheme
+      --max-concurrent-downloads=: Maximum number of concurrent downloads
+    completion:
+      flag:
+        scheme: ["http", "https", "auto"]
+        arch: ["arm64", "amd64"]
+        os: ["linux"]
+
+  - name: start
+    description: Start a container
+    flags:
+      --attach: Attach stdout/stderr
+      --interactive: Attach stdin
+
+  - name: stop
+    description: Stop one or more running containers
+    flags:
+      --all: Stop all running containers
+      --signal=: Signal to send to the containers
+      --time=: Seconds to wait before killing (default 5)
+
+  - name: kill
+    description: Kill or signal one or more running containers
+    flags:
+      --all: Kill or signal all running containers
+      --signal=: Signal to send (default KILL)
+
+  - name: delete
+    aliases: [rm]
+    description: Delete one or more containers
+    flags:
+      --all: Delete all containers
+      --force: Delete containers even if they are running
+
+  - name: exec
+    description: Run a new command in a running container
+    flags:
+      --env=: Set environment variables (key=value)
+      --env-file=: Read environment variables from a file
+      --gid=: Set the group ID for the process
+      --interactive: Keep stdin open even if not attached
+      --tty: Open a TTY with the process
+      --user=: Set the user for the process
+      --uid=: Set the user ID for the process
+      --workdir=: Set the working directory inside the container
+      --cwd=: Set the working directory inside the container
+      --ulimit=: Set resource limits
+      --detach: Run the process and detach from it
+
+  - name: logs
+    description: Fetch container logs
+    flags:
+      --boot: Display the boot log instead of stdio
+      --follow: Follow log output
+      -n=: Number of lines to show from the end of the logs
+
+  - name: inspect
+    description: Display information about one or more containers
+
+  - name: list
+    aliases: [ls]
+    description: List running containers
+    flags:
+      --all: Include containers that are not running
+      --format=: Format of the output
+      --quiet: Only output the container ID
+    completion:
+      flag:
+        format: ["table", "json", "yaml", "toml"]
+
+  - name: stats
+    description: Display resource usage statistics for containers
+    flags:
+      --format=: Format of the output
+      --no-stream: Only pull the first result
+    completion:
+      flag:
+        format: ["table", "json", "yaml", "toml"]
+
+  - name: copy
+    aliases: [cp]
+    description: Copy files between a container and the local filesystem
+
+  - name: export
+    description: Export a container's filesystem as a tar archive
+    flags:
+      --output=: Pathname for the saved filesystem (defaults to stdout)
+    completion:
+      flag:
+        output: ["$files"]
+
+  - name: prune
+    description: Remove all stopped containers
+
+  - name: build
+    description: Build an image from a Dockerfile or Containerfile
+    flags:
+      --arch=: Architecture type
+      --build-arg=: Set build-time variables (key=value)
+      --cpus=: Number of CPUs for the builder
+      --file=: Path to Dockerfile
+      --label=: Set a label (key=value)
+      --memory=: Amount of builder memory
+      --no-cache: Do not use cache
+      --os=: OS type
+      --output=: Output configuration (type=<oci|tar|local>[,dest=])
+      --platform=: Platform (os/arch[/variant])
+      --progress=: Progress type
+      --quiet: Suppress build output
+      --secret=: Set build-time secrets
+      --tag=: Name for the built image
+      --target=: Set the target build stage
+    completion:
+      flag:
+        file: ["$files"]
+        progress: ["auto", "plain", "tty"]
+        arch: ["arm64", "amd64"]
+        os: ["linux"]
+
+  - name: image
+    aliases: [i]
+    description: Manage images
+    commands:
+      - name: delete
+        aliases: [rm]
+        description: Delete one or more images
+        flags:
+          --all: Delete all images
+          --force: Ignore errors for images that are not found
+
+      - name: inspect
+        description: Display information about one or more images
+
+      - name: list
+        aliases: [ls]
+        description: List images
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the image name
+          --verbose: Verbose output
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: load
+        description: Load images from an OCI compatible tar archive
+        flags:
+          --input=: Path to the image tar archive
+          --force: Load images even if the archive contains invalid files
+        completion:
+          flag:
+            input: ["$files"]
+
+      - name: prune
+        description: Remove unused or all images
+        flags:
+          --all: Remove all unused images, not just dangling ones
+
+      - name: pull
+        description: Pull an image
+        flags:
+          --scheme=: Registry scheme
+          --progress=: Progress type
+          --max-concurrent-downloads=: Maximum number of concurrent downloads
+          --arch=: Limit the pull to the specified architecture
+          --os=: Limit the pull to the specified OS
+          --platform=: Limit the pull to the specified platform
+        completion:
+          flag:
+            scheme: ["http", "https", "auto"]
+            progress: ["auto", "none", "ansi", "plain", "color"]
+            arch: ["arm64", "amd64"]
+            os: ["linux"]
+
+      - name: push
+        description: Push an image
+        flags:
+          --scheme=: Registry scheme
+          --progress=: Progress type
+          --arch=: Limit the push to the specified architecture
+          --os=: Limit the push to the specified OS
+          --platform=: Limit the push to the specified platform
+        completion:
+          flag:
+            scheme: ["http", "https", "auto"]
+            progress: ["auto", "none", "ansi", "plain", "color"]
+            arch: ["arm64", "amd64"]
+            os: ["linux"]
+
+      - name: save
+        description: Save one or more images as an OCI compatible tar archive
+        flags:
+          --arch=: Architecture for the saved image
+          --os=: OS for the saved image
+          --output=: Pathname for the saved image
+          --platform=: Platform for the saved image
+        completion:
+          flag:
+            output: ["$files"]
+            arch: ["arm64", "amd64"]
+            os: ["linux"]
+
+      - name: tag
+        description: Create a new reference for an existing image
+
+  - name: registry
+    aliases: [r]
+    description: Manage registry logins
+    commands:
+      - name: login
+        description: Log in to a registry
+        flags:
+          --scheme=: Registry scheme
+          --password-stdin: Take the password from stdin
+          --username=: Registry user name
+        completion:
+          flag:
+            scheme: ["http", "https", "auto"]
+
+      - name: logout
+        description: Log out from a registry
+
+      - name: list
+        aliases: [ls]
+        description: List image registry logins
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the registry hostname
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+  - name: network
+    aliases: [n]
+    description: Manage container networks
+    commands:
+      - name: create
+        description: Create a new network
+        flags:
+          --internal: Restrict to host-only network
+          --label=: Set metadata for a network
+          --option=: Set a plugin-specific option (key=value)
+          --plugin=: Set the plugin to use
+          --subnet=: Set subnet for a network
+          --subnet-v6=: Set the IPv6 prefix for a network
+
+      - name: delete
+        aliases: [rm]
+        description: Delete one or more networks
+        flags:
+          --all: Delete all networks
+
+      - name: list
+        aliases: [ls]
+        description: List networks
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the network name
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: inspect
+        description: Display information about one or more networks
+
+      - name: prune
+        description: Remove networks with no container connections
+
+  - name: volume
+    aliases: [v]
+    description: Manage container volumes
+    commands:
+      - name: create
+        description: Create a new volume
+        flags:
+          --label=: Set metadata for a volume
+          --opt=: Set driver specific options
+          -s=: Size of the volume (e.g. 1G, 512M)
+
+      - name: delete
+        aliases: [rm]
+        description: Delete one or more volumes
+        flags:
+          --all: Delete all volumes
+
+      - name: list
+        aliases: [ls]
+        description: List volumes
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the volume name
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: inspect
+        description: Display information about one or more volumes
+
+      - name: prune
+        description: Remove volumes with no container references
+
+  - name: machine
+    aliases: [m]
+    description: Manage container machines
+    commands:
+      - name: create
+        description: Create a new container machine and boot it
+        flags:
+          --arch=: Set architecture
+          --os=: Set OS
+          --platform=: Platform for the image
+          --scheme=: Registry scheme
+          --progress=: Progress type
+          --max-concurrent-downloads=: Maximum number of concurrent downloads
+          --name=: Name for the container machine
+          --set-default: Set this machine as the default
+          --no-boot: Create the machine without booting it
+          --cpus=: Number of virtual CPUs
+          --memory=: Memory allocation (e.g. 2G, 8G)
+          --home-mount=: Home directory mount option
+        completion:
+          flag:
+            scheme: ["http", "https", "auto"]
+            progress: ["auto", "none", "ansi", "plain", "color"]
+            arch: ["arm64", "amd64"]
+            os: ["linux"]
+            home-mount: ["rw\tread-write", "ro\tread-only", "none\tno mount"]
+
+      - name: delete
+        aliases: [rm]
+        description: Delete a container machine
+
+      - name: inspect
+        description: Display detailed information about a container machine
+
+      - name: list
+        aliases: [ls]
+        description: List container machines
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the container machine ID
+        completion:
+          flag:
+            format: ["table", "json"]
+
+      - name: logs
+        description: Fetch container machine logs
+        flags:
+          --boot: Display the boot log instead of stdio
+          --follow: Follow log output
+          -n=: Number of lines to show from the end of the logs
+
+      - name: run
+        description: Run a command or interactive shell in a container machine
+        flags:
+          --env=: Set environment variables (key=value)
+          --env-file=: Read environment variables from a file
+          --gid=: Set the group ID for the process
+          --interactive: Keep stdin open even if not attached
+          --tty: Open a TTY with the process
+          --user=: Set the user for the process
+          --uid=: Set the user ID for the process
+          --workdir=: Set the working directory
+          --cwd=: Set the working directory
+          --ulimit=: Set resource limits
+          --name=: Container machine ID
+          --detach: Run a process and detach from it
+          --root: Run as root instead of matching host user
+
+      - name: set
+        description: Set container machine configuration values
+        flags:
+          --name=: Container machine ID
+
+      - name: set-default
+        description: Set the default container machine
+
+      - name: stop
+        description: Stop a running container machine
+
+  - name: builder
+    description: Manage an image builder instance
+    commands:
+      - name: start
+        description: Start the builder container
+        flags:
+          --cpus=: Number of CPUs to allocate
+          --memory=: Amount of builder memory
+          --dns=: DNS nameserver IP address
+          --dns-domain=: Default DNS domain
+          --dns-option=: DNS options
+          --dns-search=: DNS search domains
+
+      - name: status
+        description: Display the builder container status
+        flags:
+          --format=: Format of the output
+          --quiet: Only output the container ID
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: stop
+        description: Stop the builder container
+
+      - name: delete
+        aliases: [rm]
+        description: Delete the builder container
+        flags:
+          --force: Delete the builder even if it is running
+
+  - name: system
+    aliases: [s]
+    description: Manage system components
+    commands:
+      - name: df
+        description: Show disk usage for images, containers, and volumes
+        flags:
+          --format=: Format of the output
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: dns
+        description: Manage local DNS domains
+        commands:
+          - name: create
+            description: Create a local DNS domain for containers
+          - name: delete
+            aliases: [rm]
+            description: Delete a local DNS domain
+          - name: list
+            aliases: [ls]
+            description: List local DNS domains
+
+      - name: kernel
+        description: Manage the default kernel configuration
+        commands:
+          - name: set
+            description: Set the default kernel
+
+      - name: logs
+        description: Fetch system logs for container services
+        flags:
+          --follow: Follow log output
+          --last=: Fetch logs from the specified time period (e.g. 5m, 1h, 2d)
+
+      - name: property
+        description: Manage system property values
+        commands:
+          - name: list
+            aliases: [ls]
+            description: List system properties
+
+      - name: start
+        description: Start container services
+        flags:
+          --app-root=: Path to the root directory for application data
+          --install-root=: Path to the root directory for executables
+          --log-root=: Path to the root directory for log data
+          --enable-kernel-install: Install the default kernel if missing
+          --disable-kernel-install: Skip kernel installation
+          --timeout=: Seconds to wait for the API service to become responsive
+
+      - name: status
+        description: Show the status of container services
+        flags:
+          --prefix=: Launchd prefix for services
+          --format=: Format of the output
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
+
+      - name: stop
+        description: Stop all container services
+        flags:
+          --prefix=: Launchd prefix for services
+
+      - name: version
+        description: Show version information
+        flags:
+          --format=: Format of the output
+        completion:
+          flag:
+            format: ["table", "json", "yaml", "toml"]
