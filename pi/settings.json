@@ -1,6 +1,6 @@
 {
   "shellPath": "/bin/zsh",
-  "lastChangelogVersion": "0.79.1",
+  "lastChangelogVersion": "0.79.10",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
   "defaultModel": "claude-sonnet-4-6",
@@ -8,6 +8,7 @@
   "packages": [
     "npm:@haispeed/pi-obsidian",
     "npm:pi-mcp-adapter@2.6.1",
-    "npm:@plannotator/pi-extension"
+    "npm:@plannotator/pi-extension",
+    "npm:@mrclrchtr/supi-web"
   ]
 }
