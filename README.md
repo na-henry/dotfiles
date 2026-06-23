@@ -1,42 +1,74 @@
 # dotfiles
 
-Personal macOS development environment configuration focused on terminal-based workflows with vi keybindings and Catppuccin Mocha theming.
+Personal macOS development environment configuration focused on
+terminal-based workflows with vi keybindings and Catppuccin Mocha theming.
 
 ## Overview
 
-This repository contains configurations for a modern, keyboard-driven development setup optimized for productivity and aesthetic consistency. All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
+This repository contains configurations for a modern, keyboard-driven
+development setup optimized for productivity and aesthetic consistency.
+All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
 
 ## Tools & Configurations
 
 ### Terminal & Shell
-- **[Ghostty](https://ghostty.org/)** (`ghostty/`) - Modern, native terminal emulator
-- **[Nushell](https://www.nushell.sh/)** (`nushell/`) - Modern shell with structured data pipelines
-- **[Starship](https://starship.rs/)** (`starship.toml`) - Minimal, fast prompt with Git and language indicators
+
+- **[Ghostty](https://ghostty.org/)** (`ghostty/`) - Modern, native terminal
+  emulator
+- **[Nushell](https://www.nushell.sh/)** (`nushell/`) - Modern shell with
+  structured data pipelines
+- **[Starship](https://starship.rs/)** (`starship.toml`) - Minimal, fast prompt
+  with Git and language indicators
+- **[Zsh](https://www.zsh.org/)** (`zsh/`) - Z shell with fzf-tab completions
+  and custom aliases
+- **[Xonsh](https://xon.sh/)** (`xonsh/`) - Python-powered shell
+- **[Carapace](https://carapace-sh.github.io/carapace-bin/)**
+  (`carapace/`) - Multi-shell completion framework with custom specs
 
 ### Editor & Multiplexers
-- **[Neovim](https://neovim.io/)** (`lazyvim/nvim/`) - Configured with [LazyVim](https://www.lazyvim.org/)
-- **[tmux](https://github.com/tmux/tmux)** (`tmux/`) - Terminal multiplexer with vim keybindings
+
+- **[Neovim](https://neovim.io/)** (`lazyvim/nvim/`) - Configured with
+  [LazyVim](https://www.lazyvim.org/)
+- **[tmux](https://github.com/tmux/tmux)** (`tmux/`) - Terminal multiplexer with
+  vim keybindings
 - **[Zellij](https://zellij.dev/)** (`zellij/`) - Alternative terminal multiplexer
 
 ### File Management
-- **[Yazi](https://yazi-rs.github.io/)** (`yazi/`) - Terminal file manager with lazygit integration
-- **[Lazygit](https://github.com/jesseduffield/lazygit)** (`lazygit/`) - Terminal UI for git, themed to match LazyVim (Tokyo Night)
+
+- **[Yazi](https://yazi-rs.github.io/)** (`yazi/`) - Terminal file manager with
+  lazygit integration
+- **[Lazygit](https://github.com/jesseduffield/lazygit)** (`lazygit/`) - Terminal
+  UI for git, themed to match LazyVim (Tokyo Night)
 
 ### AI / Coding Agents
-- **[pi](https://github.com/earendil-works/pi-mono)** (`pi/`) - Terminal coding agent. Tracks `settings.json` and custom `themes/` (Catppuccin Mocha, Lazygit). `auth.json` and `sessions/` are intentionally excluded.
+
+- **[pi](https://github.com/earendil-works/pi-mono)** (`pi/`) - Terminal coding
+  agent. Tracks `settings.json` and custom `themes/` (Catppuccin Mocha,
+  Lazygit). `auth.json` and `sessions/` are intentionally excluded.
 
 ### macOS System Tools
-- **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** (`aerospace/`) - Tiling window manager for macOS
-- **[Karabiner-Elements](https://karabiner-elements.pqrs.org/)** (`karabiner/`) - Keyboard customization with hyper key layers
+
+- **[AeroSpace](https://github.com/nikitabobko/AeroSpace)** (`aerospace/`) -
+  Tiling window manager for macOS
+- **[Karabiner-Elements](https://karabiner-elements.pqrs.org/)**
+  (`karabiner/`) - Keyboard customization with hyper key layers
+- **[Kanata](https://github.com/jtroo/kanata)** (`kanata/`) - Software keyboard
+  remapper with home-row mods, layers, and chords
+- **[Leader Key](https://www.leaderkey.app/)** (`leader-key/`) -
+  Keyboard-driven launcher for AeroSpace workspace switching
 
 ## Key Features
 
-- **Unified Vi Keybindings** - hjkl navigation across tmux, Neovim, Yazi, and AeroSpace
-- **Catppuccin Mocha Theme** - Consistent color scheme throughout all applications
+- **Unified Vi Keybindings** - hjkl navigation across tmux, Neovim, Yazi, and
+  AeroSpace
+- **Catppuccin Mocha Theme** - Consistent color scheme throughout all
+  applications
 - **Seamless Integration** - Tmux ↔ Neovim navigation, Yazi ↔ Lazygit workflows
-- **Modern Shell Experience** - Nushell with fuzzy search, smart completions, and custom aliases
+- **Modern Shell Experience** - Nushell with fuzzy search, smart completions, and
+  custom aliases
 - **Window Management** - AeroSpace with workspace-specific app assignments
-- **Advanced Keyboard Control** - Karabiner hyper key sublayers for system-wide shortcuts
+- **Advanced Keyboard Control** - Kanata home-row mods and Karabiner hyper
+  key sublayers for system-wide shortcuts
 
 ## Installation
 
@@ -59,18 +91,24 @@ ln -sf ~/dotfiles/yazi ~/.config/yazi
 ln -sf ~/dotfiles/zellij ~/.config/zellij
 ln -sf ~/dotfiles/aerospace ~/.config/aerospace
 ln -sf ~/dotfiles/karabiner ~/.config/karabiner
+ln -sf ~/dotfiles/kanata ~/.config/kanata
+ln -sf ~/dotfiles/carapace ~/.config/carapace
+ln -sf ~/dotfiles/zsh/rc.zsh ~/.config/zsh/rc.zsh
+ln -sf ~/dotfiles/xonsh/rc.xsh ~/.config/xonsh/rc.xsh
 ln -sf ~/dotfiles/starship.toml ~/.config/starship.toml
 
 # pi coding agent (settings + custom themes)
 mkdir -p ~/.pi/agent
-ln -sf ~/dotfiles/pi/settings.json ~/.pi/agent/settings.json
+ln -sf ~/dotfiles/pi/settings.json \
+  ~/.pi/agent/settings.json
 ln -sf ~/dotfiles/pi/themes ~/.pi/agent/themes
 
 # Lazygit reads from ~/Library/Application Support/lazygit on macOS by default.
 # Symlink both locations so it works whether or not XDG_CONFIG_HOME is set.
 mkdir -p ~/.config/lazygit "$HOME/Library/Application Support/lazygit"
 ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml
-ln -sf ~/dotfiles/lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
+ln -sf ~/dotfiles/lazygit/config.yml \
+  "$HOME/Library/Application Support/lazygit/config.yml"
 ```
 
 ### Prerequisites
@@ -78,13 +116,15 @@ ln -sf ~/dotfiles/lazygit/config.yml "$HOME/Library/Application Support/lazygit/
 Install the required tools via [Homebrew](https://brew.sh/):
 
 ```bash
-brew install --cask ghostty karabiner-elements aerospace
-brew install nushell starship neovim tmux zellij yazi lazygit
+brew install --cask ghostty karabiner-elements aerospace leader-key
+brew install nushell starship neovim tmux zellij yazi lazygit \
+  carapace kanata xonsh
 ```
 
 ### Plugin Managers
 
-- **tmux**: Install [TPM](https://github.com/tmux-plugins/tpm) and run `prefix + I` to install plugins
+- **tmux**: Install [TPM](https://github.com/tmux-plugins/tpm) and run
+  `prefix + I` to install plugins
 - **Neovim**: LazyVim will automatically install plugins on first launch
 
 ## Nushell Aliases
