@@ -311,6 +311,18 @@
           "key" : "c",
           "type" : "url",
           "value" : "raycast://extensions/raycast/system/open-camera"
+        },
+        {
+          "key" : "r",
+          "label" : "Raycast Bar",
+          "type" : "url",
+          "value" : "raycast://"
+        },
+        {
+          "key" : "a",
+          "label" : "AI Chat",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/raycast-ai/ai-chat"
         }
       ],
       "key" : "r",
