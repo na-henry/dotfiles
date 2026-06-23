@@ -1,0 +1,414 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: tailscale
+description: The easiest, most secure way to use WireGuard
+persistentflags:
+  --socket=: path to tailscaled socket
+
+commands:
+  - name: up
+    description: Connect to Tailscale, logging in if needed
+    flags:
+      --accept-dns: accept DNS configuration from the admin panel
+      --accept-risk=: accept risk and skip confirmation for risk types
+      --accept-routes: accept routes advertised by other Tailscale nodes
+      --advertise-connector: advertise this node as an app connector
+      --advertise-exit-node: offer to be an exit node for internet traffic
+      --advertise-routes=: routes to advertise to other nodes (comma-separated, e.g. "10.0.0.0/8,192.168.0.0/24")
+      --advertise-tags=: comma-separated ACL tags to request (e.g. "tag:eng,tag:montreal")
+      --audience=: audience used when requesting an ID token from an identity provider
+      --auth-key=: node authorization key
+      --client-id=: client ID used to generate authkeys via workload identity federation
+      --client-secret=: client secret used to generate authkeys via OAuth
+      --exit-node=: Tailscale exit node (IP, base name, or auto:any) for internet traffic
+      --exit-node-allow-lan-access: allow direct access to the local network when routing via an exit node
+      --force-reauth: force reauthentication
+      --hostname=: hostname to use instead of the one provided by the OS
+      --id-token=: ID token from the identity provider for workload identity federation
+      --json: output in JSON format
+      --login-server=: base URL of control server
+      --operator=: Unix username to allow to operate on tailscaled without sudo
+      --qr: show QR code for login URLs
+      --qr-format=: QR code formatting
+      --report-posture: allow management plane to gather device posture information
+      --reset: reset unspecified settings to their default values
+      --shields-up: don't allow incoming connections
+      --ssh: run an SSH server, permitting access per tailnet admin's declared policy
+      --timeout=: maximum amount of time to wait for tailscaled to enter a Running state
+    completion:
+      flag:
+        accept-risk: ["lose-ssh\taccept risk of losing SSH access", "mac-app-connector\taccept risk for mac app connector", "all\taccept all risks"]
+        qr-format: ["auto", "ascii", "large", "small"]
+
+  - name: down
+    description: Disconnect from Tailscale
+    flags:
+      --accept-risk=: accept risk and skip confirmation for risk types
+      --reason=: reason for the disconnect, if required by a policy
+    completion:
+      flag:
+        accept-risk: ["lose-ssh\taccept risk of losing SSH access", "mac-app-connector\taccept risk for mac app connector", "all\taccept all risks"]
+
+  - name: set
+    description: Change specified preferences
+    flags:
+      --accept-dns: accept DNS configuration from the admin panel
+      --accept-risk=: accept risk and skip confirmation for risk types
+      --accept-routes: accept routes advertised by other Tailscale nodes
+      --advertise-connector: offer to be an app connector for domain specific internet traffic
+      --advertise-exit-node: offer to be an exit node for internet traffic
+      --advertise-routes=: routes to advertise to other nodes (comma-separated)
+      --auto-update: automatically update to the latest available version
+      --exit-node=: Tailscale exit node (IP, base name, or auto:any) for internet traffic
+      --exit-node-allow-lan-access: allow direct access to the local network when routing via an exit node
+      --hostname=: hostname to use instead of the one provided by the OS
+      --nickname=: nickname for the current account
+      --operator=: Unix username to allow to operate on tailscaled without sudo
+      --relay-server-port=: UDP port for the relay server to bind to
+      --relay-server-static-endpoints=: static IP:port endpoints to advertise for relay connections (comma-separated)
+    completion:
+      flag:
+        accept-risk: ["lose-ssh\taccept risk of losing SSH access", "mac-app-connector\taccept risk for mac app connector", "all\taccept all risks"]
+
+  - name: login
+    description: Log in to a Tailscale account
+    flags:
+      --accept-dns: accept DNS configuration from the admin panel
+      --accept-routes: accept routes advertised by other Tailscale nodes
+      --advertise-connector: advertise this node as an app connector
+      --advertise-exit-node: offer to be an exit node for internet traffic
+      --advertise-routes=: routes to advertise to other nodes (comma-separated)
+      --advertise-tags=: comma-separated ACL tags to request
+      --audience=: audience used when requesting an ID token from an identity provider
+      --auth-key=: node authorization key
+      --client-id=: client ID for workload identity federation
+      --client-secret=: client secret for OAuth workload identity federation
+      --exit-node=: Tailscale exit node for internet traffic
+      --exit-node-allow-lan-access: allow direct access to the local network when routing via an exit node
+      --hostname=: hostname to use instead of the one provided by the OS
+      --id-token=: ID token from the identity provider
+      --login-server=: base URL of control server
+      --nickname=: short name for the account
+      --operator=: Unix username to allow to operate on tailscaled without sudo
+      --qr: show QR code for login URLs
+      --qr-format=: QR code formatting
+      --report-posture: allow management plane to gather device posture information
+      --shields-up: don't allow incoming connections
+      --ssh: run an SSH server
+      --timeout=: maximum amount of time to wait for tailscaled to enter a Running state
+    completion:
+      flag:
+        qr-format: ["auto", "ascii", "large", "small"]
+
+  - name: logout
+    description: Disconnect from Tailscale and expire current node key
+
+  - name: switch
+    description: Switch to a different Tailscale account
+    flags:
+      --json: list available accounts in JSON format
+      --list: list available accounts
+    commands:
+      - name: remove
+        description: Remove a Tailscale account
+
+  - name: configure
+    description: Configure the host to enable more Tailscale features
+    commands:
+      - name: kubeconfig
+        description: "[ALPHA] Connect to a Kubernetes cluster using a Tailscale Auth Proxy"
+      - name: sysext
+        description: Manage the system extension for macOS (Standalone variant)
+      - name: mac-vpn
+        description: Manage the VPN configuration on macOS (App Store and Standalone variants)
+
+  - name: syspolicy
+    description: Diagnose the MDM and system policy configuration
+    commands:
+      - name: list
+        description: Print effective policy settings
+      - name: reload
+        description: Force a reload of policy settings
+
+  - name: netcheck
+    description: Print an analysis of local network conditions
+    flags:
+      --bind-address=: send and receive connectivity probes using this locally bound IP address
+      --bind-port=: send and receive connectivity probes using this UDP port
+      --every=: do an incremental report with the given frequency
+      --format=: output format
+      --verbose: verbose logs
+    completion:
+      flag:
+        format: ["json\tJSON format", "json-line\tnewline-delimited JSON"]
+
+  - name: ip
+    description: Show Tailscale IP addresses
+    flags:
+      --1: only print one IP address
+      --4: only print IPv4 address
+      --6: only print IPv6 address
+      --assert=: assert that one of the node's IPs matches this IP address
+
+  - name: dns
+    description: Diagnose the internal DNS forwarder
+    commands:
+      - name: status
+        description: Print the current DNS status and configuration
+        flags:
+          --all: show all DNS configuration
+          --json: output in JSON format
+      - name: query
+        description: Perform a DNS query
+        flags:
+          --json: output in JSON format
+
+  - name: status
+    description: Show state of tailscaled and its connections
+    flags:
+      --active: filter output to only peers with active sessions
+      --browser: open a browser in web mode
+      --header: show column headers in table format
+      --json: output in JSON format
+      --listen=: listen address for web mode; use port 0 for automatic
+      --peers: show status of peers
+      --self: show status of local machine
+      --web: run webserver with HTML showing status
+
+  - name: metrics
+    description: Show Tailscale metrics
+    commands:
+      - name: print
+        description: Print current metric values in Prometheus text format
+      - name: write
+        description: Write metric values to a file
+        completion:
+          positional:
+            - ["$files"]
+
+  - name: ping
+    description: Ping a host at the Tailscale layer, see how it routed
+    flags:
+      --c=: max number of pings to send (0 for infinity)
+      --icmp: do an ICMP-level ping through WireGuard
+      --peerapi: try hitting the peer's peerapi HTTP server
+      --size=: size of the ping message (disco pings only)
+      --timeout=: timeout before giving up on a ping
+      --tsmp: do a TSMP-level ping through WireGuard
+      --until-direct: stop once a direct path is established
+      --verbose: verbose output
+
+  - name: nc
+    description: Connect to a port on a host, connected to stdin/stdout
+
+  - name: ssh
+    description: SSH to a Tailscale machine
+
+  - name: funnel
+    description: Serve content and local servers on the internet
+    flags:
+      --bg: run the command as a background process
+      --https=: expose an HTTPS server at the specified port
+      --proxy-protocol=: PROXY protocol version (1 or 2) for TCP forwarding
+      --set-path=: append the specified path to the base URL for accessing the underlying service
+      --tcp=: expose a TCP forwarder to forward raw TCP packets at the specified port
+      --tls-terminated-tcp=: expose a TCP forwarder to forward TLS-terminated TCP packets at the specified port
+      --yes: update without interactive prompts
+    completion:
+      flag:
+        proxy-protocol: ["1\tPROXY protocol version 1", "2\tPROXY protocol version 2"]
+    commands:
+      - name: status
+        description: View current funnel configuration
+        flags:
+          --json: output in JSON format
+      - name: reset
+        description: Reset current funnel config
+
+  - name: serve
+    description: Serve content and local servers on your tailnet
+    flags:
+      --accept-app-caps=: app capabilities to forward to the server (comma-separated)
+      --bg: run the command as a background process
+      --http=: expose an HTTP server at the specified port
+      --https=: expose an HTTPS server at the specified port
+      --proxy-protocol=: PROXY protocol version (1 or 2) for TCP forwarding
+      --service=: serve for a service with distinct virtual IP instead of the node itself
+      --set-path=: append the specified path to the base URL for accessing the underlying service
+      --tcp=: expose a TCP forwarder to forward raw TCP packets at the specified port
+      --tls-terminated-tcp=: expose a TCP forwarder to forward TLS-terminated TCP packets at the specified port
+      --tun: forward all traffic to the local machine (only supported for services)
+      --yes: update without interactive prompts
+    completion:
+      flag:
+        proxy-protocol: ["1\tPROXY protocol version 1", "2\tPROXY protocol version 2"]
+    commands:
+      - name: status
+        description: View current serve configuration
+        flags:
+          --json: output in JSON format
+      - name: reset
+        description: Reset current serve config
+      - name: drain
+        description: Drain a service from the current node
+      - name: clear
+        description: Remove all config for a service
+      - name: advertise
+        description: Advertise this node as a service proxy to the tailnet
+      - name: get-config
+        description: Get service configuration to save to a file
+        flags:
+          --all: read config from all services
+          --service=: read config from a particular service
+        completion:
+          positional:
+            - ["$files"]
+      - name: set-config
+        description: Define service configuration from a file
+        flags:
+          --all: apply config to all services
+          --service=: apply config to a particular service
+        completion:
+          positional:
+            - ["$files"]
+
+  - name: version
+    description: Print Tailscale version
+
+  - name: web
+    description: Run a web server for controlling Tailscale
+    flags:
+      --cgi: run as CGI script
+      --listen=: listen address; use port 0 for automatic
+      --origin=: origin at which the web UI is served (if behind a reverse proxy or used with cgi)
+      --prefix=: URL prefix added to requests (for cgi or reverse proxies)
+      --readonly: run web UI in read-only mode
+
+  - name: file
+    description: Send or receive files
+    commands:
+      - name: cp
+        description: Copy file(s) to a host
+        flags:
+          --name=: alternate filename to use, especially useful when file is stdin (-)
+          --targets: list possible file cp targets
+          --update-interval=: how often to repaint the progress line
+          --verbose: verbose output
+        completion:
+          positional:
+            - ["$files"]
+      - name: get
+        description: Move files out of the Tailscale file inbox
+        flags:
+          --conflict=: behavior when a conflicting file already exists in the target directory
+          --loop: run get in a loop, receiving files as they come in
+          --verbose: verbose output
+          --wait: wait for a file to arrive if inbox is empty
+        completion:
+          flag:
+            conflict: ["skip\tleave conflicting files in inbox", "overwrite\toverwrite existing file", "rename\twrite to a new number-suffixed filename"]
+          positional:
+            - ["$directories"]
+
+  - name: bugreport
+    description: Print a shareable identifier to help diagnose issues
+
+  - name: cert
+    description: Get TLS certs
+    flags:
+      --cert-file=: output cert file or "-" for stdout
+      --key-file=: output key file or "-" for stdout
+      --min-validity=: ensure the certificate is valid for at least this duration
+      --serve-demo: serve on port :443 using the cert as a demo instead of writing files to disk
+
+  - name: lock
+    description: Manage tailnet lock
+    commands:
+      - name: init
+        description: Initialize tailnet lock
+        flags:
+          --confirm: do not prompt for confirmation
+          --gen-disablement-for-support: generate and transmit a disablement secret for Tailscale support
+          --gen-disablements=: number of disablement secrets to generate
+      - name: status
+        description: Output the state of tailnet lock
+      - name: add
+        description: Add one or more trusted signing keys to tailnet lock
+      - name: remove
+        description: Remove one or more trusted signing keys from tailnet lock
+      - name: sign
+        description: Sign a node or pre-approved auth key
+      - name: disable
+        description: Consume a disablement secret to shut down tailnet lock for the tailnet
+      - name: disablement-kdf
+        description: Compute a disablement value from a disablement secret (advanced users only)
+      - name: log
+        description: List changes applied to tailnet lock
+        flags:
+          --json: output in JSON format
+          --limit=: max number of updates to list
+      - name: local-disable
+        description: Disable tailnet lock for this node only
+      - name: revoke-keys
+        description: Revoke compromised tailnet-lock keys
+
+  - name: licenses
+    description: Get open source license information
+
+  - name: exit-node
+    description: Show machines on your tailnet configured as exit nodes
+    commands:
+      - name: list
+        description: Show exit nodes
+        flags:
+          --filter=: filter exit nodes by country
+      - name: suggest
+        description: Suggest the best available exit node
+
+  - name: update
+    description: Update Tailscale to the latest/different version
+    flags:
+      --dry-run: print what update would do without doing it
+      --yes: update without interactive prompts
+
+  - name: whois
+    description: Show the machine and user associated with a Tailscale IP (v4 or v6)
+    flags:
+      --json: output in JSON format
+      --proto=: protocol to use
+    completion:
+      flag:
+        proto: ["tcp", "udp"]
+
+  - name: drive
+    description: Share a directory with your tailnet
+    commands:
+      - name: share
+        description: "[ALPHA] Create or modify a share"
+        completion:
+          positional:
+            - []
+            - ["$directories"]
+      - name: rename
+        description: "[ALPHA] Rename a share"
+      - name: unshare
+        description: "[ALPHA] Remove a share"
+      - name: list
+        description: "[ALPHA] List current shares"
+
+  - name: appc-routes
+    description: Print the current app connector routes
+    flags:
+      --all: print learned domains, routes and extra policy configured routes
+      --map: print the map of learned domains to routes
+      --n: print the total number of routes this node advertises
+
+  - name: wait
+    description: Wait for Tailscale interface/IPs to be ready for binding
+    flags:
+      --timeout=: how long to wait before giving up (0 means wait indefinitely)
+
+  - name: completion
+    description: Shell tab-completion scripts
+    completion:
+      positional:
+        - ["bash", "zsh", "fish", "powershell"]
