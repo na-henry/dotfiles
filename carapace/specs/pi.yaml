@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pi
+description: AI coding assistant with read, bash, edit, write tools
+flags:
+  --provider=: provider name
+  --model=: model pattern or ID (supports "provider/id" and optional ":thinking")
+  --api-key=: API key
+  --system-prompt=: system prompt
+  --append-system-prompt=: append text or file contents to the system prompt
+  --mode=: output mode
+  -p, --print: non-interactive mode, process prompt and exit
+  -c, --continue: continue previous session
+  -r, --resume: select a session to resume
+  --session=: use specific session file or partial UUID
+  --session-id=: use exact project session ID, creating it if missing
+  --fork=: fork specific session file or partial UUID into a new session
+  --session-dir=: directory for session storage and lookup
+  --no-session: don't save session (ephemeral)
+  -n, --name=: set session display name
+  --models=: comma-separated model patterns for Ctrl+P cycling
+  --no-tools: disable all tools by default
+  --no-builtin-tools: disable built-in tools but keep extension/custom tools
+  -t, --tools=: comma-separated allowlist of tool names to enable
+  --exclude-tools=: comma-separated denylist of tool names to disable
+  --thinking=: set thinking level
+  -e, --extension=: load an extension file
+  --no-extensions: disable extension discovery
+  --skill=: load a skill file or directory
+  --no-skills: disable skills discovery and loading
+  --prompt-template=: load a prompt template file or directory
+  --no-prompt-templates: disable prompt template discovery and loading
+  --theme=: load a theme file or directory
+  --no-themes: disable theme discovery and loading
+  --no-context-files: disable AGENTS.md and CLAUDE.md discovery
+  --export=: export session file to HTML and exit
+  --list-models?: list available models (with optional fuzzy search)
+  --verbose: force verbose startup
+  -a, --approve: trust project-local files for this run
+  --no-approve: ignore project-local files for this run
+  --offline: disable startup network operations
+  -h, --help: show help
+  -v, --version: show version number
+completion:
+  flag:
+    mode: ["json", "rpc", "text"]
+    thinking: ["high", "low", "medium", "minimal", "off", "xhigh"]
+    tools: ["$list(,)", "bash", "edit", "find", "grep", "ls", "read", "write"]
+    exclude-tools: ["$list(,)", "bash", "edit", "find", "grep", "ls", "read", "write"]
+    export: ["$files"]
+    extension: ["$files"]
+    skill: ["$files", "$directories"]
+    prompt-template: ["$files", "$directories"]
+    theme: ["$files", "$directories"]
+    session: ["$files"]
+    fork: ["$files"]
+    session-dir: ["$directories"]
+
+commands:
+  - name: install
+    description: Install a package and add it to settings
+    flags:
+      -l, --local: install project-locally (.pi/settings.json)
+      -a, --approve: trust project-local files for this command
+      --no-approve: ignore project-local files for this command
+
+  - name: remove
+    description: Remove a package source from settings
+    flags:
+      -l, --local: remove project-locally (.pi/settings.json)
+      -a, --approve: trust project-local files for this command
+      --no-approve: ignore project-local files for this command
+
+  - name: uninstall
+    description: Alias for remove
+    flags:
+      -l, --local: remove project-locally (.pi/settings.json)
+      -a, --approve: trust project-local files for this command
+      --no-approve: ignore project-local files for this command
+
+  - name: update
+    description: Update pi and installed packages
+    flags:
+      --self: update pi only
+      --extensions: update installed packages only
+      --all: update pi and installed packages
+      --extension=: update one package only
+      -a, --approve: trust project-local files for this command
+      --no-approve: ignore project-local files for this command
+      --force: reinstall pi even if the current version is latest
+    completion:
+      positional:
+        - ["pi", "self"]
+
+  - name: list
+    description: List installed packages from user and project settings
+    flags:
+      -a, --approve: trust project-local files for this command
+      --no-approve: ignore project-local files for this command
+
+  - name: config
+    description: Open TUI to enable/disable package resources
