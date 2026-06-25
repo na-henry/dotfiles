@@ -6,126 +6,151 @@
           "actions" : [
             {
               "key" : "e",
+              "label" : "Focus E",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace E"
             },
             {
               "key" : "a",
+              "label" : "Focus A",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace A"
             },
             {
               "key" : "s",
+              "label" : "Focus S",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace S"
             },
             {
               "key" : "d",
+              "label" : "Focus D",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace D"
             },
             {
               "key" : "r",
+              "label" : "Focus R",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace R"
             },
             {
               "key" : "q",
+              "label" : "Focus Q",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace Q"
             },
             {
               "key" : "w",
+              "label" : "Focus W",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace W"
             },
             {
               "key" : "z",
+              "label" : "Focus Z",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace Z"
             },
             {
               "key" : "t",
+              "label" : "Focus T",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace T"
             },
             {
               "key" : "y",
+              "label" : "Focus Y",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace Y"
             },
             {
               "key" : "u",
+              "label" : "Focus U",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace U"
             },
             {
               "key" : "i",
+              "label" : "Focus I",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace I"
             },
             {
               "key" : "o",
+              "label" : "Focus O",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace O"
             },
             {
               "key" : "p",
+              "label" : "Focus P",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace P"
             },
             {
               "key" : "f",
+              "label" : "Focus F",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace F"
             },
             {
               "key" : "g",
+              "label" : "Focus G",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace G"
             },
             {
               "key" : "h",
+              "label" : "Focus H",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace H"
             },
             {
               "key" : "k",
+              "label" : "Focus K",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace K"
             },
             {
               "key" : "l",
+              "label" : "Focus L",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace L"
             },
             {
               "key" : "x",
+              "label" : "Focus X",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace X"
             },
             {
               "key" : "c",
+              "label" : "Focus C",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace C"
             },
             {
               "key" : "v",
+              "label" : "Focus V",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace V"
             },
             {
               "key" : "b",
+              "label" : "Focus B",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace B"
             },
             {
               "key" : "n",
+              "label" : "Focus N",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace N"
             },
             {
               "key" : "m",
+              "label" : "Focus M",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace workspace M"
             }
@@ -138,126 +163,151 @@
           "actions" : [
             {
               "key" : "e",
+              "label" : "Summon E",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace E"
             },
             {
               "key" : "a",
+              "label" : "Summon A",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace A"
             },
             {
               "key" : "s",
+              "label" : "Summon S",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace S"
             },
             {
               "key" : "d",
+              "label" : "Summon D",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace D"
             },
             {
               "key" : "r",
+              "label" : "Summon R",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace R"
             },
             {
               "key" : "q",
+              "label" : "Summon Q",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace Q"
             },
             {
               "key" : "w",
+              "label" : "Summon W",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace W"
             },
             {
               "key" : "z",
+              "label" : "Summon Z",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace Z"
             },
             {
               "key" : "t",
+              "label" : "Summon T",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace T"
             },
             {
               "key" : "y",
+              "label" : "Summon Y",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace Y"
             },
             {
               "key" : "u",
+              "label" : "Summon U",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace U"
             },
             {
               "key" : "i",
+              "label" : "Summon I",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace I"
             },
             {
               "key" : "o",
+              "label" : "Summon O",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace O"
             },
             {
               "key" : "p",
+              "label" : "Summon P",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace P"
             },
             {
               "key" : "f",
+              "label" : "Summon F",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace F"
             },
             {
               "key" : "g",
+              "label" : "Summon G",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace G"
             },
             {
               "key" : "h",
+              "label" : "Summon H",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace H"
             },
             {
               "key" : "k",
+              "label" : "Summon K",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace K"
             },
             {
               "key" : "l",
+              "label" : "Summon L",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace L"
             },
             {
               "key" : "x",
+              "label" : "Summon X",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace X"
             },
             {
               "key" : "c",
+              "label" : "Summon C",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace C"
             },
             {
               "key" : "v",
+              "label" : "Summon V",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace V"
             },
             {
               "key" : "b",
+              "label" : "Summon B",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace B"
             },
             {
               "key" : "n",
+              "label" : "Summon N",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace N"
             },
             {
               "key" : "m",
+              "label" : "Summon M",
               "type" : "command",
               "value" : "/opt/homebrew/bin/aerospace summon-workspace M"
             }
@@ -267,9 +317,167 @@
           "type" : "group"
         },
         {
-          "key" : "tab",
-          "type" : "command",
-          "value" : "/opt/homebrew/bin/aerospace move-workspace-to-monitor --wrap-around next"
+          "actions" : [
+            {
+              "key" : "e",
+              "label" : "Move to E",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace E"
+            },
+            {
+              "key" : "a",
+              "label" : "Move to A",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace A"
+            },
+            {
+              "key" : "s",
+              "label" : "Move to S",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace S"
+            },
+            {
+              "key" : "d",
+              "label" : "Move to D",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace D"
+            },
+            {
+              "key" : "r",
+              "label" : "Move to R",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace R"
+            },
+            {
+              "key" : "q",
+              "label" : "Move to Q",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace Q"
+            },
+            {
+              "key" : "w",
+              "label" : "Move to W",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace W"
+            },
+            {
+              "key" : "z",
+              "label" : "Move to Z",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace Z"
+            },
+            {
+              "key" : "t",
+              "label" : "Move to T",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace T"
+            },
+            {
+              "key" : "y",
+              "label" : "Move to Y",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace Y"
+            },
+            {
+              "key" : "u",
+              "label" : "Move to U",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace U"
+            },
+            {
+              "key" : "i",
+              "label" : "Move to I",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace I"
+            },
+            {
+              "key" : "o",
+              "label" : "Move to O",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace O"
+            },
+            {
+              "key" : "p",
+              "label" : "Move to P",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace P"
+            },
+            {
+              "key" : "f",
+              "label" : "Move to F",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace F"
+            },
+            {
+              "key" : "g",
+              "label" : "Move to G",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace G"
+            },
+            {
+              "key" : "h",
+              "label" : "Move to H",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace H"
+            },
+            {
+              "key" : "k",
+              "label" : "Move to K",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace K"
+            },
+            {
+              "key" : "l",
+              "label" : "Move to L",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace L"
+            },
+            {
+              "key" : "x",
+              "label" : "Move to X",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace X"
+            },
+            {
+              "key" : "c",
+              "label" : "Move to C",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace C"
+            },
+            {
+              "key" : "v",
+              "label" : "Move to V",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace V"
+            },
+            {
+              "key" : "b",
+              "label" : "Move to B",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace B"
+            },
+            {
+              "key" : "n",
+              "label" : "Move to N",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace N"
+            },
+            {
+              "key" : "m",
+              "label" : "Move to M",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-node-to-workspace M"
+            },
+            {
+              "key" : "tab",
+              "label" : "Move to next monitor",
+              "type" : "command",
+              "value" : "/opt/homebrew/bin/aerospace move-workspace-to-monitor --wrap-around next"
+            }
+          ],
+          "key" : "m",
+          "label" : "Move",
+          "type" : "group"
         }
       ],
       "key" : "w",
