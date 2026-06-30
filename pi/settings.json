@@ -1,14 +1,15 @@
 {
   "shellPath": "/bin/zsh",
-  "lastChangelogVersion": "0.80.1",
+  "lastChangelogVersion": "0.80.2",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
   "defaultModel": "claude-sonnet-4-6",
   "defaultThinkingLevel": "medium",
   "packages": [
-    "npm:@haispeed/pi-obsidian",
     "npm:pi-mcp-adapter@2.6.1",
-    "npm:@plannotator/pi-extension",
-    "npm:@mrclrchtr/supi-web"
+    "npm:@plannotator/pi-extension"
+  ],
+  "skills": [
+    "+skills/create-jira-ticket/SKILL.md"
   ]
 }
