@@ -571,6 +571,12 @@
           "label": "Messages",
           "type": "command",
           "value": "/Users/nathan/.local/bin/focus-app /System/Applications/Messages.app"
+        },
+        {
+          "key": "g",
+          "label": "GeForce NOW",
+          "type": "command",
+          "value": "/Users/nathan/.local/bin/focus-app /Applications/GeForceNOW.app"
         }
       ],
       "key": "a",
