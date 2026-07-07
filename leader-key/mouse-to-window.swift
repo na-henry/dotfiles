@@ -3,8 +3,14 @@ import ApplicationServices
 import CoreGraphics
 import Foundation
 
+// If an app path was passed, open it first.
+if CommandLine.arguments.count > 1 {
+    let appURL = URL(fileURLWithPath: CommandLine.arguments[1])
+    NSWorkspace.shared.open(appURL)
+}
+
 // Poll until the frontmost app has a focused window (up to ~1 second).
-// This is needed because `open` returns before the window is actually focused.
+// This is needed because open() returns before the window is actually focused.
 func focusedWindow() -> AXUIElement? {
     for _ in 0 ..< 20 {
         if let app = NSRunningApplication.runningApplications(

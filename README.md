@@ -56,8 +56,8 @@ All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
   remapper with home-row mods, layers, and chords
 - **[Leader Key](https://www.leaderkey.app/)** (`leader-key/`) -
   Keyboard-driven app switcher that also warps the mouse cursor to
-  the focused window. Includes `focus-app` (shell wrapper) and
-  `mouse-to-window.swift` (Swift binary using the AX API)
+  the focused window. Includes `mouse-to-window.swift` (Swift binary
+  using the AX API) which opens an app and moves the cursor in one call
 
 ## Key Features
 
@@ -121,7 +121,6 @@ ln -sf ~/dotfiles/lazygit/config.yml \
 mkdir -p "$HOME/Library/Application Support/leaderkey" ~/.local/bin
 ln -sf ~/dotfiles/leader-key/config.json \
   "$HOME/Library/Application Support/leaderkey/config.json"
-ln -sf ~/dotfiles/leader-key/focus-app ~/.local/bin/focus-app
 swiftc ~/dotfiles/leader-key/mouse-to-window.swift \
   -o ~/.local/bin/mouse-to-window
 ```

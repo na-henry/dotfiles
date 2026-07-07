@@ -498,13 +498,13 @@
               "key": "s",
               "label": "Safari",
               "type": "command",
-              "value": "/Users/nathan/.local/bin/focus-app /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+              "value": "/Users/nathan/.local/bin/mouse-to-window /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
             },
             {
               "key": "z",
               "label": "Zen",
               "type": "command",
-              "value": "/Users/nathan/.local/bin/focus-app /Applications/Zen.app"
+              "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
             }
           ],
           "key": "b",
@@ -517,13 +517,13 @@
               "key": "w",
               "label": "Notes",
               "type": "command",
-              "value": "/Users/nathan/.local/bin/focus-app /System/Applications/Notes.app"
+              "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Notes.app"
             },
             {
               "key": "n",
               "label": "Notion",
               "type": "command",
-              "value": "/Users/nathan/.local/bin/focus-app /Applications/Notion.app"
+              "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Notion.app"
             }
           ],
           "key": "w",
@@ -534,49 +534,49 @@
           "key": "a",
           "label": "Zen",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /Applications/Zen.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
         },
         {
           "key": "s",
           "label": "Slack",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /Applications/Slack.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Slack.app"
         },
         {
           "key": "x",
           "label": "Spotify",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /Applications/Spotify.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Spotify.app"
         },
         {
           "key": "e",
           "label": "Ghostty",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /Applications/Ghostty.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Ghostty.app"
         },
         {
           "key": "q",
           "label": "Mail",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /System/Applications/Mail.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Mail.app"
         },
         {
           "key": "f",
           "label": "Finder",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /System/Library/CoreServices/Finder.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Library/CoreServices/Finder.app"
         },
         {
           "key": "m",
           "label": "Messages",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /System/Applications/Messages.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Messages.app"
         },
         {
           "key": "g",
           "label": "GeForce NOW",
           "type": "command",
-          "value": "/Users/nathan/.local/bin/focus-app /Applications/GeForceNOW.app"
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/GeForceNOW.app"
         }
       ],
       "key": "a",
