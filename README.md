@@ -55,7 +55,9 @@ All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
 - **[Kanata](https://github.com/jtroo/kanata)** (`kanata/`) - Software keyboard
   remapper with home-row mods, layers, and chords
 - **[Leader Key](https://www.leaderkey.app/)** (`leader-key/`) -
-  Keyboard-driven launcher for AeroSpace workspace switching
+  Keyboard-driven app switcher that also warps the mouse cursor to
+  the focused window. Includes `focus-app` (shell wrapper) and
+  `mouse-to-window.swift` (Swift binary using the AX API)
 
 ## Key Features
 
@@ -114,6 +116,14 @@ mkdir -p ~/.config/lazygit "$HOME/Library/Application Support/lazygit"
 ln -sf ~/dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml
 ln -sf ~/dotfiles/lazygit/config.yml \
   "$HOME/Library/Application Support/lazygit/config.yml"
+
+# Leader Key — symlink config and build the mouse-to-window binary
+mkdir -p "$HOME/Library/Application Support/leaderkey" ~/.local/bin
+ln -sf ~/dotfiles/leader-key/config.json \
+  "$HOME/Library/Application Support/leaderkey/config.json"
+ln -sf ~/dotfiles/leader-key/focus-app ~/.local/bin/focus-app
+swiftc ~/dotfiles/leader-key/mouse-to-window.swift \
+  -o ~/.local/bin/mouse-to-window
 ```
 
 ### Prerequisites
