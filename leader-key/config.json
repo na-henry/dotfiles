@@ -1,6 +1,12 @@
 {
   "actions" : [
     {
+      "key" : "space",
+      "label" : "Raycast Bar",
+      "type" : "url",
+      "value" : "raycast://"
+    },
+    {
       "actions" : [
         {
           "actions" : [
@@ -487,14 +493,88 @@
     {
       "actions" : [
         {
-          "key" : "r",
-          "label" : "Reload Config",
-          "type" : "command",
-          "value" : "/opt/homebrew/bin/aerospace reload-config"
+          "actions" : [
+            {
+              "key" : "s",
+              "label" : "Safari",
+              "type" : "application",
+              "value" : "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+            },
+            {
+              "key" : "z",
+              "label" : "Zen",
+              "type" : "application",
+              "value" : "/Applications/Zen.app"
+            }
+          ],
+          "key" : "b",
+          "label" : "Browser",
+          "type" : "group"
+        },
+        {
+          "actions" : [
+            {
+              "key" : "w",
+              "label" : "Notes",
+              "type" : "application",
+              "value" : "/System/Applications/Notes.app"
+            },
+            {
+              "key" : "n",
+              "label" : "Notion",
+              "type" : "application",
+              "value" : "/Applications/Notion.app"
+            }
+          ],
+          "key" : "w",
+          "label" : "Notes",
+          "type" : "group"
+        },
+        {
+          "key" : "a",
+          "label" : "Zen",
+          "type" : "application",
+          "value" : "/Applications/Zen.app"
+        },
+        {
+          "key" : "s",
+          "label" : "Slack",
+          "type" : "application",
+          "value" : "/Applications/Slack.app"
+        },
+        {
+          "key" : "x",
+          "label" : "Spotify",
+          "type" : "application",
+          "value" : "/Applications/Spotify.app"
+        },
+        {
+          "key" : "e",
+          "label" : "Ghostty",
+          "type" : "application",
+          "value" : "/Applications/Ghostty.app"
+        },
+        {
+          "key" : "q",
+          "label" : "Mail",
+          "type" : "application",
+          "value" : "/System/Applications/Mail.app"
+        },
+        {
+          "key" : "f",
+          "label" : "Finder",
+          "type" : "application",
+          "value" : "/System/Library/CoreServices/Finder.app"
+        },
+        {
+          "key" : "m",
+          "label" : "Messages",
+          "type" : "application",
+          "value" : "/System/Applications/Messages.app"
         }
       ],
       "key" : "a",
-      "label" : "Aerospace",
+      "label" : "Applications",
       "type" : "group"
     },
     {
@@ -550,6 +630,12 @@
           "label" : "Reload Config",
           "type" : "url",
           "value" : "leaderkey://config-reload"
+        },
+        {
+          "key" : "a",
+          "label" : "Reload Config",
+          "type" : "command",
+          "value" : "/opt/homebrew/bin/aerospace reload-config"
         }
       ],
       "key" : "s",
