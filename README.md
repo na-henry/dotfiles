@@ -56,8 +56,10 @@ All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
   remapper with home-row mods, layers, and chords
 - **[Leader Key](https://www.leaderkey.app/)** (`leader-key/`) -
   Keyboard-driven app switcher that also warps the mouse cursor to
-  the focused window. Includes `mouse-to-window.swift` (Swift binary
-  using the AX API) which opens an app and moves the cursor in one call
+  the focused window. Includes `mouse-to-window.swift` (opens an app
+  and moves the cursor to its center) and `resize-window.swift` (snaps
+  the focused window to named presets or explicit dimensions), both
+  Swift binaries using the AX API
 
 ## Key Features
 
