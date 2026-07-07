@@ -94,15 +94,4 @@ if let v = AXValueCreate(.cgPoint, &pos) {
     AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, v)
 }
 
-// Replace this process with resize-window maximize.
-// exec preserves the OS-level context (frontmost app, timing) so that
-// resize-window sees the window exactly as it was just teleported.
-let resizePath = "/Users/nathan/.local/bin/resize-window"
-var argv: [UnsafeMutablePointer<CChar>?] = [
-    strdup(resizePath),
-    strdup("maximize"),
-    nil
-]
-execv(resizePath, &argv)
-fputs("move-to-screen: exec resize-window failed\n", stderr)
-exit(1)
+
