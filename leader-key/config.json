@@ -144,6 +144,12 @@
           "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Messages.app"
         },
         {
+          "key": "c",
+          "label": "Calendar",
+          "type": "command",
+          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Calendar.app"
+        },
+        {
           "key": "g",
           "label": "GeForce NOW",
           "type": "command",
