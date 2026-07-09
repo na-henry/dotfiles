@@ -3,8 +3,8 @@
     {
       "key": "space",
       "label": "Raycast Bar",
-      "type": "url",
-      "value": "raycast://"
+      "type": "command",
+      "value": "open -a 'Raycast Beta'"
     },
     {
       "key": "w",
@@ -55,9 +55,9 @@
         },
         {
           "key": "m",
-          "label": "Move to Screen",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/move-to-screen"
+          "label": "Move to Next Display",
+          "type": "url",
+          "value": "raycast-x://extensions/raycast/window-management/move-to-next-display"
         }
       ]
     },
@@ -154,6 +154,12 @@
           "label": "GeForce NOW",
           "type": "command",
           "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/GeForceNOW.app"
+        },
+        {
+          "key": "d",
+          "label": "Discord",
+          "type": "command",
+          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Discord.app"
         }
       ],
       "key": "a",
@@ -165,35 +171,35 @@
         {
           "key": "e",
           "type": "url",
-          "value": "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+          "value": "raycast-x://extensions/raycast/emoji-symbols/search-emoji-symbols"
         },
         {
           "key": "h",
           "label": "Clipboard History",
           "type": "url",
-          "value": "raycast://extensions/raycast/clipboard-history/clipboard-history"
+          "value": "raycast-x://extensions/raycast/clipboard-history/clipboard-history"
         },
         {
           "key": "p",
           "type": "url",
-          "value": "raycast://confetti"
+          "value": "raycast-x://confetti"
         },
         {
           "key": "c",
           "type": "url",
-          "value": "raycast://extensions/raycast/system/open-camera"
+          "value": "raycast-x://extensions/raycast/system/open-camera"
         },
         {
           "key": "r",
           "label": "Raycast Bar",
-          "type": "url",
-          "value": "raycast://"
+          "type": "command",
+          "value": "open -a 'Raycast Beta'"
         },
         {
           "key": "a",
           "label": "AI Chat",
           "type": "url",
-          "value": "raycast://extensions/raycast/raycast-ai/ai-chat"
+          "value": "raycast-x://extensions/raycast/raycast-ai/ai-chat"
         }
       ],
       "key": "r",
