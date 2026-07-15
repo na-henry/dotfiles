@@ -13,9 +13,9 @@
       "actions": [
         {
           "key": "f",
-          "label": "Maximize",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window maximize"
+          "label": "Almost Maximize",
+          "type": "url",
+          "value": "raycast-x://extensions/raycast/window-management/almost-maximize"
         },
         {
           "key": "F",
