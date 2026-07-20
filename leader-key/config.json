@@ -1,236 +1,236 @@
 {
-  "actions": [
+  "actions" : [
     {
-      "key": "space",
-      "label": "Raycast Bar",
-      "type": "command",
-      "value": "open -a 'Raycast Beta'"
+      "key" : "space",
+      "label" : "Raycast Bar",
+      "type" : "command",
+      "value" : "open -a 'Raycast Beta'"
     },
     {
-      "key": "w",
-      "label": "Window",
-      "type": "group",
-      "actions": [
+      "actions" : [
         {
-          "key": "f",
-          "label": "Almost Maximize",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/window-management/almost-maximize"
+          "key" : "f",
+          "label" : "Almost Maximize",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/window-management/almost-maximize"
         },
         {
-          "key": "F",
-          "label": "Full",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window full"
+          "key" : "F",
+          "label" : "Full",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window full"
         },
         {
-          "key": "h",
-          "label": "Left Half",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window left"
+          "key" : "h",
+          "label" : "Left Half",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window left"
         },
         {
-          "key": "j",
-          "label": "Bottom Half",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window bottom"
+          "key" : "j",
+          "label" : "Bottom Half",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window bottom"
         },
         {
-          "key": "k",
-          "label": "Top Half",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window top"
+          "key" : "k",
+          "label" : "Top Half",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window top"
         },
         {
-          "key": "l",
-          "label": "Right Half",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window right"
+          "key" : "l",
+          "label" : "Right Half",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window right"
         },
         {
-          "key": "c",
-          "label": "Center",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/resize-window center"
+          "key" : "c",
+          "label" : "Center",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/resize-window center"
         },
         {
-          "key": "m",
-          "label": "Move to Next Display",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/window-management/move-to-next-display"
+          "key" : "m",
+          "label" : "Move to Next Display",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/window-management/move-to-next-display"
         }
-      ]
+      ],
+      "key" : "w",
+      "label" : "Window",
+      "type" : "group"
     },
     {
-      "actions": [
+      "actions" : [
         {
-          "actions": [
+          "actions" : [
             {
-              "key": "s",
-              "label": "Safari",
-              "type": "command",
-              "value": "/Users/nathan/.local/bin/mouse-to-window /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+              "key" : "s",
+              "label" : "Safari",
+              "type" : "command",
+              "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
             },
             {
-              "key": "z",
-              "label": "Zen",
-              "type": "command",
-              "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
+              "key" : "z",
+              "label" : "Zen",
+              "type" : "command",
+              "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
             }
           ],
-          "key": "b",
-          "label": "Browser",
-          "type": "group"
+          "key" : "b",
+          "label" : "Browser",
+          "type" : "group"
         },
         {
-          "actions": [
+          "actions" : [
             {
-              "key": "w",
-              "label": "Notes",
-              "type": "command",
-              "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Notes.app"
+              "key" : "w",
+              "label" : "Notes",
+              "type" : "command",
+              "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Notes.app"
             },
             {
-              "key": "n",
-              "label": "Notion",
-              "type": "command",
-              "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Notion.app"
+              "key" : "n",
+              "label" : "Notion",
+              "type" : "command",
+              "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Notion.app"
             }
           ],
-          "key": "w",
-          "label": "Notes",
-          "type": "group"
+          "key" : "w",
+          "label" : "Notes",
+          "type" : "group"
         },
         {
-          "key": "a",
-          "label": "Zen",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
+          "key" : "a",
+          "label" : "Zen",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Zen.app"
         },
         {
-          "key": "s",
-          "label": "Slack",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Slack.app"
+          "key" : "s",
+          "label" : "Slack",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Slack.app"
         },
         {
-          "key": "x",
-          "label": "Spotify",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Spotify.app"
+          "key" : "x",
+          "label" : "Spotify",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Spotify.app"
         },
         {
-          "key": "e",
-          "label": "Ghostty",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Ghostty.app"
+          "key" : "e",
+          "label" : "Ghostty",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Ghostty.app"
         },
         {
-          "key": "q",
-          "label": "Mail",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Mail.app"
+          "key" : "q",
+          "label" : "Mail",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Mail.app"
         },
         {
-          "key": "f",
-          "label": "Finder",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Library/CoreServices/Finder.app"
+          "key" : "f",
+          "label" : "Finder",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Library/CoreServices/Finder.app"
         },
         {
-          "key": "m",
-          "label": "Messages",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Messages.app"
+          "key" : "m",
+          "label" : "Messages",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Messages.app"
         },
         {
-          "key": "c",
-          "label": "Calendar",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Calendar.app"
+          "key" : "c",
+          "label" : "Calendar",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /System/Applications/Calendar.app"
         },
         {
-          "key": "g",
-          "label": "GeForce NOW",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/GeForceNOW.app"
+          "key" : "g",
+          "label" : "GeForce NOW",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/GeForceNOW.app"
         },
         {
-          "key": "d",
-          "label": "Discord",
-          "type": "command",
-          "value": "/Users/nathan/.local/bin/mouse-to-window /Applications/Discord.app"
+          "key" : "d",
+          "label" : "Discord",
+          "type" : "command",
+          "value" : "/Users/nathan/.local/bin/mouse-to-window /Applications/Discord.app"
         }
       ],
-      "key": "a",
-      "label": "Applications",
-      "type": "group"
+      "key" : "a",
+      "label" : "Applications",
+      "type" : "group"
     },
     {
-      "actions": [
+      "actions" : [
         {
-          "key": "e",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/emoji-symbols/search-emoji-symbols"
+          "key" : "e",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/emoji-symbols/search-emoji-symbols"
         },
         {
-          "key": "h",
-          "label": "Clipboard History",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/clipboard-history/clipboard-history"
+          "key" : "h",
+          "label" : "Clipboard History",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/clipboard-history/clipboard-history"
         },
         {
-          "key": "p",
-          "type": "url",
-          "value": "raycast-x://confetti"
+          "key" : "p",
+          "type" : "url",
+          "value" : "raycast-x://confetti"
         },
         {
-          "key": "c",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/system/open-camera"
+          "key" : "c",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/system/open-camera"
         },
         {
-          "key": "r",
-          "label": "Raycast Bar",
-          "type": "command",
-          "value": "open -a 'Raycast Beta'"
+          "key" : "r",
+          "label" : "Raycast Bar",
+          "type" : "command",
+          "value" : "open -a 'Raycast Beta'"
         },
         {
-          "key": "a",
-          "label": "AI Chat",
-          "type": "url",
-          "value": "raycast-x://extensions/raycast/raycast-ai/ai-chat"
+          "key" : "a",
+          "label" : "AI Chat",
+          "type" : "url",
+          "value" : "raycast-x://extensions/raycast/raycast-ai/ai-chat"
         }
       ],
-      "key": "r",
-      "label": "Raycast",
-      "type": "group"
+      "key" : "r",
+      "label" : "Raycast",
+      "type" : "group"
     },
     {
-      "actions": [
+      "actions" : [
         {
-          "key": "l",
-          "label": "Leader Key",
-          "type": "url",
-          "value": "leaderkey://settings"
+          "key" : "l",
+          "label" : "Leader Key",
+          "type" : "url",
+          "value" : "leaderkey://settings"
         },
         {
-          "key": "r",
-          "label": "Reload Config",
-          "type": "url",
-          "value": "leaderkey://config-reload"
+          "key" : "r",
+          "label" : "Reload Config",
+          "type" : "url",
+          "value" : "leaderkey://config-reload"
         },
         {
-          "key": "a",
-          "label": "Reload Config",
-          "type": "command",
-          "value": "/opt/homebrew/bin/aerospace reload-config"
+          "key" : "a",
+          "label" : "Reload Config",
+          "type" : "command",
+          "value" : "/opt/homebrew/bin/aerospace reload-config"
         }
       ],
-      "key": "s",
-      "label": "Settings",
-      "type": "group"
+      "key" : "s",
+      "label" : "Settings",
+      "type" : "group"
     }
   ],
-  "type": "group"
+  "type" : "group"
 }
