@@ -1,9 +1,9 @@
 {
   "shellPath": "/bin/zsh",
-  "lastChangelogVersion": "0.80.6",
+  "lastChangelogVersion": "0.84.2",
   "theme": "lazygit",
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-sonnet-4-6",
+  "defaultModel": "claude-fable-5",
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-mcp-adapter@2.6.1",
