@@ -45,6 +45,9 @@ All tools share vi/vim keybindings and the Catppuccin Mocha color scheme.
 - **[pi](https://github.com/earendil-works/pi-mono)** (`pi/`) - Terminal coding
   agent. Tracks `settings.json` and custom `themes/` (Catppuccin Mocha,
   Lazygit). `auth.json` and `sessions/` are intentionally excluded.
+- **herdr** (`herdr/`) - Terminal workspace manager for AI coding agents.
+  Only `config.toml` is tracked; runtime state in `~/.config/herdr/`
+  (sockets, logs, `session.json`) is intentionally excluded.
 
 ### macOS System Tools
 
@@ -112,6 +115,11 @@ ln -sf ~/dotfiles/pi/settings.json \
   ~/.pi/agent/settings.json
 ln -sf ~/dotfiles/pi/themes ~/.pi/agent/themes
 
+# herdr keeps runtime state (sockets, logs, session.json) next to its config,
+# so only config.toml is symlinked — not the whole directory.
+mkdir -p ~/.config/herdr
+ln -sf ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
+
 # Lazygit reads from ~/Library/Application Support/lazygit on macOS by default.
 # Symlink both locations so it works whether or not XDG_CONFIG_HOME is set.
 mkdir -p ~/.config/lazygit "$HOME/Library/Application Support/lazygit"
@@ -134,7 +142,7 @@ Install the required tools via [Homebrew](https://brew.sh/):
 ```bash
 brew install --cask ghostty karabiner-elements aerospace leader-key
 brew install nushell starship neovim tmux zellij yazi lazygit \
-  carapace kanata xonsh
+  carapace kanata xonsh herdr
 ```
 
 ### Plugin Managers
