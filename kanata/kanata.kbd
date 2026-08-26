@@ -1,6 +1,6 @@
 ;; Kanata configuration
 ;; Base layer: everything standard except CapsLock and Space.
-;; CapsLock: tap = esc, hold = Hyper (⌃⌥⌘⇧) — e.g. for Raycast hotkeys.
+;; CapsLock: tap = esc, hold = right-hand home-row mods (j=⇧ k=⌘ l=⌥ ;=⌃).
 ;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows),
 ;; using the same tap-hold-press mechanism as CapsLock.
 ;; Tab: tap = tab, hold = numpad layer on the right hand (uio=789, jkl=456,
@@ -27,14 +27,14 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  tab  caps a    s    d    f    h    j    k    l    u    i    o    n    m    ,    .    spc
+  tab  caps a    s    d    f    h    j    k    l    ;    u    i    o    n    m    ,    .    spc
 )
 
 (defalias
-  ;; CapsLock : tap = Escape   hold = Hyper (Ctrl+Option+Cmd+Shift)
-  ;; tap-hold-press: the hold (Hyper) activates as soon as any other key is
-  ;; pressed, so Hyper+H etc. fire instantly without waiting out the timeout.
-  caps    (tap-hold-press $tap-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
+  ;; CapsLock : tap = Escape   hold = right-hand home-row mods layer
+  ;; tap-hold-press: the hold (rmods layer) activates as soon as any other key
+  ;; is pressed, so caps+j etc. fire instantly without waiting out the timeout.
+  caps    (tap-hold-press $tap-timeout $hold-timeout esc (layer-while-held rmods))
 
   ;; Space : tap = Space   hold = nav layer
   ;; tap-hold-press, same as CapsLock: the hold (nav layer) activates as soon
@@ -52,12 +52,19 @@
   hrm-s   (tap-hold-release $tap-timeout $hold-timeout s lalt)
   hrm-d   (tap-hold-release $tap-timeout $hold-timeout d lmet)
   hrm-f   (tap-hold-release $tap-timeout $hold-timeout f lsft)
+
+  ;; ── Home Row Mods (rmods layer, right hand — mirror of the left) ─────────────
+  ;; j=Shift  k=Command  l=Option  ;=Ctrl
+  hrm-j   (tap-hold-release $tap-timeout $hold-timeout j rsft)
+  hrm-k   (tap-hold-release $tap-timeout $hold-timeout k rmet)
+  hrm-l   (tap-hold-release $tap-timeout $hold-timeout l ralt)
+  hrm-scl (tap-hold-release $tap-timeout $hold-timeout ; rctl)
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; Tab, CapsLock and Space are tap/hold; the rest is transparent.
 (deflayer base
-  @tab @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
+  @tab @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
 )
 
 ;; ── Nav layer ────────────────────────────────────────────────────────────────
@@ -65,7 +72,7 @@
 ;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift (tap: letter, hold: modifier)
 ;; Right home row: h=← j=↓ k=↑ l=→
 (deflayer nav
-  _    _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _    _    _    _    _    _    _    _
+  _    _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _    _    _    _    _    _    _    _    _
 )
 
 ;; ── Numpad layer ─────────────────────────────────────────────────────────────
@@ -75,5 +82,12 @@
 ;;   m , .  =  1 2 3
 ;;   n      =  0
 (deflayer numpad
-  _    _    _    _    _    _    _    4    5    6    7    8    9    0    1    2    3    _
+  _    _    _    _    _    _    _    4    5    6    _    7    8    9    0    1    2    3    _
+)
+
+;; ── Right home-row mods layer ────────────────────────────────────────────────
+;; Activated by holding CapsLock.
+;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl (tap: letter, hold: modifier)
+(deflayer rmods
+  _    _    _    _    _    _    _    @hrm-j  @hrm-k  @hrm-l  @hrm-scl  _    _    _    _    _    _    _    _
 )
