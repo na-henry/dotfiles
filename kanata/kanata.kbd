@@ -1,277 +1,63 @@
 ;; Kanata configuration
-;; Plain base layer. Hyper (Space): home-row mods. CapsLock: esc. Chords: fr/numpad/sys. Vim: left cmd.
-;; HRM layer: home-row mods always active (no Space hold needed). Esc cycles: HRM → Game → HRM. Base Esc enters HRM.
+;; Base layer: everything standard except CapsLock and Space.
+;; CapsLock: tap = esc, hold = Hyper (⌃⌥⌘⇧) — e.g. for Raycast hotkeys.
+;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows).
+;;
+;; Only remapped keys are declared in defsrc; every other key passes through
+;; unmapped (process-unmapped-keys keeps them visible to tap-hold decisions
+;; without routing them through any layer).
 ;;
 ;; macOS key names:
 ;;   lmet / rmet  = Command  (⌘)
 ;;   lalt / ralt  = Option   (⌥)
 ;;   lctl / rctl  = Control  (⌃)
 ;;   lsft / rsft  = Shift    (⇧)
-;;   scln         = semicolon (;)
 
 (defcfg
   process-unmapped-keys yes
 )
 
 (defvar
-  tap-timeout  200  ;; tap-repress window: double-tap-hold within this ms = key repeat
-  hold-timeout 150
+  tap-timeout  220  ;; tap-repress window: double-tap-hold within this ms = key repeat
+  hold-timeout 200
+  spc-hold-timeout 150  ;; shorter decision window for Space: caps roll-buffering lag
 )
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  ;;   [number row not mapped]
-  tab  q    w    e    r    t    y    u    i    o    p
-  caps a    s    d    f    g    h    j    k    l    scln '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt lmet      spc       rmet ralt rctl
+  caps a    s    d    f    h    j    k    l    spc
 )
 
 (defalias
-  ;; ── Home Row Mods (QWERTY base) ──────────────────────────────────────────────
-  ;; tap-hold-release: hold triggers only if this key is released AFTER another
-  ;; key is pressed and released. Safer for fast typists — rolling across home
-  ;; row keys won't accidentally fire modifiers.
+  ;; CapsLock : tap = Escape   hold = Hyper (Ctrl+Option+Cmd+Shift)
+  ;; tap-hold-press: the hold (Hyper) activates as soon as any other key is
+  ;; pressed, so Hyper+H etc. fire instantly without waiting out the timeout.
+  caps    (tap-hold-press $tap-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
 
-  ;; Left hand  — a=Ctrl  s=Option  d=Command  f=Shift
-  hrm-a   (tap-hold-release $tap-timeout $hold-timeout a    lctl)
-  hrm-s   (tap-hold-release $tap-timeout $hold-timeout s    lalt)
-  hrm-d   (tap-hold-release $tap-timeout $hold-timeout d    lmet)
-  hrm-f   (tap-hold-release $tap-timeout $hold-timeout f    lsft)
+  ;; Space : tap = Space   hold = nav layer
+  ;; Plain tap-hold (timer-only decision): rolling over Space while typing can
+  ;; never trigger the nav layer, so normal text entry stays smooth. Entering
+  ;; nav requires holding Space for the full hold-timeout.
+  spc     (tap-hold $tap-timeout $spc-hold-timeout spc (layer-while-held nav))
 
-  ;; Right hand  — j=Shift  k=Command  l=Option  ;=Ctrl
-  hrm-j   (tap-hold-release $tap-timeout $hold-timeout j    rsft)
-  hrm-k   (tap-hold-release $tap-timeout $hold-timeout k    rmet)
-  hrm-l   (tap-hold-release $tap-timeout $hold-timeout l    ralt)
-  hrm-sem (tap-hold-release $tap-timeout $hold-timeout scln rctl)
-
-  ;; ── Layer activators ─────────────────────────────────────────────────────────
-  ;; Space     : tap = Space    hold = Hyper layer
-  spc     (tap-hold-release $tap-timeout 200 spc (layer-while-held hyper))
-
-  ;; Space in Vim layer : tap = Space   hold = Vim-num sublayer
-  spc-vm  (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
-
-  ;; Left Command : tap = Command   hold = Vim layer
-  lmet-vm (tap-hold-release $tap-timeout $hold-timeout lmet (layer-while-held vim))
-
-  ;; Space in HRM layer : tap = Space   hold = HRM-Vim layer
-  spc-hrm  (tap-hold-release $tap-timeout 200 spc (layer-while-held hrm-vim))
-
-  ;; Space in HRM-Vim layer : tap = Space   hold = Vim-num sublayer
-  spc-hrm-vm (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held vim-num))
-
-  ;; q in HRM-Vim layer : hold = Numpad layer
-  q-hrm-numpad (tap-hold-release $tap-timeout $hold-timeout q (layer-while-held numpad))
-
-  ;; Left Command in HRM layer : tap = Command   hold = French layer
-  lmet-hrm-fr (tap-hold-release $tap-timeout $hold-timeout lmet (layer-while-held fr))
-
-  ;; ── Layer toggles ────────────────────────────────────────────────────────────
-  game-on      (layer-switch game)
-  game-off     (layer-switch base)
-  hrm-on       (layer-switch hrm)
-  hrm-off      (layer-switch base)
-
-  ;; Mouse in Sys layer :
-  ma↑ (movemouse-accel-up 1 1000 1 5)
-  ma← (movemouse-accel-left 1 1000 1 5)
-  ma↓ (movemouse-accel-down 1 1000 1 5)
-  ma→ (movemouse-accel-right 1 1000 1 5)
-
-)
-
-;; ── Home-row chords (QWERTY base) ───────────────────────────────────────────
-;; All home-row chords share one group (a key can only belong to one group).
-;;   a+s     → French layer
-;;   l+;     → French layer
-;;   s+d     → Numpad layer
-;;   a+f     → System layer
-(defchords home-chords 50
-  (a)    a
-  (s)    s
-  (d)    d
-  (f)    f
-  (l)    l
-  (scln) scln
-  (a s)    (layer-while-held fr)
-  (l scln) (layer-while-held fr)
-  (s d)    (layer-while-held numpad)
-  (a f)    (layer-while-held sys)
+  ;; ── Home Row Mods (nav layer, left hand) ─────────────────────────────────────
+  ;; a=Ctrl  s=Option  d=Command  f=Shift
+  hrm-a   (tap-hold-release $tap-timeout $hold-timeout a lctl)
+  hrm-s   (tap-hold-release $tap-timeout $hold-timeout s lalt)
+  hrm-d   (tap-hold-release $tap-timeout $hold-timeout d lmet)
+  hrm-f   (tap-hold-release $tap-timeout $hold-timeout f lsft)
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
-;; Esc (on base) → switches to HRM
+;; CapsLock and Space are tap/hold; the rest is transparent.
 (deflayer base
-  @hrm-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
-  tab  q    w    e    r    t    y    u    i    o    p
-  esc  (chord home-chords a) (chord home-chords s) (chord home-chords d) (chord home-chords f) g h j k (chord home-chords l) (chord home-chords scln) ' ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt @lmet-vm      @spc          rmet ralt rctl
+  @caps _    _    _    _    _    _    _    _    @spc
 )
 
-;; ── Hyper layer ──────────────────────────────────────────────────────────────
+;; ── Nav layer ────────────────────────────────────────────────────────────────
 ;; Activated by holding Space.
-;; Home row: tap = letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
-;; Everything else transparent.
-(deflayer hyper
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _      _        _        _        _        _         _  _        _        _        _
-  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _         _  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  _  _
-  _      _        _        _        _        _         _  _        _        _        _  _
-         _        _        _                 _             _        _        _
-)
-
-;; ── French layer ─────────────────────────────────────────────────────────────
-;; Activated by holding Caps Lock. Releases automatically on key-up.
-;;
-;; Layout:
-;;        e=é  r=ê             j=û  u=ù  i=î  o=ô  p=œ
-;;   a=à  s=â  d=è                        k=ï
-;;        c=ç
-(deflayer fr
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _   _   _           (unicode é) (unicode ê) _  _ (unicode ù) (unicode î) (unicode ô) (unicode œ)
-  _   (unicode à) (unicode â) (unicode è) _  _  _  (unicode û)  (unicode ï) _  _  _  _
-  _   _  _  (unicode ç)  _  _  _  _  _  _  _  _
-      _  _  _     _  _  _  _
-)
-
-;; ── Vim layer ────────────────────────────────────────────────────────────────
-;; Activated by holding Left Cmd.
-;; Left home row: a=Ctrl  s=Option  d=Cmd  f=Shift (tap: letter, hold: modifier)
+;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift (tap: letter, hold: modifier)
 ;; Right home row: h=← j=↓ k=↑ l=→
-;; Right top row : y=home u=pgdn i=pgup o=end
-(deflayer vim
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _      _        _        _        _        _     home  pgdn  pgup  end   bspc
-  _      @hrm-a   @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
-  _      _        _        _        _        _     _     _     _     _      _  _
-         _        _        _                 @spc-vm     _     _     _
+(deflayer nav
+  _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _
 )
-
-;; ── Vim-num sublayer ─────────────────────────────────────────────────────────
-;; Activated by holding Space in vim/hrm-vim layer, or holding rmet in hrm-vim.
-;;
-;; Top row : ! @ # $ % ^ & * ( )   ← shifted number symbols
-;; Home row: 1 2 3 4 5 6 7 8 9 0
-;; Bot row : + - / = ` [ ] { }
-(deflayer vim-num
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0
-  _    1    2    3    4    5    6    7    8    9    0    _  _
-  _    +    -    /    =    grv  _    _    _  _  _   _
-       _    _    _         _         _    _    _
-)
-
-;; ── System layer ─────────────────────────────────────────────────────────────
-;; Activated by holding a+f simultaneously.
-;; e=left-click  r=right-click
-;; y=⏮prev  u=vol↓  i=vol↑  o=⏯pp  p=next⏭
-;; h=mouse←  j=mouse↓  k=mouse↑  l=mouse→
-(deflayer sys
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _    _     _     mltp  mrtp  _     prev   voldwn  volu  pp    next
-  _    _     _     _     _     _     @ma←  @ma↓   @ma↑    @ma→     _     _  _
-  _    _     _     _     _     _     _     _     _     _     _     _
-       _     _     _           _           _     _     _
-)
-
-;; ── Numpad layer ─────────────────────────────────────────────────────────────
-;; Activated by holding s+d simultaneously.
-;;   y=*  u=7  i=8  o=9
-;;   h=-  j=4  k=5  l=6  ;=.
-;;   n=+  m=1  ,=2  .=3   /=/ (transparent)
-;;             spc=0
-(deflayer numpad
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _  _  _  _  _  _  S-8  7  8  9  _
-  _  _  _  _  _  _  -    4  5  6  .  _  _
-  _  _  _  _  _  _  S-=  1  2  3  _  _
-     _  _  _        0        _  _  _
-)
-
-;; ── HRM layer ────────────────────────────────────────────────────────────────
-;; Esc cycles: HRM → Game → HRM
-;; Home-row mods always active — no Space hold needed.
-;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift
-;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl
-;; Space: tap = Space   hold = HRM-Vim layer
-;; lmet: tap = Command   hold = French layer
-(deflayer hrm
-  @game-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
-  tab  q        w        e        r        t         y  u        i        o        p
-  esc  @hrm-a   @hrm-s   @hrm-d   @hrm-f   g         h  @hrm-j   @hrm-k   @hrm-l   @hrm-sem  '  ret
-  lsft z        x        c        v        b         n  m        ,        .        /  rsft
-       lctl     lalt     @lmet-hrm-fr      @spc-hrm      rmet     ralt     rctl
-)
-
-;; ── HRM-Vim layer ────────────────────────────────────────────────────────────
-;; Activated by holding Space in HRM mode.
-;; Left home row: a=Ctrl  s=Option  d=Cmd  f=Shift (always-on mods, same as HRM)
-;; Right home row: h=← j=↓ k=↑ l=→
-;; Right top row : y=home u=pgdn i=pgup o=end
-;; Space: tap = Space   hold = Vim-num sublayer
-;; q: tap = q   hold = Numpad layer
-(deflayer hrm-vim
-  esc  _    _    _    _    _    _    _    _    _    _    _    _
-  _      @q-hrm-numpad  _        _        _        _     home  pgdn  pgup  end   bspc
-  _      @hrm-a         @hrm-s   @hrm-d   @hrm-f   _     left  down  up    right  ret  _  _
-  _      _        _        _        _        _     _     _     _     _      _  _
-         _        _        _                 @spc-hrm-vm  _    _     _
-)
-
-;; ── Gaming layer ─────────────────────────────────────────────────────────────
-;; Esc cycles: HRM → Game → HRM
-;; Same as base but without home-row chords — a/s/d/f/l/; are plain keys.
-;; Space still activates the Hyper layer (home-row mods) on hold.
-(deflayer game
-  @hrm-on  _    _    _    _    _    _    prev pp   next mute voldwn volu
-  tab  q    w    e    r    t    y    u    i    o    p
-  esc  a    s    d    f    g    h    j    k    l    scln  '  ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-       lctl lalt lmet          spc           rmet ralt rctl
-)
-
-;; ── Colemak layer ─────────────────────────────────────────────────────────────
-;; Esc cycles: Base → HRM → Game → Base (colemak disabled)
-;; Key mapping (physical QWERTY → Colemak output):
-;;   top:  e→f  r→p  t→g  y→j  u→l  i→u  o→y  p→;
-;;   home: s→r  d→s  f→t  g→d  j→n  k→e  l→i  ;→o
-;;   (all others unchanged)
-;; Home-row mods: a=Ctrl  r=Option  s=Command  t=Shift / n=Shift  e=Command  i=Option  o=Ctrl
-;;
-;; (deflayer colemak
-;;   @game-on
-;;   tab  q    w    f    p    g    j    l    u    y    scln
-;;   esc  (chord colemak-chords a) (chord colemak-chords s) (chord colemak-chords d) (chord colemak-chords f) d h n e (chord colemak-chords l) (chord colemak-chords scln) ' ret
-;;   lsft z    x    c    v    b    k    m    ,    .    /    rsft
-;;        lctl lalt @cm-lmet-vm   @cm-spc       rmet ralt rctl
-;; )
-
-;; ── Colemak-Hyper layer ───────────────────────────────────────────────────────
-;; Activated by holding Space in Colemak mode.
-;; Home row: tap = Colemak letter, hold = modifier (left: Ctrl/Opt/Cmd/Sft  right: Sft/Cmd/Opt/Ctrl)
-;;
-;; (deflayer colemak-hyper
-;;   esc
-;;   _      _        _        _        _        _         _  _        _        _        _
-;;   _      @cm-a    @cm-r    @cm-s    @cm-t    _         _  @cm-n    @cm-e    @cm-i    @cm-o     _  _
-;;   _      _        _        _        _        _         _  _        _        _        _  _
-;;          _        _        _                 _             _        _        _
-;; )
-
-;; ── Colemak-Vim layer ─────────────────────────────────────────────────────────
-;; Activated by holding Left Cmd in Colemak mode.
-;; Left home row: a=Ctrl  r=Option  s=Cmd  t=Shift (tap: letter, hold: modifier)
-;; Right home row: h=← n=↓ e=↑ i=→  (physical h/j/k/l, same as QWERTY Vim)
-;; Right top row : y=home u=pgdn i=pgup o=end  (physical y/u/i/o)
-;;
-;; (deflayer colemak-vim
-;;   esc
-;;   _      _        _        _        _        _     home  pgdn  pgup  end   bspc
-;;   _      @cm-a    @cm-r    @cm-s    @cm-t    _     left  down  up    right  ret  _  _
-;;   _      _        _        _        _        _     _     _     _     _      _  _
-;;          _        _        _                 @cm-spc-vm  _     _     _
-;; )
