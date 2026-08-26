@@ -3,6 +3,8 @@
 ;; CapsLock: tap = esc, hold = Hyper (⌃⌥⌘⇧) — e.g. for Raycast hotkeys.
 ;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows),
 ;; using the same tap-hold-press mechanism as CapsLock.
+;; Tab: tap = tab, hold = numpad layer on the right hand (uio=789, jkl=456,
+;; m,.=123, n=0), same tap-hold-press mechanism.
 ;;
 ;; Only remapped keys are declared in defsrc; every other key passes through
 ;; unmapped (process-unmapped-keys keeps them visible to tap-hold decisions
@@ -25,7 +27,7 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  caps a    s    d    f    h    j    k    l    spc
+  tab  caps a    s    d    f    h    j    k    l    u    i    o    n    m    ,    .    spc
 )
 
 (defalias
@@ -40,6 +42,10 @@
   ;; waiting out the timeout.
   spc     (tap-hold-press $tap-timeout $hold-timeout spc (layer-while-held nav))
 
+  ;; Tab : tap = Tab   hold = numpad layer
+  ;; Same tap-hold-press mechanism as CapsLock and Space.
+  tab     (tap-hold-press $tap-timeout $hold-timeout tab (layer-while-held numpad))
+
   ;; ── Home Row Mods (nav layer, left hand) ─────────────────────────────────────
   ;; a=Ctrl  s=Option  d=Command  f=Shift
   hrm-a   (tap-hold-release $tap-timeout $hold-timeout a lctl)
@@ -49,9 +55,9 @@
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
-;; CapsLock and Space are tap/hold; the rest is transparent.
+;; Tab, CapsLock and Space are tap/hold; the rest is transparent.
 (deflayer base
-  @caps _    _    _    _    _    _    _    _    @spc
+  @tab @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
 )
 
 ;; ── Nav layer ────────────────────────────────────────────────────────────────
@@ -59,5 +65,15 @@
 ;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift (tap: letter, hold: modifier)
 ;; Right home row: h=← j=↓ k=↑ l=→
 (deflayer nav
-  _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _
+  _    _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _    _    _    _    _    _    _    _
+)
+
+;; ── Numpad layer ─────────────────────────────────────────────────────────────
+;; Activated by holding Tab. Right hand becomes a numpad:
+;;   u i o  =  7 8 9
+;;   j k l  =  4 5 6
+;;   m , .  =  1 2 3
+;;   n      =  0
+(deflayer numpad
+  _    _    _    _    _    _    _    4    5    6    7    8    9    0    1    2    3    _
 )
