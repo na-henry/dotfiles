@@ -1,7 +1,8 @@
 ;; Kanata configuration
 ;; Base layer: everything standard except CapsLock and Space.
 ;; CapsLock: tap = esc, hold = Hyper (⌃⌥⌘⇧) — e.g. for Raycast hotkeys.
-;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows).
+;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows),
+;; using the same tap-hold-press mechanism as CapsLock.
 ;;
 ;; Only remapped keys are declared in defsrc; every other key passes through
 ;; unmapped (process-unmapped-keys keeps them visible to tap-hold decisions
@@ -20,7 +21,6 @@
 (defvar
   tap-timeout  220  ;; tap-repress window: double-tap-hold within this ms = key repeat
   hold-timeout 200
-  spc-hold-timeout 150  ;; shorter decision window for Space: caps roll-buffering lag
 )
 
 ;; Keys being remapped — everything else passes through untouched.
@@ -35,10 +35,10 @@
   caps    (tap-hold-press $tap-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
 
   ;; Space : tap = Space   hold = nav layer
-  ;; Plain tap-hold (timer-only decision): rolling over Space while typing can
-  ;; never trigger the nav layer, so normal text entry stays smooth. Entering
-  ;; nav requires holding Space for the full hold-timeout.
-  spc     (tap-hold $tap-timeout $spc-hold-timeout spc (layer-while-held nav))
+  ;; tap-hold-press, same as CapsLock: the hold (nav layer) activates as soon
+  ;; as any other key is pressed, so Space+hjkl etc. fire instantly without
+  ;; waiting out the timeout.
+  spc     (tap-hold-press $tap-timeout $hold-timeout spc (layer-while-held nav))
 
   ;; ── Home Row Mods (nav layer, left hand) ─────────────────────────────────────
   ;; a=Ctrl  s=Option  d=Command  f=Shift
