@@ -1,8 +1,9 @@
 ;; Kanata configuration
-;; Base layer: everything standard except CapsLock and Space.
+;; Base layer: everything standard except Esc, CapsLock, Space, and Tab.
+;; Esc: tap = toggle full home-row mods layer (tap again to exit); Escape is available via CapsLock tap.
 ;; CapsLock: tap = esc, hold = right-hand home-row mods (j=⇧ k=⌘ l=⌥ ;=⌃).
-;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows),
-;; using the same tap-hold-press mechanism as CapsLock.
+;; Space: tap = space, hold = nav layer (left: home-row mods, right: arrows,
+;; p=backspace, '=enter), using the same tap-hold-press mechanism as CapsLock.
 ;; Tab: tap = tab, hold = numpad layer on the right hand (uio=789, jkl=456,
 ;; m,.=123, n=0), same tap-hold-press mechanism.
 ;;
@@ -27,7 +28,7 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  tab  caps a    s    d    f    h    j    k    l    ;    u    i    o    n    m    ,    .    spc
+  esc  tab  caps a    s    d    f    h    j    k    l    ;    '    u    i    o    p    n    m    ,    .    spc
 )
 
 (defalias
@@ -46,6 +47,11 @@
   ;; Same tap-hold-press mechanism as CapsLock and Space.
   tab     (tap-hold-press $tap-timeout $hold-timeout tab (layer-while-held numpad))
 
+  ;; Esc : tap = toggle the full home-row mods layer on (tap Esc again to leave).
+  ;; Escape itself is still available via CapsLock tap.
+  esc      (layer-switch hrms)
+  esc-base (layer-switch base)
+
   ;; ── Home Row Mods (nav layer, left hand) ─────────────────────────────────────
   ;; a=Ctrl  s=Option  d=Command  f=Shift
   hrm-a   (tap-hold-release $tap-timeout $hold-timeout a lctl)
@@ -62,17 +68,17 @@
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
-;; Tab, CapsLock and Space are tap/hold; the rest is transparent.
+;; Esc toggles the hrms layer; Tab, CapsLock and Space are tap/hold; the rest is transparent.
 (deflayer base
-  @tab @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
+  @esc @tab @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
 )
 
 ;; ── Nav layer ────────────────────────────────────────────────────────────────
 ;; Activated by holding Space.
 ;; Left home row : a=Ctrl  s=Option  d=Command  f=Shift (tap: letter, hold: modifier)
-;; Right home row: h=← j=↓ k=↑ l=→
+;; Right home row: h=← j=↓ k=↑ l=→   p=Backspace  '=Enter
 (deflayer nav
-  _    _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _    _    _    _    _    _    _    _    _
+  _    _    _    @hrm-a  @hrm-s  @hrm-d  @hrm-f  left  down  up  right  _    ret  _    _    _    bspc _    _    _    _    _
 )
 
 ;; ── Numpad layer ─────────────────────────────────────────────────────────────
@@ -82,12 +88,20 @@
 ;;   m , .  =  1 2 3
 ;;   n      =  0
 (deflayer numpad
-  _    _    _    _    _    _    _    4    5    6    _    7    8    9    0    1    2    3    _
+  _    _    _    _    _    _    _    _    4    5    6    _    _    7    8    9    _    0    1    2    3    _
 )
 
 ;; ── Right home-row mods layer ────────────────────────────────────────────────
 ;; Activated by holding CapsLock.
 ;; Right home row: j=Shift  k=Command  l=Option  ;=Ctrl (tap: letter, hold: modifier)
 (deflayer rmods
-  _    _    _    _    _    _    _    @hrm-j  @hrm-k  @hrm-l  @hrm-scl  _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    @hrm-j  @hrm-k  @hrm-l  @hrm-scl  ret    _    _    _    bspc    _    _    _    _    _
+)
+
+;; ── Full home-row mods layer ─────────────────────────────────────────────────
+;; Toggled by tapping Esc; tap Esc again to return to base. Both hands get home-row mods:
+;; a=Ctrl s=Opt d=Cmd f=Shift   j=Shift k=Cmd l=Opt ;=Ctrl
+;; Space keeps its base behavior (tap = space, hold = nav layer). CapsLock = Escape.
+(deflayer hrms
+  @esc-base _    esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    @spc
 )
