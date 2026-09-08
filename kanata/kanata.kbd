@@ -1,7 +1,11 @@
 ;; Kanata configuration
 ;; Home-row mods are ALWAYS active on both hands.
-;; Space held = arrows on the right hand; Tab held = numpad on the right hand.
+;; Space held = arrows on the right hand + French accents on the QWERTY row;
+;; Tab held = numpad on the right hand.
 ;; CapsLock is a plain Escape.
+;; F-row = media by default (brightness / Mission Control / playback / volume),
+;; because kanata's virtual keyboard isn't an Apple keyboard so macOS no longer
+;; applies its own fn semantics. Hold fn for the real F1-F12 (fkeys layer).
 ;; Esc toggles the mods OFF into the `plain` layer (nothing is tap-hold there —
 ;; a/s/d/f and space are literal, so WASD and fast typing behave normally).
 ;; Tap Esc again to come back. Escape itself stays available on CapsLock.
@@ -49,7 +53,7 @@
 ;; for the LEFT mods (a s d f) when using Backspace, Delete, Enter or arrows.
 (defhands
   (left  grv 1 2 3 4 5 esc tab q w e r t a s d f g z x c v b
-         f1 f2 f3 f4 f5 f6)
+         fn f1 f2 f3 f4 f5 f6)
   (right 6 7 8 9 0 - = y u i o p [ ] \ h j k l ; ' n m , . /
          bspc del ret up down left right home end pgup pgdn ins
          f7 f8 f9 f10 f11 f12)
@@ -57,7 +61,8 @@
 
 ;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  esc  tab  caps a    s    d    f    h    j    k    l    ;    '    u    i    o    p    n    m    ,    .    spc
+  esc  tab  caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    n    m    ,    .    spc
+  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
 )
 
 (defalias
@@ -78,11 +83,28 @@
   hrm-l     (tap-hold-order $tap-timeout $order-buffer l ralt)
   hrm-scl   (tap-hold-order $tap-timeout $order-buffer ; rctl)
 
+  ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
+  ;;   q    w    e    r    t    y    u    i    o
+  ;;   à    â    é    è    ê    ç    ù    î    ô
+  agr (unicode à)
+  acx (unicode â)
+  eac (unicode é)
+  egr (unicode è)
+  ecx (unicode ê)
+  ced (unicode ç)
+  ugr (unicode ù)
+  icx (unicode î)
+  ocx (unicode ô)
+
   ;; Space : tap = Space   hold = nav layer.
-  ;; Only h/j/k/l (arrows), p (backspace) and ' (enter) can trigger the hold, so
-  ;; rolling space into any other letter still types that letter.
+  ;; Only h/j/k/l (arrows), p (backspace), ' (enter) and the accent row (q..o)
+  ;; can trigger the hold, so rolling space into any other letter still types it.
   spc (tap-hold-keys $tap-timeout $hold-timeout spc (layer-while-held nav)
-        (hold-on-press h j k l p ') (require-prior-idle $prior-idle))
+        (hold-on-press q w e r t y u i o h j k l p ') (require-prior-idle $prior-idle))
+
+  ;; fn : passes through (fn+arrows, globe tap keep working) AND holds the
+  ;; fkeys layer, where the F-row is the literal F1-F12 instead of media.
+  fn (multi fn (layer-while-held fkeys))
 
   ;; Tab : tap = Tab   hold = numpad layer, limited to the numpad keys.
   tab (tap-hold-keys $tap-timeout $hold-timeout tab (layer-while-held numpad)
@@ -91,21 +113,34 @@
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; Home-row mods live here permanently. CapsLock = Escape.
+;; F-row: F1 🔅  F2 🔆  F3 Mission Control  F7-F9 playback  F10-F12 sound.
+;; F4/F5/F6 stay plain — kanata has no Spotlight/Dictation/DND outputs.
 (deflayer base
-  @esc @tab esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    @spc
+  @esc @tab esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
+  @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
 )
 
 ;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
 ;; h=← j=↓ k=↑ l=→   p=Backspace  '=Enter
+;; QWERTY row = French accents: q=à w=â e=é r=è t=ê y=ç u=ù i=î o=ô
 ;; a/s/d/f stay transparent, so the base home-row mods still work while held.
 (deflayer nav
-  _    _    _    _    _    _    _    left down up   right _    ret  _    _    _    bspc _    _    _    _    _
+  _    _    _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx bspc _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
 )
 
 ;; ── Numpad layer (hold Tab) ──────────────────────────────────────────────────
 ;;   u i o  =  7 8 9      j k l  =  4 5 6      m , .  =  1 2 3      n = 0
 (deflayer numpad
-  _    _    _    _    _    _    _    _    4    5    6    _    _    7    8    9    _    0    1    2    3    _
+  _    _    _    _    _    _    _    _    4    5    6    _    _    _    _    _    _    _    _    7    8    9    _    0    1    2    3    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+)
+
+;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
+;; The F-row reverts to the literal function keys while fn is held.
+(deflayer fkeys
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
 )
 
 ;; ── Plain layer (tap Esc to enter, Esc again to leave) ───────────────────────
@@ -113,5 +148,6 @@
 ;; written out rather than left transparent, because `_` would fall through to
 ;; base and bring the tap-hold behaviour back with it.
 (deflayer plain
-  @esc-base tab esc  a    s    d    f    _    j    k    l    ;    _    _    _    _    _    _    _    _    _    spc
+  @esc-base tab esc  a    s    d    f    _    j    k    l    ;    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    spc
+  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
 )
