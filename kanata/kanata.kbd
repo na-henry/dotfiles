@@ -84,8 +84,8 @@
   hrm-scl   (tap-hold-order $tap-timeout $order-buffer ; rctl)
 
   ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
-  ;;   q    w    e    r    t    y    u    i    o
-  ;;   à    â    é    è    ê    ç    ù    î    ô
+  ;;   q    w    e    r    t    y    u    i    o    p
+  ;;   à    â    é    è    ê    ç    ù    î    ô    û
   agr (unicode à)
   acx (unicode â)
   eac (unicode é)
@@ -95,9 +95,10 @@
   ugr (unicode ù)
   icx (unicode î)
   ocx (unicode ô)
+  ucx (unicode û)
 
   ;; Space : tap = Space   hold = nav layer.
-  ;; Only h/j/k/l (arrows), p (backspace), ' (enter) and the accent row (q..o)
+  ;; Only h/j/k/l (arrows), ' (enter) and the accent row (q..p)
   ;; can trigger the hold, so rolling space into any other letter still types it.
   spc (tap-hold-keys $tap-timeout $hold-timeout spc (layer-while-held nav)
         (hold-on-press q w e r t y u i o h j k l p ') (require-prior-idle $prior-idle))
@@ -121,11 +122,11 @@
 )
 
 ;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
-;; h=← j=↓ k=↑ l=→   p=Backspace  '=Enter
-;; QWERTY row = French accents: q=à w=â e=é r=è t=ê y=ç u=ù i=î o=ô
+;; h=← j=↓ k=↑ l=→   '=Enter
+;; QWERTY row = French accents: q=à w=â e=é r=è t=ê y=ç u=ù i=î o=ô p=û
 ;; a/s/d/f stay transparent, so the base home-row mods still work while held.
 (deflayer nav
-  _    _    _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx bspc _    _    _    _    _
+  _    _    _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
 )
 
