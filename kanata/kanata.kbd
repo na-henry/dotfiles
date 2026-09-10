@@ -11,16 +11,18 @@
 ;; Tap Esc again to come back. Escape itself stays available on CapsLock.
 ;;
 ;; Why this feels instant while still giving you mods:
-;;   tap-hold-order — the home-row mods decide on RELEASE ORDER, not on timing.
+;;   tap-hold-release — release order still decides during typing:
 ;;     Release the home-row key first  => it was a letter.
 ;;     Release the OTHER key first     => it was a modifier.
-;;     That is what you already do physically: typing "do" you lift d before o,
-;;     while for Alt+O you hold d down across o. There is no timeout and no
-;;     typing-speed threshold, so pausing mid-sentence is safe and you never
-;;     have to modulate how fast you type. Same-hand combos (Cmd+C on d+c)
-;;     work again, unlike the opposite-hand scheme.
-;;   order-buffer — a short grace period after the press; anything resolved
-;;     inside it counts as a tap, which absorbs very fast rolls.
+;;     (Typing "do" you lift d before o; for Alt+O you hold d across o.
+;;     Same-hand combos like Cmd+C on d+c work.)
+;;     PLUS a timeout: holding the key alone past hold-timeout resolves to the
+;;     modifier anyway. That is what makes mod+MOUSE-CLICK work — kanata never
+;;     sees the mouse, so hold the key ~200ms, then click. The cost: long-
+;;     pressing a home-row letter no longer auto-repeats it; tap then quickly
+;;     re-press-and-hold (within tap-timeout) to repeat, or use the plain layer.
+;;   require-prior-idle — a key typed just before a home-row key forces tap
+;;     instantly, which absorbs fast rolls mid-word.
 ;;   hold-on-press lists — only the listed keys can pull Space/Tab into their
 ;;     layer. Rolling space into any other letter types that letter.
 ;;
@@ -42,7 +44,6 @@
   tap-timeout  220 ;; tap-repress window: double-tap-hold within this ms = key repeat
   hold-timeout 200
   prior-idle   150 ;; a key pressed within this many ms => resolve as tap instantly
-  order-buffer  25 ;; grace period after press: anything inside it resolves as tap
 )
 
 ;; Hand assignment, required by tap-hold-opposite-hand.
@@ -74,14 +75,14 @@
   ;; ── Home row mods, always on ────────────────────────────────────────────────
   ;; Left : a=Ctrl  s=Option  d=Command  f=Shift
   ;; Right: j=Shift k=Command l=Option   ;=Ctrl
-  hrm-a     (tap-hold-order $tap-timeout $order-buffer a lctl)
-  hrm-s     (tap-hold-order $tap-timeout $order-buffer s lalt)
-  hrm-d     (tap-hold-order $tap-timeout $order-buffer d lmet)
-  hrm-f     (tap-hold-order $tap-timeout $order-buffer f lsft)
-  hrm-j     (tap-hold-order $tap-timeout $order-buffer j rsft)
-  hrm-k     (tap-hold-order $tap-timeout $order-buffer k rmet)
-  hrm-l     (tap-hold-order $tap-timeout $order-buffer l ralt)
-  hrm-scl   (tap-hold-order $tap-timeout $order-buffer ; rctl)
+  hrm-a     (tap-hold-release $tap-timeout $hold-timeout a lctl (require-prior-idle $prior-idle))
+  hrm-s     (tap-hold-release $tap-timeout $hold-timeout s lalt (require-prior-idle $prior-idle))
+  hrm-d     (tap-hold-release $tap-timeout $hold-timeout d lmet (require-prior-idle $prior-idle))
+  hrm-f     (tap-hold-release $tap-timeout $hold-timeout f lsft (require-prior-idle $prior-idle))
+  hrm-j     (tap-hold-release $tap-timeout $hold-timeout j rsft (require-prior-idle $prior-idle))
+  hrm-k     (tap-hold-release $tap-timeout $hold-timeout k rmet (require-prior-idle $prior-idle))
+  hrm-l     (tap-hold-release $tap-timeout $hold-timeout l ralt (require-prior-idle $prior-idle))
+  hrm-scl   (tap-hold-release $tap-timeout $hold-timeout ; rctl (require-prior-idle $prior-idle))
 
   ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
   ;;   q    w    e    r    t    y    u    i    o    p
