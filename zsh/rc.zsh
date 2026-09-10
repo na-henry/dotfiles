@@ -49,6 +49,8 @@ alias n="nvim"
 alias q="pi --print"
 alias pir="pi --resume"
 alias reload="source ~/.zshrc"
+# grep filters out karabiner-driverkit's 1/s "virtual_hid_keyboard_ready" spam (jtroo/kanata#2109)
+alias kanata-run="sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 | grep --line-buffered -v virtual_hid_keyboard_ready"
 
 # yazi — cd to last directory on quit (c)
 function c() {
