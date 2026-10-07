@@ -1,0 +1,138 @@
+;; Kanata configuration — ALTERNATIVE: opposite-hand home-row mods
+;; Run instead of kanata.kbd:
+;;   sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata-opposite-hand.kbd
+;;
+;; Home-row mods live directly on the letters, decided by which hand presses
+;; the next key:
+;;   Left : a=Ctrl  s=Option  d=Command  f=Shift
+;;   Right: j=Shift k=Command l=Option   ;=Ctrl
+;; Space held = arrows on the right hand + French accents on the QWERTY row.
+;; CapsLock is a plain Escape. F-row = media, hold fn for F1-F12.
+;;
+;; How a home-row key decides (tap-hold-opposite-hand-release):
+;;   - next key on the SAME hand        => letter (rolls like "sd", "as", "fa")
+;;   - next key on the OTHER hand, pressed AND released while the home-row key
+;;     is still down                    => modifier (hold d, tap o = Cmd+O)
+;;   - other-hand key pressed but the home-row key released first => letter
+;;     (cross-hand rolls like "do", "ka": you lift d before o comes up)
+;;   - Space follows the other-hand rule for BOTH hands: hold d, tap Space =
+;;     Cmd+Space; "and " rolls stay letters because d comes up first
+;;   - held alone past $hold-timeout    => modifier (mod + mouse click)
+;;   - any key pressed within $prior-idle ms BEFORE it => letter, instantly
+;;     (mid-word and right after Space, so typing bursts never trigger a mod)
+;;
+;; Habits this asks for:
+;;   - Shortcuts use the mod on the OPPOSITE hand: Cmd+C = k + c, Cmd+L = d + l.
+;;     d + c types "dc".
+;;   - Capitals: f for right-hand letters, j for left-hand letters.
+;;   - Holding a home-row letter does not auto-repeat it.
+;;   - After typing, pause ~150ms before reaching for a mod (prior-idle).
+;;
+;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
+
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold   yes
+)
+
+(defvar
+  tap-timeout   220 ;; Space: tap-repress window
+  hold-timeout  200 ;; index + middle fingers
+  pinky-timeout 250 ;; ring + pinky lift later, give them more room
+  prior-idle    150 ;; a key pressed within this many ms => resolve as tap instantly
+)
+
+;; Every key you might press while holding a home-row mod needs a hand, or it
+;; counts as unknown-hand. spc is left out: it is a neutral key (thumb, either
+;; hand), configured per alias below.
+(defhands
+  (left  grv nubs 1 2 3 4 5 esc tab q w e r t a s d f g z x c v b
+         fn f1 f2 f3 f4 f5 f6)
+  (right 6 7 8 9 0 - = y u i o p [ ] \ h j k l ; ' n m , . /
+         bspc del ret up down left right home end pgup pgdn ins
+         f7 f8 f9 f10 f11 f12)
+)
+
+(defsrc
+  caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    spc  grv  nubs
+  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+)
+
+(defalias
+  ;; Options shared by every home-row mod:
+  ;;   timeout hold   — held alone long enough = modifier (needed for mod+click)
+  ;;   same-hand tap  — same-hand next key = letter (the whole point)
+  ;;   neutral spc hold — Space counts as the OPPOSITE hand for both sides:
+  ;;                    hold d or k, tap Space = Cmd+Space. Same release rule:
+  ;;                    lift d before Space comes up ("and ") and it's a letter.
+  ;;   unknown-hand tap — keys missing from defhands fail safe to letters.
+  hrm-a   (tap-hold-opposite-hand-release $pinky-timeout a lctl
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-s   (tap-hold-opposite-hand-release $pinky-timeout s lalt
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-d   (tap-hold-opposite-hand-release $hold-timeout d lmet
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-f   (tap-hold-opposite-hand-release $hold-timeout f lsft
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-j   (tap-hold-opposite-hand-release $hold-timeout j rsft
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-k   (tap-hold-opposite-hand-release $hold-timeout k rmet
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-l   (tap-hold-opposite-hand-release $pinky-timeout l ralt
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+  hrm-scl (tap-hold-opposite-hand-release $pinky-timeout ; rctl
+            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap) (require-prior-idle $prior-idle))
+
+  ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
+  ;;   q    w    e    r    t    y    u    i    o    p
+  ;;   à    â    é    è    ê    ç    ù    î    ô    û
+  agr (unicode à)
+  acx (unicode â)
+  eac (unicode é)
+  egr (unicode è)
+  ecx (unicode ê)
+  ced (unicode ç)
+  ugr (unicode ù)
+  icx (unicode î)
+  ocx (unicode ô)
+  ucx (unicode û)
+
+  ;; Space : tap = Space   hold = nav layer (arrows + accents).
+  ;; Same release rule as the home-row mods: nav engages only if another key
+  ;; goes down AND up while Space is held, or Space is held past hold-timeout.
+  ;; Rolling Space into the next word releases Space first, so it stays Space.
+  ;; a/s/d/f stay home-row mods inside nav, so Space, then d, then h = Cmd+←.
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held nav)
+        (require-prior-idle $prior-idle))
+
+  fn (multi fn (layer-while-held fkeys))
+)
+
+;; ── Base layer ───────────────────────────────────────────────────────────────
+;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
+;; 1 takes its old character (§ ±) in exchange.
+(deflayer base
+  esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
+  @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
+)
+
+;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
+;; h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
+(deflayer nav
+  _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+)
+
+;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
+(deflayer fkeys
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _  _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+)

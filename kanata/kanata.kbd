@@ -1,39 +1,32 @@
-;; Kanata configuration
-;; Home-row mods are ALWAYS active on both hands.
-;; Space held = arrows on the right hand + French accents on the QWERTY row;
-;; Tab held = numpad on the right hand.
-;; CapsLock is a plain Escape.
-;; F-row = media by default (brightness / Mission Control / playback / volume),
-;; because kanata's virtual keyboard isn't an Apple keyboard so macOS no longer
-;; applies its own fn semantics. Hold fn for the real F1-F12 (fkeys layer).
-;; Esc toggles the mods OFF into the `plain` layer (nothing is tap-hold there —
-;; a/s/d/f and space are literal, so WASD and fast typing behave normally).
-;; Tap Esc again to come back. Escape itself stays available on CapsLock.
+;; Kanata configuration — thumb mods, no tap-hold on letters
+;; Alternatives kept for comparison: kanata-space-layer.kbd (mods + arrows both
+;; under Space), kanata-opposite-hand.kbd (home-row mods on the letters).
 ;;
-;; Why this feels instant while still giving you mods:
-;;   tap-hold-release — release order still decides during typing:
-;;     Release the home-row key first  => it was a letter.
-;;     Release the OTHER key first     => it was a modifier.
-;;     (Typing "do" you lift d before o; for Alt+O you hold d across o.
-;;     Same-hand combos like Cmd+C on d+c work.)
-;;     PLUS a timeout: holding the key alone past hold-timeout resolves to the
-;;     modifier anyway. That is what makes mod+MOUSE-CLICK work — kanata never
-;;     sees the mouse, so hold the key ~200ms, then click. The cost: long-
-;;     pressing a home-row letter no longer auto-repeats it; tap then quickly
-;;     re-press-and-hold (within tap-timeout) to repeat, or use the plain layer.
-;;   require-prior-idle — a key typed just before a home-row key forces tap
-;;     instantly, which absorbs fast rolls mid-word.
-;;   hold-on-press lists — only the listed keys can pull Space/Tab into their
-;;     layer. Rolling space into any other letter types that letter.
+;; Every letter is a plain letter, always. Only two keys have a held role:
+;;   Space    held = mods layer: home-row keys become plain modifiers
+;;                   Left : a=Ctrl  s=Option  d=Command  f=Shift
+;;                   Right: j=Shift k=Command l=Option   ;=Ctrl
+;;                   Shortcut = Space + mod + key, e.g. Space+d+c = Cmd+C.
+;;                   Once one hand holds a mod, the other hand's home row is
+;;                   letters again: Space+j+a = A, Space+d+k = Cmd+K.
+;;   CapsLock held = arrows layer: h=← j=↓ k=↑ l=→  '=Enter
+;;                   a/s/d/f = the same left-hand mods (Caps+f+l = select →)
+;;                   QWERTY row = French accents (q..p = à â é è ê ç ù î ô û)
+;;            tap  = Escape
+;; F-row = media by default, hold fn for F1-F12.
+;; ISO swap: the key right of left Shift types ` and ~.
 ;;
-;; Only remapped keys are declared in defsrc; everything else passes through
-;; untouched (process-unmapped-keys keeps them visible to tap-hold decisions).
+;; Space decides by release order, like the home-row mods of the alternatives:
+;;   another key pressed AND released while Space is down => mods layer
+;;   Space released first (rolling into the next word)    => Space
+;;   Space held alone past hold-timeout                   => mods layer, so
+;;     Space+d (held) + mouse click = Cmd+click
+;;   a key typed within prior-idle ms before Space        => Space, instantly
+;; CapsLock switches to arrows on the first key pressed: it is never rolled
+;; into from typing, so it can afford to be instant (and arrows auto-repeat
+;; right away).
 ;;
-;; macOS key names:
-;;   lmet / rmet  = Command  (⌘)
-;;   lalt / ralt  = Option   (⌥)
-;;   lctl / rctl  = Control  (⌃)
-;;   lsft / rsft  = Shift    (⇧)
+;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
 
 (defcfg
   process-unmapped-keys yes
@@ -41,52 +34,18 @@
 )
 
 (defvar
-  tap-timeout  220 ;; tap-repress window: double-tap-hold within this ms = key repeat
-  hold-timeout 200
-  prior-idle   150 ;; a key pressed within this many ms => resolve as tap instantly
+  tap-timeout  220
+  hold-timeout 200 ;; Space held alone this long => mods layer
+  prior-idle   150 ;; a key pressed within this many ms => Space is a tap
 )
 
-;; Hand assignment, required by tap-hold-opposite-hand.
-;; Every key you might press WHILE holding a home-row mod must be listed here.
-;; Unassigned keys default to `ignore`, which means the mod never resolves to a
-;; hold -- that is what broke Ctrl+Backspace: bspc had no hand, so the Ctrl on
-;; `a` silently stayed a letter. The editing/nav cluster is right-hand, so reach
-;; for the LEFT mods (a s d f) when using Backspace, Delete, Enter or arrows.
-(defhands
-  (left  grv 1 2 3 4 5 esc tab q w e r t a s d f g z x c v b
-         fn f1 f2 f3 f4 f5 f6)
-  (right 6 7 8 9 0 - = y u i o p [ ] \ h j k l ; ' n m , . /
-         bspc del ret up down left right home end pgup pgdn ins
-         f7 f8 f9 f10 f11 f12)
-)
-
-;; Keys being remapped — everything else passes through untouched.
 (defsrc
-  esc  tab  caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    n    m    ,    .    spc
+  caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    spc  grv  nubs
   fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
 )
 
 (defalias
-  ;; Esc : tap = drop to the plain layer (home-row mods off); tap again to return.
-  ;; The inverse of a mods toggle: an escape hatch for gaming or heavy typing.
-  esc      (layer-switch plain)
-  esc-base (layer-switch base)
-
-  ;; ── Home row mods, always on ────────────────────────────────────────────────
-  ;; Left : a=Ctrl  s=Option  d=Command  f=Shift
-  ;; Right: j=Shift k=Command l=Option   ;=Ctrl
-  hrm-a     (tap-hold-release $tap-timeout $hold-timeout a lctl (require-prior-idle $prior-idle))
-  hrm-s     (tap-hold-release $tap-timeout $hold-timeout s lalt (require-prior-idle $prior-idle))
-  hrm-d     (tap-hold-release $tap-timeout $hold-timeout d lmet (require-prior-idle $prior-idle))
-  hrm-f     (tap-hold-release $tap-timeout $hold-timeout f lsft (require-prior-idle $prior-idle))
-  hrm-j     (tap-hold-release $tap-timeout $hold-timeout j rsft (require-prior-idle $prior-idle))
-  hrm-k     (tap-hold-release $tap-timeout $hold-timeout k rmet (require-prior-idle $prior-idle))
-  hrm-l     (tap-hold-release $tap-timeout $hold-timeout l ralt (require-prior-idle $prior-idle))
-  hrm-scl   (tap-hold-release $tap-timeout $hold-timeout ; rctl (require-prior-idle $prior-idle))
-
-  ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
-  ;;   q    w    e    r    t    y    u    i    o    p
-  ;;   à    â    é    è    ê    ç    ù    î    ô    û
+  ;; ── French accents (arrows layer, QWERTY row) ───────────────────────────────
   agr (unicode à)
   acx (unicode â)
   eac (unicode é)
@@ -98,58 +57,67 @@
   ocx (unicode ô)
   ucx (unicode û)
 
-  ;; Space : tap = Space   hold = nav layer.
-  ;; Only h/j/k/l (arrows), ' (enter) and the accent row (q..p)
-  ;; can trigger the hold, so rolling space into any other letter still types it.
-  spc (tap-hold-keys $tap-timeout $hold-timeout spc (layer-while-held nav)
-        (hold-on-press q w e r t y u i o h j k l p ') (require-prior-idle $prior-idle))
+  ;; Space : tap = Space   hold = mods layer (release-order decision).
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held mods)
+        (require-prior-idle $prior-idle))
 
-  ;; fn : passes through (fn+arrows, globe tap keep working) AND holds the
-  ;; fkeys layer, where the F-row is the literal F1-F12 instead of media.
+  ;; CapsLock : tap = Escape   hold = arrows layer, as soon as another key goes down.
+  caps (tap-hold-press $tap-timeout $hold-timeout esc (layer-while-held arrows))
+
   fn (multi fn (layer-while-held fkeys))
 
-  ;; Tab : tap = Tab   hold = numpad layer, limited to the numpad keys.
-  tab (tap-hold-keys $tap-timeout $hold-timeout tab (layer-while-held numpad)
-        (hold-on-press u i o j k l m n , .) (require-prior-idle $prior-idle))
+  ;; ── One hand's mods turn the other hand's home row back into letters ───────
+  ;; Holding a left mod (a/s/d/f) switches j/k/l/; to letters, and vice versa,
+  ;; so Space+j+a = A and Space+d+k = Cmd+K. Same-hand stacking still works
+  ;; (Space+d+f = Cmd+Shift); cross-hand mod combos are given up for this.
+  ml-a (multi lctl (layer-while-held mods-left))
+  ml-s (multi lalt (layer-while-held mods-left))
+  ml-d (multi lmet (layer-while-held mods-left))
+  ml-f (multi lsft (layer-while-held mods-left))
+  mr-j (multi rsft (layer-while-held mods-right))
+  mr-k (multi rmet (layer-while-held mods-right))
+  mr-l (multi ralt (layer-while-held mods-right))
+  mr-; (multi rctl (layer-while-held mods-right))
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
-;; Home-row mods live here permanently. CapsLock = Escape.
-;; F-row: F1 🔅  F2 🔆  F3 Mission Control  F7-F9 playback  F10-F12 sound.
-;; F4/F5/F6 stay plain — kanata has no Spotlight/Dictation/DND outputs.
+;; Plain letters everywhere. F-row: F1 🔅  F2 🔆  F3 Mission Control
+;; F7-F9 playback  F10-F12 sound.
 (deflayer base
-  @esc @tab esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc
-  @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
+  @caps _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
+  @fn   brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
 )
 
-;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
-;; h=← j=↓ k=↑ l=→   '=Enter
-;; QWERTY row = French accents: q=à w=â e=é r=è t=ê y=ç u=ù i=î o=ô p=û
-;; a/s/d/f stay transparent, so the base home-row mods still work while held.
-(deflayer nav
-  _    _    _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
+;; ── Mods layer (hold Space) ──────────────────────────────────────────────────
+;; a=Ctrl s=Option d=Command f=Shift | j=Shift k=Command l=Option ;=Ctrl
+(deflayer mods
+  _     @ml-a @ml-s @ml-d @ml-f _   @mr-j @mr-k @mr-l @mr-; _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
 )
 
-;; ── Numpad layer (hold Tab) ──────────────────────────────────────────────────
-;;   u i o  =  7 8 9      j k l  =  4 5 6      m , .  =  1 2 3      n = 0
-(deflayer numpad
-  _    _    _    _    _    _    _    _    4    5    6    _    _    _    _    _    _    _    _    7    8    9    _    0    1    2    3    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
+;; Left mod held (on top of mods): left mods stay, right home row = letters.
+(deflayer mods-left
+  _     lctl lalt lmet lsft _    j    k    l    ;    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
+)
+
+;; Right mod held (on top of mods): right mods stay, left home row = letters.
+(deflayer mods-right
+  _     a    s    d    f    _    rsft rmet ralt rctl _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
+)
+
+;; ── Arrows layer (hold CapsLock) ─────────────────────────────────────────────
+;; h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
+;; a/s/d/f are the left-hand mods here too, so CapsLock alone covers editing:
+;; Caps+f+h = Shift+← (select)   Caps+d+h = Cmd+← (line start)   Caps+s+h = Option+← (word)
+(deflayer arrows
+  _     lctl lalt lmet lsft left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
 )
 
 ;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
-;; The F-row reverts to the literal function keys while fn is held.
 (deflayer fkeys
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-)
-
-;; ── Plain layer (tap Esc to enter, Esc again to leave) ───────────────────────
-;; No tap-hold anywhere: the home row, Space and Tab are all literal. Values are
-;; written out rather than left transparent, because `_` would fall through to
-;; base and bring the tap-hold behaviour back with it.
-(deflayer plain
-  @esc-base tab esc  a    s    d    f    _    j    k    l    ;    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    spc
-  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  _     _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _     f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
 )

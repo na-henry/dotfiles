@@ -1,0 +1,112 @@
+;; Kanata configuration — ALTERNATIVE: Space layer for mods, arrows and accents
+;; Run instead of kanata.kbd:
+;;   sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata-space-layer.kbd
+;; Home-row mods live in the nav layer: hold Space, then a/s/d/f are
+;; Ctrl/Option/Command/Shift. Space held also gives arrows on the right hand
+;; and French accents on the QWERTY row. Space is the only layer key on the
+;; letter keys; Esc, Tab and the letters themselves are plain.
+;; CapsLock is a plain Escape.
+;; F-row = media by default (brightness / Mission Control / playback / volume),
+;; because kanata's virtual keyboard isn't an Apple keyboard so macOS no longer
+;; applies its own fn semantics. Hold fn for the real F1-F12 (fkeys layer).
+;;
+;; Why the home row stays plain letters:
+;;   With the mods behind Space, typing a/s/d/f never waits on a tap-hold
+;;   decision, and inside the nav layer they are plain modifiers, so
+;;   Space+d+click or Space+d+h (Cmd+←) work without any timeout.
+;;   require-prior-idle — a key typed just before Space forces tap instantly,
+;;     which absorbs fast rolls like "word then space".
+;;   tap-hold-release on Space — the nav layer only engages when another key
+;;     is pressed AND released while Space is down (or Space is held alone past
+;;     hold-timeout). Rolling Space into a word lifts Space first => Space.
+;;
+;; Only remapped keys are declared in defsrc; everything else passes through
+;; untouched (process-unmapped-keys keeps them visible to tap-hold decisions).
+;;
+;; macOS key names:
+;;   lmet / rmet  = Command  (⌘)
+;;   lalt / ralt  = Option   (⌥)
+;;   lctl / rctl  = Control  (⌃)
+;;   lsft / rsft  = Shift    (⇧)
+
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold   yes
+)
+
+(defvar
+  tap-timeout  220 ;; tap-repress window: double-tap-hold within this ms = key repeat
+  hold-timeout 200
+  prior-idle   150 ;; a key pressed within this many ms => resolve as tap instantly
+)
+
+;; Hand assignment, required by tap-hold-opposite-hand.
+;; Not used by the current layout (no tap-hold-opposite-hand); kept so it can
+;; be switched back on without re-listing every key.
+(defhands
+  (left  grv nubs 1 2 3 4 5 esc tab q w e r t a s d f g z x c v b
+         fn f1 f2 f3 f4 f5 f6)
+  (right 6 7 8 9 0 - = y u i o p [ ] \ h j k l ; ' n m , . /
+         bspc del ret up down left right home end pgup pgdn ins
+         f7 f8 f9 f10 f11 f12)
+)
+
+;; Keys being remapped — everything else passes through untouched.
+(defsrc
+  caps a    s    d    f    h    j    k    l    '    q    w    e    r    t    y    u    i    o    p    spc  grv  nubs
+  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+)
+
+(defalias
+  ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
+  ;;   q    w    e    r    t    y    u    i    o    p
+  ;;   à    â    é    è    ê    ç    ù    î    ô    û
+  agr (unicode à)
+  acx (unicode â)
+  eac (unicode é)
+  egr (unicode è)
+  ecx (unicode ê)
+  ced (unicode ç)
+  ugr (unicode ù)
+  icx (unicode î)
+  ocx (unicode ô)
+  ucx (unicode û)
+
+  ;; Space : tap = Space   hold = nav layer.
+  ;; Nav only engages if another key goes down AND up while Space is held, or
+  ;; Space is held past hold-timeout (Space+d+click, Space+l auto-repeat).
+  ;; Rolling Space into the next word releases Space first, so it stays Space.
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held nav)
+        (require-prior-idle $prior-idle))
+
+  ;; fn : passes through (fn+arrows, globe tap keep working) AND holds the
+  ;; fkeys layer, where the F-row is the literal F1-F12 instead of media.
+  fn (multi fn (layer-while-held fkeys))
+)
+
+;; ── Base layer ───────────────────────────────────────────────────────────────
+;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
+;; 1 takes its old character (§ ±) in exchange.
+;; Home row is plain letters (mods are under Space). CapsLock = Escape.
+;; F-row: F1 🔅  F2 🔆  F3 Mission Control  F7-F9 playback  F10-F12 sound.
+;; F4/F5/F6 stay plain — kanata has no Spotlight/Dictation/DND outputs.
+(deflayer base
+  esc  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
+  @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
+)
+
+;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
+;; h=← j=↓ k=↑ l=→   '=Enter
+;; QWERTY row = French accents: q=à w=â e=é r=è t=ê y=ç u=ù i=î o=ô p=û
+;; Home-row mods: a=Ctrl  s=Option  d=Command  f=Shift  (plain modifiers).
+(deflayer nav
+  _    lctl lalt lmet lsft left down up   right ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+)
+
+;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
+;; The F-row reverts to the literal function keys while fn is held.
+(deflayer fkeys
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _  _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+)
