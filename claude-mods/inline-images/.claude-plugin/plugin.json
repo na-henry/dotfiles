@@ -1,0 +1,9 @@
+{
+  "name": "inline-images",
+  "version": "0.1.0",
+  "description": "Shows images pasted or attached to a prompt as thumbnails under that message in the terminal transcript (kitty graphics: Ghostty, kitty).",
+  "author": {
+    "name": "Nathan Henry"
+  },
+  "types": "./types/index.d.ts"
+}

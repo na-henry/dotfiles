@@ -51,6 +51,12 @@ alias pir="pi --resume"
 alias reload="source ~/.zshrc"
 # grep filters out karabiner-driverkit's 1/s "virtual_hid_keyboard_ready" spam (jtroo/kanata#2109)
 alias kanata-run="sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 | grep --line-buffered -v virtual_hid_keyboard_ready"
+# claude with personal subscription (separate login/config from the default ~/.claude)
+# loads the gh-prs (PR band, /prs) and inline-images (pasted-image thumbnails) mods
+claude_perso_mods="$HOME/Documents/dotfiles/claude-mods"
+alias claude-perso="CLAUDE_CONFIG_DIR=$HOME/.claude-perso claude --plugin-dir $claude_perso_mods/gh-prs --plugin-dir $claude_perso_mods/inline-images"
+# herdr reports itself as "libghostty", which claude's image allowlist lacks, though it draws kitty graphics fine
+[[ -n $HERDR_ENV ]] && export CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1
 
 # yazi — cd to last directory on quit (c)
 function c() {
