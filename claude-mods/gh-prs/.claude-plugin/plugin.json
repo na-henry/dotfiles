@@ -1,0 +1,9 @@
+{
+  "name": "gh-prs",
+  "version": "0.1.0",
+  "description": "GitHub PR widget: the current branch's PR above the prompt, and /prs listing your open PRs and review requests.",
+  "author": {
+    "name": "Nathan Henry"
+  },
+  "types": "./types/index.d.ts"
+}
