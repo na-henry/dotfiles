@@ -10,7 +10,8 @@
 ;; CapsLock is a plain Escape. F-row = media, hold fn for F1-F12.
 ;;
 ;; How a home-row key decides (tap-hold-opposite-hand-release):
-;;   - next key on the SAME hand        => letter (rolls like "sd", "as", "fa")
+;;   - next key on the SAME hand        => no decision yet, keep waiting; this
+;;     is what lets mods stack (d+f held, tap o = Cmd+Shift+O)
 ;;   - next key on the OTHER hand, pressed AND released while the home-row key
 ;;     is still down                    => modifier (hold d, tap o = Cmd+O)
 ;;   - other-hand key pressed but the home-row key released first => letter
@@ -18,15 +19,14 @@
 ;;   - Space follows the other-hand rule for BOTH hands: hold d, tap Space =
 ;;     Cmd+Space; "and " rolls stay letters because d comes up first
 ;;   - held alone past $hold-timeout    => modifier (mod + mouse click)
-;;   - any key pressed within $prior-idle ms BEFORE it => letter, instantly
-;;     (mid-word and right after Space, so typing bursts never trigger a mod)
+;;   - same-hand rolls ("sd", "as") stay letters because the first key comes
+;;     up before any other-hand key is released
 ;;
 ;; Habits this asks for:
 ;;   - Shortcuts use the mod on the OPPOSITE hand: Cmd+C = k + c, Cmd+L = d + l.
 ;;     d + c types "dc".
 ;;   - Capitals: f for right-hand letters, j for left-hand letters.
 ;;   - Holding a home-row letter does not auto-repeat it.
-;;   - After typing, pause ~150ms before reaching for a mod (prior-idle).
 ;;
 ;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
 
@@ -39,7 +39,7 @@
   tap-timeout   220 ;; Space: tap-repress window
   hold-timeout  200 ;; index + middle fingers
   pinky-timeout 250 ;; ring + pinky lift later, give them more room
-  prior-idle    150 ;; a key pressed within this many ms => resolve as tap instantly
+  prior-idle    150 ;; Space only: a key pressed within this many ms => tap instantly
 )
 
 ;; Every key you might press while holding a home-row mod needs a hand, or it
@@ -61,35 +61,40 @@
 (defalias
   ;; Options shared by every home-row mod:
   ;;   timeout hold   — held alone long enough = modifier (needed for mod+click)
-  ;;   same-hand tap  — same-hand next key = letter (the whole point)
+  ;;   same-hand ignore — same-hand keys don't decide; keep waiting for the
+  ;;                    other hand, so d+f held + tap o = Cmd+Shift+O (stacks
+  ;;                    up to a+s+d+f). Same-hand rolls stay letters through
+  ;;                    the release rule: "sd" lifts s before anything else.
+  ;;   no require-prior-idle — it would turn the second stacked mod, pressed
+  ;;                    ~20ms after the first, into a letter.
   ;;   neutral spc hold — Space counts as the OPPOSITE hand for both sides:
   ;;                    hold d or k, tap Space = Cmd+Space. Same release rule:
   ;;                    lift d before Space comes up ("and ") and it's a letter.
   ;;   unknown-hand tap — keys missing from defhands fail safe to letters.
   hrm-a   (tap-hold-opposite-hand-release $pinky-timeout a lctl
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-s   (tap-hold-opposite-hand-release $pinky-timeout s lalt
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-d   (tap-hold-opposite-hand-release $hold-timeout d lmet
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-f   (tap-hold-opposite-hand-release $hold-timeout f lsft
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-j   (tap-hold-opposite-hand-release $hold-timeout j rsft
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-k   (tap-hold-opposite-hand-release $hold-timeout k rmet
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-l   (tap-hold-opposite-hand-release $pinky-timeout l ralt
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
   hrm-scl (tap-hold-opposite-hand-release $pinky-timeout ; rctl
-            (timeout hold) (same-hand tap) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap) (require-prior-idle $prior-idle))
+            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
+            (unknown-hand tap))
 
   ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
   ;;   q    w    e    r    t    y    u    i    o    p
