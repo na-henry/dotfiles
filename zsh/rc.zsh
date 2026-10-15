@@ -52,6 +52,19 @@ alias reload="source ~/.zshrc"
 # grep filters out karabiner-driverkit's 1/s "virtual_hid_keyboard_ready" spam (jtroo/kanata#2109)
 alias kanata-run="sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 | grep --line-buffered -v virtual_hid_keyboard_ready"
 
+# kanata-log — kanata-run with --debug, recording every raw key event to
+# ~/.local/state/kanata-logs/<timestamp>.log for typing analysis.
+# Records passwords too: stop it (Ctrl+C) before typing one.
+function kanata-log() {
+  local dir="$HOME/.local/state/kanata-logs"
+  local log="$dir/$(date +%Y%m%d-%H%M%S).log"
+  mkdir -p -m 700 "$dir"
+  (umask 077; : > "$log")
+  echo "kanata-log: writing to $log (Ctrl+C to stop)"
+  sudo kanata --debug --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 \
+    | grep --line-buffered -v virtual_hid_keyboard_ready >> "$log"
+}
+
 # yazi — cd to last directory on quit (c)
 function c() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
