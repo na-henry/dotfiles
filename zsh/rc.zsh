@@ -52,9 +52,9 @@ alias reload="source ~/.zshrc"
 # grep filters out karabiner-driverkit's 1/s "virtual_hid_keyboard_ready" spam (jtroo/kanata#2109)
 alias kanata-run="sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 | grep --line-buffered -v virtual_hid_keyboard_ready"
 
-# kanata-log — kanata-run with --debug, recording every raw key event to
-# ~/.local/state/kanata-logs/<timestamp>.log for typing analysis, one line per
-# event: "2026-10-15 17:39:22.9119 KEY_A Press" (Press/Release/Repeat).
+# kanata-log — runs the opposite-hand config with --debug, recording every raw
+# key event to ~/.local/state/kanata-logs/<timestamp>.log for typing analysis,
+# one line per event: "2026-10-15 17:39:22.9119 KEY_A Press" (Press/Release/Repeat).
 # Records passwords too: stop it (Ctrl+C) before typing one.
 function kanata-log() {
   local dir="$HOME/.local/state/kanata-logs"
@@ -63,7 +63,7 @@ function kanata-log() {
   (umask 077; : > "$log")
   echo "kanata-log: writing to $log (Ctrl+C to stop)"
   zmodload zsh/datetime
-  sudo kanata --debug --cfg ~/Documents/dotfiles/kanata/kanata.kbd 2>&1 \
+  sudo kanata --debug --cfg ~/Documents/dotfiles/kanata/kanata-opposite-hand.kbd 2>&1 \
     | sed -l -nE 's/^([0-9:.]+) .*process recv ev KeyEvent \{ code: ([A-Z0-9_]+) \([0-9]+\), value: ([A-Za-z]+) \}.*/\1 \2 \3/p' \
     | while IFS= read -r line; do
         strftime -s day %Y-%m-%d $EPOCHSECONDS
