@@ -1,0 +1,126 @@
+;; Kanata configuration — ALTERNATIVE: chord mods on the home row
+;; Run instead of kanata.kbd:
+;;   sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata-chords.kbd
+;;
+;; The home row types plain letters, with no hold-to-decide delay. Modifiers
+;; come from pressing neighbouring home-row keys together (within $chord-timeout)
+;; and stay held for as long as the chord is held:
+;;   Left : d+f = Command   s+d = Option   a+s = Control
+;;   Right: j+k = Command   k+l = Option   l+; = Control
+;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
+;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
+;; Shift is the physical Shift keys.
+;; Space held = arrows on the right hand + French accents on the QWERTY row.
+;; Tab held = numpad on the right hand: u i o / j k l / m , . = 789 / 456 / 123, n = 0.
+;; CapsLock is a plain Escape. F-row = media, hold fn for F1-F12.
+;;
+;; Shortcuts: chord on one hand, key on the other: Cmd+C = j+k then c,
+;; Cmd+L = d+f then l. Mod + click: hold the chord and click.
+;; A chord key waits for its partner only until the next key comes (at most
+;; $chord-timeout); typing logs showed home-row pairs never typed this close.
+;;
+;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
+
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold   yes ;; required by defchordsv2
+)
+
+(defvar
+  tap-timeout   220 ;; Space: tap-repress window
+  hold-timeout  200 ;; Space / Tab: held alone this long => layer
+  prior-idle    150 ;; Space only: a key pressed within this many ms => tap instantly
+  chord-timeout 40  ;; deliberate stacks land 17–32ms apart, typing pairs never under 40ms
+)
+
+;; The right-hand chords are off in nav and numpad, where j k l are arrows
+;; and digits (typing "45" fast must not become Command).
+(defchordsv2
+  (d f)       lmet                      $chord-timeout first-release ()
+  (s d)       lalt                      $chord-timeout first-release ()
+  (a s)       lctl                      $chord-timeout first-release ()
+  (s d f)     (multi lalt lmet)         $chord-timeout first-release ()
+  (a s d)     (multi lctl lalt)         $chord-timeout first-release ()
+  (a d f)     (multi lctl lmet)         $chord-timeout first-release ()
+  (a s d f)   (multi lctl lalt lmet)    $chord-timeout first-release ()
+  (j k)       rmet                      $chord-timeout first-release (nav numpad)
+  (k l)       ralt                      $chord-timeout first-release (nav numpad)
+  (l ;)       rctl                      $chord-timeout first-release (nav numpad)
+  (j k l)     (multi rmet ralt)         $chord-timeout first-release (nav numpad)
+  (k l ;)     (multi ralt rctl)         $chord-timeout first-release (nav numpad)
+  (j k ;)     (multi rmet rctl)         $chord-timeout first-release (nav numpad)
+  (j k l ;)   (multi rmet ralt rctl)    $chord-timeout first-release (nav numpad)
+)
+
+(defsrc
+  caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    spc  grv  nubs
+  fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  tab  n    m    ,    .
+)
+
+(defalias
+  ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
+  ;;   q    w    e    r    t    y    u    i    o    p
+  ;;   à    â    é    è    ê    ç    ù    î    ô    û
+  agr (unicode à)
+  acx (unicode â)
+  eac (unicode é)
+  egr (unicode è)
+  ecx (unicode ê)
+  ced (unicode ç)
+  ugr (unicode ù)
+  icx (unicode î)
+  ocx (unicode ô)
+  ucx (unicode û)
+
+  ;; Space : tap = Space   hold = nav layer (arrows + accents).
+  ;; nav engages only if another key goes down AND up while Space is held, or
+  ;; Space is held past hold-timeout. Rolling Space into the next word
+  ;; releases Space first, so it stays Space.
+  ;; Left-hand chords still work inside nav: Space, then d+f, then h = Cmd+←.
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held nav)
+        (require-prior-idle $prior-idle))
+
+  ;; Tab : tap = Tab   hold = numpad layer. Same release rule as Space, but no
+  ;; prior-idle: Tab right after typing (shell completion) is released before
+  ;; the next key comes up, so it stays Tab.
+  tab (tap-hold-release $tap-timeout $hold-timeout tab (layer-while-held numpad))
+
+  fn (multi fn (layer-while-held fkeys))
+)
+
+;; ── Base layer ───────────────────────────────────────────────────────────────
+;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
+;; 1 takes its old character (§ ±) in exchange.
+(deflayer base
+  esc  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
+  @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
+  @tab _    _    _    _
+)
+
+;; ── Nav layer (hold Space) ───────────────────────────────────────────────────
+;; h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
+(deflayer nav
+  _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _
+)
+
+;; ── Numpad layer (hold Tab) ──────────────────────────────────────────────────
+;;   u i o   7 8 9
+;;   j k l   4 5 6
+;;   m , .   1 2 3
+;;   n       0
+;; Left-hand chords still give mods here.
+(deflayer numpad
+  _    _    _    _    _    _    4    5    6    _    _    _    _    _    _    _    _    7    8    9    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    0    1    2    3
+)
+
+;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
+(deflayer fkeys
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _  _    _
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  _    _    _    _    _
+)
