@@ -3,8 +3,8 @@
 ;;   sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata-chords.kbd
 ;;
 ;; The home row types plain letters, with no hold-to-decide delay. Modifiers
-;; come from pressing neighbouring home-row keys together (within $chord-timeout)
-;; and stay held for as long as the chord is held:
+;; come from pressing neighbouring home-row keys together
+;; (40ms for 2 keys, 60ms for 3, 75ms for 4) and stay held while the chord is held:
 ;;   Left : d+f = Command   s+d = Option   a+s = Control
 ;;   Right: j+k = Command   k+l = Option   l+; = Control
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
@@ -17,7 +17,7 @@
 ;; Shortcuts: chord on one hand, key on the other: Cmd+C = j+k then c,
 ;; Cmd+L = d+f then l. Mod + click: hold the chord and click.
 ;; A chord key waits for its partner only until the next key comes (at most
-;; $chord-timeout); typing logs showed home-row pairs never typed this close.
+;; the chord window); typing logs showed home-row pairs never typed this close.
 ;;
 ;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
 
@@ -30,7 +30,12 @@
   tap-timeout   220 ;; Space: tap-repress window
   hold-timeout  200 ;; Space / Tab: held alone this long => layer
   prior-idle    150 ;; Space only: a key pressed within this many ms => tap instantly
-  chord-timeout 40  ;; deliberate stacks land 17–32ms apart, typing pairs never under 40ms
+  ;; The keyboard reports keys in ~15ms steps, so N keys pressed "at once"
+  ;; spread over (N-1)*15ms: 4-key chords landed 43–46ms apart. Typing pairs
+  ;; were never under 40ms.
+  chord-timeout  40 ;; 2 keys
+  chord3-timeout 60 ;; 3 keys
+  chord4-timeout 75 ;; 4 keys
 )
 
 ;; The right-hand chords are off in nav and numpad, where j k l are arrows
@@ -39,17 +44,17 @@
   (d f)       lmet                      $chord-timeout first-release ()
   (s d)       lalt                      $chord-timeout first-release ()
   (a s)       lctl                      $chord-timeout first-release ()
-  (s d f)     (multi lalt lmet)         $chord-timeout first-release ()
-  (a s d)     (multi lctl lalt)         $chord-timeout first-release ()
-  (a d f)     (multi lctl lmet)         $chord-timeout first-release ()
-  (a s d f)   (multi lctl lalt lmet)    $chord-timeout first-release ()
+  (s d f)     (multi lalt lmet)         $chord3-timeout first-release ()
+  (a s d)     (multi lctl lalt)         $chord3-timeout first-release ()
+  (a d f)     (multi lctl lmet)         $chord3-timeout first-release ()
+  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release ()
   (j k)       rmet                      $chord-timeout first-release (nav numpad)
   (k l)       ralt                      $chord-timeout first-release (nav numpad)
   (l ;)       rctl                      $chord-timeout first-release (nav numpad)
-  (j k l)     (multi rmet ralt)         $chord-timeout first-release (nav numpad)
-  (k l ;)     (multi ralt rctl)         $chord-timeout first-release (nav numpad)
-  (j k ;)     (multi rmet rctl)         $chord-timeout first-release (nav numpad)
-  (j k l ;)   (multi rmet ralt rctl)    $chord-timeout first-release (nav numpad)
+  (j k l)     (multi rmet ralt)         $chord3-timeout first-release (nav numpad)
+  (k l ;)     (multi ralt rctl)         $chord3-timeout first-release (nav numpad)
+  (j k ;)     (multi rmet rctl)         $chord3-timeout first-release (nav numpad)
+  (j k l ;)   (multi rmet ralt rctl)    $chord4-timeout first-release (nav numpad)
 )
 
 (defsrc
