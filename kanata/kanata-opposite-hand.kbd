@@ -5,7 +5,8 @@
 ;; Home-row mods live directly on the letters, decided by which hand presses
 ;; the next key:
 ;;   Left : a=Ctrl  s=Option  d=Command  f=Shift
-;;   Right: j=Shift k=Command l=Option   ;=Ctrl
+;;   Right: j=Shift k=Command            ;=Ctrl   (l stays a plain letter:
+;;          right Option went unused; s gives Option for right-hand keys)
 ;; Space held = arrows on the right hand + French accents on the QWERTY row.
 ;; Tab held = numpad on the right hand: u i o / j k l / m , . = 789 / 456 / 123, n = 0.
 ;; CapsLock is a plain Escape. F-row = media, hold fn for F1-F12.
@@ -40,6 +41,7 @@
   tap-timeout   220 ;; Space: tap-repress window
   hold-timeout  200 ;; index + middle fingers
   pinky-timeout 250 ;; ring + pinky lift later, give them more room
+  scl-timeout   300 ;; ; taps are held longest (p95 ~240ms), keep them letters
   prior-idle    150 ;; Space only: a key pressed within this many ms => tap instantly
 )
 
@@ -91,10 +93,7 @@
   hrm-k   (tap-hold-opposite-hand-release $hold-timeout k rmet
             (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
             (unknown-hand tap))
-  hrm-l   (tap-hold-opposite-hand-release $pinky-timeout l ralt
-            (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
-            (unknown-hand tap))
-  hrm-scl (tap-hold-opposite-hand-release $pinky-timeout ; rctl
+  hrm-scl (tap-hold-opposite-hand-release $scl-timeout ; rctl
             (timeout hold) (same-hand ignore) (neutral-keys spc) (neutral hold)
             (unknown-hand tap))
 
@@ -132,7 +131,7 @@
 ;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
 ;; 1 takes its old character (§ ±) in exchange.
 (deflayer base
-  esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k @hrm-l @hrm-scl _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
+  esc  @hrm-a @hrm-s @hrm-d @hrm-f _    @hrm-j @hrm-k _      @hrm-scl _    _    _    _    _    _    _    _    _    _    _    @spc nubs grv
   @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
   @tab _    _    _    _
 )
