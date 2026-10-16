@@ -5,10 +5,8 @@
 ;; The home row types plain letters, with no hold-to-decide delay. Modifiers
 ;; come from pressing home-row keys together
 ;; (40ms for 2 keys, 60ms for 3, 75ms for 4) and stay held while the chord is held:
-;;   Left : d+f = Command   s+d = Option   s+f = Control
-;;   Right: j+k = Command   k+l = Option   j+l = Control
-;;   (Control skips the middle finger: "as" is sometimes typed within 50ms,
-;;   s+f and j+l are almost never typed in a row; a and ; stay letters.)
+;;   Left : d+f = Command   s+d = Option   a+s = Control
+;;   Right: j+k = Command   k+l = Option   l+; = Control
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
 ;; Shift is the physical Shift keys, and both Command keys are Shift too.
@@ -46,14 +44,14 @@
 (defchordsv2
   (d f)       lmet                      $chord-timeout first-release ()
   (s d)       lalt                      $chord-timeout first-release ()
-  (s f)       lctl                      $chord-timeout first-release ()
+  (a s)       lctl                      $chord-timeout first-release ()
   (s d f)     (multi lalt lmet)         $chord3-timeout first-release ()
   (a s d)     (multi lctl lalt)         $chord3-timeout first-release ()
   (a d f)     (multi lctl lmet)         $chord3-timeout first-release ()
   (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release ()
   (j k)       rmet                      $chord-timeout first-release (nav numpad)
   (k l)       ralt                      $chord-timeout first-release (nav numpad)
-  (j l)       rctl                      $chord-timeout first-release (nav numpad)
+  (l ;)       rctl                      $chord-timeout first-release (nav numpad)
   (j k l)     (multi rmet ralt)         $chord3-timeout first-release (nav numpad)
   (k l ;)     (multi ralt rctl)         $chord3-timeout first-release (nav numpad)
   (j k ;)     (multi rmet rctl)         $chord3-timeout first-release (nav numpad)
