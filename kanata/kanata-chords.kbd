@@ -12,8 +12,9 @@
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
 ;; Shift is the physical Shift keys, and both Command keys are Shift too.
-;; Tab held = arrows on the right hand + French accents on the QWERTY row.
-;; CapsLock: tap = Escape, hold = numpad on the right hand:
+;; CapsLock: tap = Escape, hold = arrows on the right hand + French accents
+;; on the QWERTY row.
+;; Tab held = numpad on the right hand:
 ;;   u i o / j k l / m , . = 789 / 456 / 123, n = 0.
 ;; Space is a plain Space. F-row = media, hold fn for F1-F12.
 ;;
@@ -80,17 +81,17 @@
   ocx (unicode ô)
   ucx (unicode û)
 
-  ;; Tab : tap = Tab   hold = nav layer (arrows + accents).
-  ;; nav engages only if another key goes down AND up while Tab is held, or
-  ;; Tab is held past hold-timeout. Tab right after typing (shell completion)
-  ;; is released before the next key comes up, so it stays Tab.
-  ;; Left-hand chords still work inside nav: Tab, then d+f, then h = Cmd+←.
-  tab (tap-hold-release $tap-timeout $hold-timeout tab (layer-while-held nav))
+  ;; CapsLock : tap = Escape   hold = nav layer (arrows + accents).
+  ;; nav engages only if another key goes down AND up while CapsLock is held,
+  ;; or CapsLock is held past hold-timeout. Escape right after typing (vim)
+  ;; is released before the next key comes up, so it stays Escape.
+  ;; Left-hand chords still work inside nav: CapsLock, then d+f, then h = Cmd+←.
+  caps (tap-hold-release $tap-timeout $hold-timeout esc (layer-while-held nav))
 
-  ;; CapsLock : tap = Escape   hold = numpad layer. Same release rule as
-  ;; Tab: Escape right after typing (vim) is released
-  ;; before the next key comes up, so it stays Escape.
-  caps (tap-hold-release $tap-timeout $hold-timeout esc (layer-while-held numpad))
+  ;; Tab : tap = Tab   hold = numpad layer. Same release rule as CapsLock:
+  ;; Tab right after typing (shell completion) is released before the next
+  ;; key comes up, so it stays Tab.
+  tab (tap-hold-release $tap-timeout $hold-timeout tab (layer-while-held numpad))
 
   fn (multi fn (layer-while-held fkeys))
 )
@@ -105,7 +106,7 @@
   lsft _    _    _    _    rsft
 )
 
-;; ── Nav layer (hold Tab) ─────────────────────────────────────────────────────
+;; ── Nav layer (hold CapsLock) ────────────────────────────────────────────────
 ;; h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
 (deflayer nav
   _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
@@ -113,7 +114,7 @@
   _    _    _    _    _    _
 )
 
-;; ── Numpad layer (hold CapsLock) ──────────────────────────────────────────────────
+;; ── Numpad layer (hold Tab) ──────────────────────────────────────────────────────
 ;;   u i o   7 8 9
 ;;   j k l   4 5 6
 ;;   m , .   1 2 3
