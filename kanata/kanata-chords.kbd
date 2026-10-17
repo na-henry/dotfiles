@@ -10,8 +10,9 @@
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
 ;; Shift is the physical Shift keys, and both Command keys are Shift too.
-;; CapsLock: tap = Escape, hold = arrows on the right hand + French accents
-;; on the QWERTY row.
+;; CapsLock: tap = Escape, hold = arrows on the right hand, one-key mods on
+;; the left (a s d f = Control Option Command Shift) + French accents on the
+;; QWERTY row.
 ;; Tab held = numpad on the right hand:
 ;;   u i o / j k l / m , . = 789 / 456 / 123, n = 0.
 ;; Space is a plain Space. F-row = media, hold fn for F1-F12.
@@ -40,15 +41,16 @@
 )
 
 ;; The right-hand chords are off in nav and numpad, where j k l are arrows
-;; and digits (typing "45" fast must not become Command).
+;; and digits (typing "45" fast must not become Command). The left-hand
+;; chords are off in nav, where a s d f are single-key mods.
 (defchordsv2
-  (d f)       lmet                      $chord-timeout first-release ()
-  (s d)       lalt                      $chord-timeout first-release ()
-  (a s)       lctl                      $chord-timeout first-release ()
-  (s d f)     (multi lalt lmet)         $chord3-timeout first-release ()
-  (a s d)     (multi lctl lalt)         $chord3-timeout first-release ()
-  (a d f)     (multi lctl lmet)         $chord3-timeout first-release ()
-  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release ()
+  (d f)       lmet                      $chord-timeout first-release (nav)
+  (s d)       lalt                      $chord-timeout first-release (nav)
+  (a s)       lctl                      $chord-timeout first-release (nav)
+  (s d f)     (multi lalt lmet)         $chord3-timeout first-release (nav)
+  (a s d)     (multi lctl lalt)         $chord3-timeout first-release (nav)
+  (a d f)     (multi lctl lmet)         $chord3-timeout first-release (nav)
+  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release (nav)
   (j k)       rmet                      $chord-timeout first-release (nav numpad)
   (k l)       ralt                      $chord-timeout first-release (nav numpad)
   (l ;)       rctl                      $chord-timeout first-release (nav numpad)
@@ -83,7 +85,7 @@
   ;; nav engages only if another key goes down AND up while CapsLock is held,
   ;; or CapsLock is held past hold-timeout. Escape right after typing (vim)
   ;; is released before the next key comes up, so it stays Escape.
-  ;; Left-hand chords still work inside nav: CapsLock, then d+f, then h = Cmd+←.
+  ;; Inside nav, a s d f are plain mods: CapsLock, then d, then h = Cmd+←.
   caps (tap-hold-release $tap-timeout $hold-timeout esc (layer-while-held nav))
 
   ;; Tab : tap = Tab   hold = numpad layer. Same release rule as CapsLock:
@@ -105,9 +107,9 @@
 )
 
 ;; ── Nav layer (hold CapsLock) ────────────────────────────────────────────────
-;; h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
+;; a=⌃ s=⌥ d=⌘ f=⇧   h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
 (deflayer nav
-  _    _    _    _    _    left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _    lctl lalt lmet lsft left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _
 )
