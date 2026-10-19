@@ -9,14 +9,14 @@
 ;;   Right: j+k = Command   k+l = Option   l+; = Control
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
-;; Shift and Command are swapped: the Command keys type Shift, the Shift keys
-;; type Command.
-;; CapsLock: tap = Escape, hold = arrows on the right hand, one-key mods on
+;; Command keys: tap = Space, hold = Shift. The Shift keys type Command.
+;; Space: tap = Space, hold = nav (same layer as CapsLock held).
+;; CapsLock: tap = Escape, hold = nav: arrows on the right hand, one-key mods on
 ;; the left (a s d f = Control Option Command Shift) + French accents on the
 ;; QWERTY row.
 ;; Tab held = numpad on the right hand:
 ;;   u i o / j k l / m , . = 789 / 456 / 123, n = 0.
-;; Space is a plain Space. F-row = media, hold fn for F1-F12.
+;; F-row = media, hold fn for F1-F12.
 ;;
 ;; Shortcuts: chord on one hand, key on the other: Cmd+C = j+k then c,
 ;; Cmd+L = d+f then l. Mod + click: hold the chord and click.
@@ -64,7 +64,7 @@
 (defsrc
   caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    tab  grv  nubs
   fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  lmet n    m    ,    .    rmet lsft rsft
+  lmet n    m    ,    .    rmet lsft rsft spc
 )
 
 (defalias
@@ -94,25 +94,36 @@
   ;; key comes up, so it stays Tab.
   tab (tap-hold-release $tap-timeout $hold-timeout tab (layer-while-held numpad))
 
+  ;; Space : tap = Space   hold = nav layer, same release rule as CapsLock.
+  ;; A space rolled into the next word is released before that letter comes
+  ;; up, so it stays Space.
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held nav))
+
+  ;; Command keys : tap = Space   hold = Shift. Shift engages once another key
+  ;; goes down AND up while held: hold Command, type the letter, let go.
+  ;; Releasing Command before the letter comes up gives a Space instead.
+  lcmd (tap-hold-release $tap-timeout $hold-timeout spc lsft)
+  rcmd (tap-hold-release $tap-timeout $hold-timeout spc rsft)
+
   fn (multi fn (layer-while-held fkeys))
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
-;; 1 takes its old character (§ ±) in exchange. Command and Shift swap: the
-;; Command keys type Shift, the Shift keys type Command (chords give it too).
+;; 1 takes its old character (§ ±) in exchange. The Command keys tap Space and
+;; hold Shift; the Shift keys type Command (chords give it too).
 (deflayer base
   @caps _   _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @tab nubs grv
   @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
-  lsft _    _    _    _    rsft lmet rmet
+  @lcmd _   _    _    _    @rcmd lmet rmet @spc
 )
 
-;; ── Nav layer (hold CapsLock) ────────────────────────────────────────────────
+;; ── Nav layer (hold CapsLock or Space) ───────────────────────────────────────────
 ;; a=⌃ s=⌥ d=⌘ f=⇧   h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
 (deflayer nav
   _    lctl lalt lmet lsft left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _
 )
 
 ;; ── Numpad layer (hold Tab) ──────────────────────────────────────────────────────
@@ -124,12 +135,12 @@
 (deflayer numpad
   _    _    _    _    _    _    4    5    6    _    _    _    _    _    _    _    _    7    8    9    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    0    1    2    3    _    _    _
+  _    0    1    2    3    _    _    _    _
 )
 
 ;; ── Fkeys layer (hold fn) ────────────────────────────────────────────────────
 (deflayer fkeys
   _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _  _    _
   _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _
 )
