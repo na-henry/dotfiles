@@ -9,7 +9,8 @@
 ;;   Right: j+k = Command   k+l = Option   l+; = Control
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
-;; Command keys: tap = Space, hold = Shift. The Shift keys type Command.
+;; Command keys: tap = switch keyboard layout (sends F18, Vorssaint's Super Key
+;; tap), hold = Shift. The Shift keys type Command.
 ;; Space: tap = Space, hold = mods: the whole home row turns into opposite-hand
 ;; mods  a s d f = Control Option Command Shift   j k l ; = Shift Command Option Control
 ;;   A home-row key is a mod only when a key on the OTHER hand is pressed AND
@@ -70,7 +71,7 @@
 )
 
 ;; Hands for the opposite-hand mods in the Space layer. Space and the
-;; Command keys (Space / Shift) are thumb keys: they count as the other hand
+;; Command keys (layout / Shift) are thumb keys: they count as the other hand
 ;; for both sides, so Space, d, Space = Cmd+Space. Keys missing here type
 ;; their letter.
 (defhands
@@ -145,19 +146,22 @@
   ;; up, so it stays Space.
   spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held mods))
 
-  ;; Command keys : tap = Space   hold = Shift. Shift engages once another key
-  ;; goes down AND up while held: hold Command, type the letter, let go.
-  ;; Releasing Command before the letter comes up gives a Space instead.
-  lcmd (tap-hold-release $tap-timeout $hold-timeout spc lsft)
-  rcmd (tap-hold-release $tap-timeout $hold-timeout spc rsft)
+  ;; Command keys : tap = switch layout   hold = Shift. Shift engages once
+  ;; another key goes down AND up while held: hold Command, type the letter,
+  ;; let go. Releasing Command before the letter comes up switches the layout.
+  ;; The tap sends F18: Vorssaint's Super Key listens for F18 (the key it maps
+  ;; Caps Lock to) and, tapped alone with "Switch input source" as its solo
+  ;; action, moves to the next layout.
+  lcmd (tap-hold-release $tap-timeout $hold-timeout f18 lsft)
+  rcmd (tap-hold-release $tap-timeout $hold-timeout f18 rsft)
 
   fn (multi fn (layer-while-held fkeys))
 )
 
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
-;; 1 takes its old character (§ ±) in exchange. The Command keys tap Space and
-;; hold Shift; the Shift keys type Command (chords give it too).
+;; 1 takes its old character (§ ±) in exchange. The Command keys tap to switch
+;; layout and hold Shift; the Shift keys type Command (chords give it too).
 (deflayer base
   @caps _   _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @tab nubs grv
   @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
