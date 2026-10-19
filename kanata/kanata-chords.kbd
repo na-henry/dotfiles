@@ -10,7 +10,8 @@
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
 ;; Command keys: tap = Space, hold = Shift. The Shift keys type Command.
-;; Space: tap = Space, hold = nav (same layer as CapsLock held).
+;; Space: tap = Space, hold = mods: the whole home row turns into one-key mods
+;;   a s d f = Control Option Command Shift   j k l ; = Shift Command Option Control
 ;; CapsLock: tap = Escape, hold = nav: arrows on the right hand, one-key mods on
 ;; the left (a s d f = Control Option Command Shift) + French accents on the
 ;; QWERTY row.
@@ -43,22 +44,23 @@
 
 ;; The right-hand chords are off in nav and numpad, where j k l are arrows
 ;; and digits (typing "45" fast must not become Command). The left-hand
-;; chords are off in nav, where a s d f are single-key mods.
+;; chords are off in nav, where a s d f are single-key mods. All chords are
+;; off in mods, where the whole home row is single-key mods.
 (defchordsv2
-  (d f)       lmet                      $chord-timeout first-release (nav)
-  (s d)       lalt                      $chord-timeout first-release (nav)
-  (a s)       lctl                      $chord-timeout first-release (nav)
-  (s d f)     (multi lalt lmet)         $chord3-timeout first-release (nav)
-  (a s d)     (multi lctl lalt)         $chord3-timeout first-release (nav)
-  (a d f)     (multi lctl lmet)         $chord3-timeout first-release (nav)
-  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release (nav)
-  (j k)       rmet                      $chord-timeout first-release (nav numpad)
-  (k l)       ralt                      $chord-timeout first-release (nav numpad)
-  (l ;)       rctl                      $chord-timeout first-release (nav numpad)
-  (j k l)     (multi rmet ralt)         $chord3-timeout first-release (nav numpad)
-  (k l ;)     (multi ralt rctl)         $chord3-timeout first-release (nav numpad)
-  (j k ;)     (multi rmet rctl)         $chord3-timeout first-release (nav numpad)
-  (j k l ;)   (multi rmet ralt rctl)    $chord4-timeout first-release (nav numpad)
+  (d f)       lmet                      $chord-timeout first-release (nav mods)
+  (s d)       lalt                      $chord-timeout first-release (nav mods)
+  (a s)       lctl                      $chord-timeout first-release (nav mods)
+  (s d f)     (multi lalt lmet)         $chord3-timeout first-release (nav mods)
+  (a s d)     (multi lctl lalt)         $chord3-timeout first-release (nav mods)
+  (a d f)     (multi lctl lmet)         $chord3-timeout first-release (nav mods)
+  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release (nav mods)
+  (j k)       rmet                      $chord-timeout first-release (nav numpad mods)
+  (k l)       ralt                      $chord-timeout first-release (nav numpad mods)
+  (l ;)       rctl                      $chord-timeout first-release (nav numpad mods)
+  (j k l)     (multi rmet ralt)         $chord3-timeout first-release (nav numpad mods)
+  (k l ;)     (multi ralt rctl)         $chord3-timeout first-release (nav numpad mods)
+  (j k ;)     (multi rmet rctl)         $chord3-timeout first-release (nav numpad mods)
+  (j k l ;)   (multi rmet ralt rctl)    $chord4-timeout first-release (nav numpad mods)
 )
 
 (defsrc
@@ -94,10 +96,10 @@
   ;; key comes up, so it stays Tab.
   tab (tap-hold-release $tap-timeout $hold-timeout tab (layer-while-held numpad))
 
-  ;; Space : tap = Space   hold = nav layer, same release rule as CapsLock.
+  ;; Space : tap = Space   hold = mods layer, same release rule as CapsLock.
   ;; A space rolled into the next word is released before that letter comes
   ;; up, so it stays Space.
-  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held nav))
+  spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held mods))
 
   ;; Command keys : tap = Space   hold = Shift. Shift engages once another key
   ;; goes down AND up while held: hold Command, type the letter, let go.
@@ -118,10 +120,18 @@
   @lcmd _   _    _    _    @rcmd lmet rmet @spc
 )
 
-;; ── Nav layer (hold CapsLock or Space) ───────────────────────────────────────────
+;; ── Nav layer (hold CapsLock) ────────────────────────────────────────────────
 ;; a=⌃ s=⌥ d=⌘ f=⇧   h=← j=↓ k=↑ l=→   '=Enter   QWERTY row = accents
 (deflayer nav
   _    lctl lalt lmet lsft left down up   right _    ret  @agr @acx @eac @egr @ecx @ced @ugr @icx @ocx @ucx _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _
+)
+
+;; ── Mods layer (hold Space) ──────────────────────────────────────────────────
+;; a=⌃ s=⌥ d=⌘ f=⇧   j=⇧ k=⌘ l=⌥ ;=⌃   Space, then d, then c = Cmd+C.
+(deflayer mods
+  _    lctl lalt lmet lsft _    rsft rmet ralt rctl _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _
 )
