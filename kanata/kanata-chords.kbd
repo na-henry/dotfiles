@@ -1,14 +1,9 @@
-;; Kanata configuration — ALTERNATIVE: chord mods on the home row
+;; Kanata configuration — ALTERNATIVE: home-row mods behind Space
 ;; Run instead of kanata.kbd:
 ;;   sudo kanata --cfg ~/Documents/dotfiles/kanata/kanata-chords.kbd
 ;;
-;; The home row types plain letters, with no hold-to-decide delay. Modifiers
-;; come from pressing home-row keys together
-;; (40ms for 2 keys, 60ms for 3, 75ms for 4) and stay held while the chord is held:
-;;   Left : d+f = Command   s+d = Option   a+s = Control
-;;   Right: j+k = Command   k+l = Option   l+; = Control
-;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
-;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
+;; The home row types plain letters, with no hold-to-decide delay, unless
+;; Space or CapsLock is held.
 ;; Command keys: tap = switch keyboard layout (sends F18, Vorssaint's Super Key
 ;; tap), hold = Shift. The Shift keys type Command.
 ;; Space: tap = Space, hold = mods: the whole home row turns into opposite-hand
@@ -24,16 +19,11 @@
 ;;   u i o / j k l / m , . = 789 / 456 / 123, n = 0.
 ;; F-row = media, hold fn for F1-F12.
 ;;
-;; Shortcuts: chord on one hand, key on the other: Cmd+C = j+k then c,
-;; Cmd+L = d+f then l. Mod + click: hold the chord and click.
-;; A chord key waits for its partner only until the next key comes (at most
-;; the chord window); typing logs showed home-row pairs never typed this close.
-;;
 ;; macOS key names: lmet/rmet = ⌘  lalt/ralt = ⌥  lctl/rctl = ⌃  lsft/rsft = ⇧
 
 (defcfg
   process-unmapped-keys yes
-  concurrent-tap-hold   yes ;; required by defchordsv2
+  concurrent-tap-hold   yes
 )
 
 (defvar
@@ -41,38 +31,11 @@
   hold-timeout  200 ;; Tab / CapsLock: held alone this long => layer;
                     ;; index + middle mods in the Space layer
   pinky-timeout 250 ;; ring + pinky mods in the Space layer lift later
-  ;; The keyboard reports keys in ~15ms steps, so N keys pressed "at once"
-  ;; spread over (N-1)*15ms: 4-key chords landed 43–46ms apart. Typing pairs
-  ;; were never under 40ms.
-  chord-timeout  40 ;; 2 keys
-  chord3-timeout 60 ;; 3 keys
-  chord4-timeout 75 ;; 4 keys
-)
-
-;; The right-hand chords are off in nav and numpad, where j k l are arrows
-;; and digits (typing "45" fast must not become Command). The left-hand
-;; chords are off in nav, where a s d f are single-key mods. All chords are
-;; off in mods, where the whole home row is single-key mods.
-(defchordsv2
-  (d f)       lmet                      $chord-timeout first-release (nav mods)
-  (s d)       lalt                      $chord-timeout first-release (nav mods)
-  (a s)       lctl                      $chord-timeout first-release (nav mods)
-  (s d f)     (multi lalt lmet)         $chord3-timeout first-release (nav mods)
-  (a s d)     (multi lctl lalt)         $chord3-timeout first-release (nav mods)
-  (a d f)     (multi lctl lmet)         $chord3-timeout first-release (nav mods)
-  (a s d f)   (multi lctl lalt lmet)    $chord4-timeout first-release (nav mods)
-  (j k)       rmet                      $chord-timeout first-release (nav numpad mods)
-  (k l)       ralt                      $chord-timeout first-release (nav numpad mods)
-  (l ;)       rctl                      $chord-timeout first-release (nav numpad mods)
-  (j k l)     (multi rmet ralt)         $chord3-timeout first-release (nav numpad mods)
-  (k l ;)     (multi ralt rctl)         $chord3-timeout first-release (nav numpad mods)
-  (j k ;)     (multi rmet rctl)         $chord3-timeout first-release (nav numpad mods)
-  (j k l ;)   (multi rmet ralt rctl)    $chord4-timeout first-release (nav numpad mods)
 )
 
 ;; Hands for the opposite-hand mods in the Space layer. Space and the
 ;; Command keys (layout / Shift) are thumb keys: they count as the other hand
-;; for both sides, so Space, d, Space = Cmd+Space. Keys missing here type
+;; for both sides. Keys missing here type
 ;; their letter.
 (defhands
   (left  grv nubs 1 2 3 4 5 esc tab caps q w e r t a s d f g z x c v b
@@ -161,7 +124,7 @@
 ;; ── Base layer ───────────────────────────────────────────────────────────────
 ;; ISO swap: the key right of left Shift types ` and ~ (grv); the key left of
 ;; 1 takes its old character (§ ±) in exchange. The Command keys tap to switch
-;; layout and hold Shift; the Shift keys type Command (chords give it too).
+;; layout and hold Shift; the Shift keys type Command.
 (deflayer base
   @caps _   _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    @tab nubs grv
   @fn  brdn brup mctl f4   f5   f6   prev pp   next mute vold volu
@@ -178,7 +141,7 @@
 
 ;; ── Mods layer (hold Space) ──────────────────────────────────────────────────
 ;; a=⌃ s=⌥ d=⌘ f=⇧   j=⇧ k=⌘ l=⌥ ;=⌃, opposite-hand rule (see the top).
-;; Space, then d, then c = Cmd+C. Space, d, Space = Cmd+Space.
+;; Space, then d, then c = Cmd+C.
 (deflayer mods
   _    @ohm-a @ohm-s @ohm-d @ohm-f _ @ohm-j @ohm-k @ohm-l @ohm-scl _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
@@ -190,7 +153,6 @@
 ;;   j k l   4 5 6
 ;;   m , .   1 2 3
 ;;   n       0
-;; Left-hand chords still give mods here.
 (deflayer numpad
   _    _    _    _    _    _    4    5    6    _    _    _    _    _    _    _    _    7    8    9    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
