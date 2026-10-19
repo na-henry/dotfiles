@@ -10,8 +10,12 @@
 ;;   Stacks: s+d+f / j+k+l = Option+Command   a+s+d / k+l+; = Control+Option
 ;;           a+d+f / j+k+; = Control+Command  a+s+d+f / j+k+l+; = all three
 ;; Command keys: tap = Space, hold = Shift. The Shift keys type Command.
-;; Space: tap = Space, hold = mods: the whole home row turns into one-key mods
-;;   a s d f = Control Option Command Shift   j k l ; = Shift Command Option Control
+;; Space: tap = Space, hold = mods: the whole home row turns into opposite-hand
+;; mods  a s d f = Control Option Command Shift   j k l ; = Shift Command Option Control
+;;   A home-row key is a mod only when a key on the OTHER hand is pressed AND
+;;   released while it is down (Space, d, c = Cmd+C), or when it is held alone
+;;   past the timeout (mod + click). Same-hand keys keep it waiting, so mods
+;;   stack (Space, d+f, o = Cmd+Shift+O). Lifted first, it types its letter.
 ;; CapsLock: tap = Escape, hold = nav: arrows on the right hand, one-key mods on
 ;; the left (a s d f = Control Option Command Shift) + French accents on the
 ;; QWERTY row.
@@ -33,7 +37,9 @@
 
 (defvar
   tap-timeout   220 ;; Tab / CapsLock: tap-repress window
-  hold-timeout  200 ;; Tab / CapsLock: held alone this long => layer
+  hold-timeout  200 ;; Tab / CapsLock: held alone this long => layer;
+                    ;; index + middle mods in the Space layer
+  pinky-timeout 250 ;; ring + pinky mods in the Space layer lift later
   ;; The keyboard reports keys in ~15ms steps, so N keys pressed "at once"
   ;; spread over (N-1)*15ms: 4-key chords landed 43–46ms apart. Typing pairs
   ;; were never under 40ms.
@@ -63,6 +69,18 @@
   (j k l ;)   (multi rmet ralt rctl)    $chord4-timeout first-release (nav numpad mods)
 )
 
+;; Hands for the opposite-hand mods in the Space layer. Space and the
+;; Command keys (Space / Shift) are thumb keys: they count as the other hand
+;; for both sides, so Space, d, Space = Cmd+Space. Keys missing here type
+;; their letter.
+(defhands
+  (left  grv nubs 1 2 3 4 5 esc tab caps q w e r t a s d f g z x c v b
+         fn f1 f2 f3 f4 f5 f6)
+  (right 6 7 8 9 0 - = y u i o p [ ] \ h j k l ; ' n m , . /
+         bspc del ret up down left right home end pgup pgdn ins
+         f7 f8 f9 f10 f11 f12)
+)
+
 (defsrc
   caps a    s    d    f    h    j    k    l    ;    '    q    w    e    r    t    y    u    i    o    p    tab  grv  nubs
   fn   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
@@ -70,6 +88,32 @@
 )
 
 (defalias
+  ;; ── Opposite-hand mods (Space layer) ─────────────────────────────────────────
+  ohm-a (tap-hold-opposite-hand-release $pinky-timeout a lctl
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-s (tap-hold-opposite-hand-release $pinky-timeout s lalt
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-d (tap-hold-opposite-hand-release $hold-timeout d lmet
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-f (tap-hold-opposite-hand-release $hold-timeout f lsft
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-j (tap-hold-opposite-hand-release $hold-timeout j rsft
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-k (tap-hold-opposite-hand-release $hold-timeout k rmet
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-l (tap-hold-opposite-hand-release $pinky-timeout l ralt
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+  ohm-scl (tap-hold-opposite-hand-release $pinky-timeout ; rctl
+            (timeout hold) (same-hand ignore) (neutral-keys spc lmet rmet) (neutral hold)
+            (unknown-hand tap))
+
   ;; ── French accents (nav layer, QWERTY row) ──────────────────────────────────
   ;;   q    w    e    r    t    y    u    i    o    p
   ;;   à    â    é    è    ê    ç    ù    î    ô    û
@@ -129,9 +173,10 @@
 )
 
 ;; ── Mods layer (hold Space) ──────────────────────────────────────────────────
-;; a=⌃ s=⌥ d=⌘ f=⇧   j=⇧ k=⌘ l=⌥ ;=⌃   Space, then d, then c = Cmd+C.
+;; a=⌃ s=⌥ d=⌘ f=⇧   j=⇧ k=⌘ l=⌥ ;=⌃, opposite-hand rule (see the top).
+;; Space, then d, then c = Cmd+C. Space, d, Space = Cmd+Space.
 (deflayer mods
-  _    lctl lalt lmet lsft _    rsft rmet ralt rctl _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    @ohm-a @ohm-s @ohm-d @ohm-f _ @ohm-j @ohm-k @ohm-l @ohm-scl _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _
 )
